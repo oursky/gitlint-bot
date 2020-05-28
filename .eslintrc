@@ -1,0 +1,12 @@
+{
+    "plugins": ["@oursky"],
+    "parserOptions": {
+      "sourceType": "module",
+      "project": "./tsconfig.json"
+    },
+    "extends": [
+      "plugin:@oursky/eslint",
+      "plugin:@oursky/oursky",
+      "plugin:@oursky/typescript"
+    ]
+  }
