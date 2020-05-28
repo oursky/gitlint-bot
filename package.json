@@ -19,6 +19,8 @@
     "start": "probot run ./lib/index.js",
     "lint": "eslint src/**/*.ts",
     "lint-fix": "eslint src/**/*.ts --fix",
+    "check-format": "prettier src/**/*.ts -l",
+    "format": "prettier src/**/*.ts --write",
     "test": "jest",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
@@ -31,9 +33,12 @@
     "@types/nock": "11.1.0",
     "@types/node": "14.0.5",
     "eslint": "7.1.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.3",
     "jest": "26.0.1",
     "nock": "12.0.3",
     "nodemon": "2.0.4",
+    "prettier": "2.0.5",
     "smee-client": "1.1.0",
     "ts-jest": "26.0.0",
     "typescript": "3.9.3"
