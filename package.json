@@ -19,7 +19,7 @@
     "start": "probot run ./lib/index.js",
     "lint": "standard **/*.ts",
     "lint-fix": "standard **/*.ts --fix",
-    "test": "jest && npm run lint",
+    "test": "jest",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
