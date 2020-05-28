@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "repository": "https://github.com/oursky/gitlint-bot.git",
   "homepage": "https://github.com/oursky/gitlint-bot",
   "bugs": "https://github.com/oursky/gitlint-bot/issues",
