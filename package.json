@@ -17,8 +17,9 @@
     "build:watch": "tsc && (tsc -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
     "start": "probot run ./lib/index.js",
-    "lint": "standard **/*.ts --fix",
-    "test": "jest && standard **/*.ts",
+    "lint": "standard **/*.ts",
+    "lint-fix": "standard **/*.ts --fix",
+    "test": "jest && npm run lint",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
