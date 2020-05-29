@@ -69,9 +69,7 @@
     "pretty": false,
     "skipLibCheck": true
   },
-  "include": ["src/"],
-  "exclude": [
-    "node_modules/",
-  ],
+  "include": ["src/", "knexfile.ts", "global.d.ts"],
+  "exclude": ["node_modules/"],
   "compileOnSave": false
 }

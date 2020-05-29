@@ -4,6 +4,9 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
+  "env": {
+    "node": true
+  },
   "extends": [
     "plugin:@oursky/eslint",
     "plugin:@oursky/oursky",
