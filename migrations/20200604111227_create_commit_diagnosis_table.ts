@@ -1,13 +1,13 @@
 import * as Knex from "knex";
 
-const tableName = "commit_result";
+const tableName = "commit_diagnosis";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tableName, (builder: Knex.TableBuilder) => {
     builder.increments("id").primary();
-    builder.integer("commit_id").unsigned().notNullable();
+    builder.text("commit_id").notNullable();
     builder.text("rule").notNullable();
-    builder.text("message").notNullable();
+    builder.jsonb("data");
     builder.foreign("commit_id").references("id").inTable("commit");
   });
 }

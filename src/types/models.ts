@@ -4,15 +4,15 @@ export interface User {
 }
 
 export interface Commit {
-  id: number;
+  id: string;
   user_id: number;
   message: string;
   committed_at: Date;
 }
 
-export interface CommitResult {
+export interface CommitDiagnosis {
   id: number;
-  commit_id: number;
+  commit_id: string;
   rule: string;
   message: string;
 }
