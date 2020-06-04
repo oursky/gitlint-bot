@@ -5,7 +5,7 @@ const userTableName = "user";
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(userTableName, (builder) => {
     builder.increments("id").primary();
-    builder.string("name").notNullable();
+    builder.text("name").notNullable();
   });
 }
 
