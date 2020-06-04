@@ -1,19 +1,18 @@
 export interface User {
   id: number;
-  email: string;
   name: string;
 }
 
 export interface Commit {
   id: number;
-  userId: number;
+  user_id: number;
   message: string;
-  created_at: Date;
+  committed_at: Date;
 }
 
 export interface CommitResult {
   id: number;
-  commitId: number;
+  commit_id: number;
   rule: string;
   message: string;
 }
