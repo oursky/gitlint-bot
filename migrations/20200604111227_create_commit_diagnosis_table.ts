@@ -7,7 +7,7 @@ export async function up(knex: Knex): Promise<void> {
     builder.increments("id").primary();
     builder.text("commit_id").notNullable();
     builder.text("rule").notNullable();
-    builder.jsonb("data");
+    builder.jsonb("data").notNullable();
     builder.foreign("commit_id").references("id").inTable("commit");
   });
 }
