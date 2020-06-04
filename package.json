@@ -21,6 +21,7 @@
     "lint-fix": "eslint {src,migrations}/**/*.ts --fix",
     "check-format": "prettier {src,migrations}/**/*.ts -l",
     "format": "prettier {src,migrations}/**/*.ts --write",
+    "migrations": "knex migrate:latest",
     "test": "jest",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
