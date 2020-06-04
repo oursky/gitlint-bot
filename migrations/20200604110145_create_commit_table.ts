@@ -8,9 +8,9 @@ export async function up(knex: Knex): Promise<void> {
     (builder: Knex.TableBuilder) => {
       builder.increments("id").primary();
       builder.text("message").notNullable();
-      builder.timestamp("created_at").defaultTo(knex.fn.now());
-      builder.integer("userId").unsigned().notNullable();
-      builder.foreign("userId").references("id").inTable("user");
+      builder.timestamp("committed_at").defaultTo(knex.fn.now());
+      builder.integer("user_id").unsigned().notNullable();
+      builder.foreign("user_id").references("id").inTable("user");
     }
   );
 }
