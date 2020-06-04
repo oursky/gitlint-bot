@@ -1,6 +1,6 @@
 import * as Knex from "knex";
 
-const tableName = "commit_error";
+const tableName = "commit_result";
 
 export async function up(knex: Knex): Promise<void> {
   return knex.schema.createTable(tableName, (builder: Knex.TableBuilder) => {

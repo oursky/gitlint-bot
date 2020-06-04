@@ -11,7 +11,7 @@ export interface Commit {
   created_at: Date;
 }
 
-export interface CommitError {
+export interface CommitResult {
   id: number;
   commitId: number;
   rule: string;
