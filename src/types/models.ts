@@ -14,5 +14,7 @@ export interface CommitDiagnosis {
   id: number;
   commit_id: string;
   rule: string;
-  message: string;
+  data?: {
+    [dataName: string]: number;
+  };
 }
