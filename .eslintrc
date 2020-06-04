@@ -2,7 +2,11 @@
   "plugins": ["@oursky"],
   "parserOptions": {
     "sourceType": "module",
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
+  },
+  "env": {
+    "node": true
   },
   "extends": [
     "plugin:@oursky/eslint",

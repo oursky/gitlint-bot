@@ -69,9 +69,12 @@
     "pretty": false,
     "skipLibCheck": true
   },
-  "include": ["src/"],
-  "exclude": [
-    "node_modules/",
+  "include": [
+    "src/**/*.ts",
+    "migrations/**/*.ts",
+    "knexfile.ts",
+    "global.d.ts"
   ],
+  "exclude": ["node_modules/", "lib/"],
   "compileOnSave": false
 }
