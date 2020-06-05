@@ -5,8 +5,11 @@ export default {
   name: "subject-capitalize-first",
   score: 5,
   check: (commit: Commit): RuleCheckResults => {
-    const firstChar = commit.header.charAt(0);
-    const valid = firstChar === firstChar.toUpperCase();
+    const codePoint = commit.header.codePointAt(0);
+    if (typeof codePoint === "undefined") {
+      return {};
+    }
+    const valid = codePoint >= 65 && codePoint <= 90;
     return valid ? null : {};
   },
 };
