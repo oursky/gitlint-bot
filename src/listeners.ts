@@ -1,6 +1,6 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
-import { lintCommit, LintResults } from "./lint";
+import { lintCommitMessage, LintResults } from "./lint";
 
 interface GithubCommit {
   message: string;
@@ -11,7 +11,9 @@ export async function onPush(
 ): Promise<void> {
   const commits = context.payload.commits;
   const messages = commits.map((commit: GithubCommit) => commit.message);
-  const lintOutput: LintResults[] = messages.map(lintCommit);
+  const lintOutput: LintResults[] = await Promise.all(
+    messages.map(lintCommitMessage)
+  );
   const commitScores: number[] = lintOutput.map((result: LintResults) =>
     result.reduce((prevScore, currResult) => prevScore + currResult.score, 0)
   );

@@ -1,10 +1,11 @@
-import { DiagnosisResults } from "types/rules";
+import { RuleCheckResults } from "types/rules";
+import { Commit } from "@commitlint/parse";
 
 export default {
   name: "header-max-length",
   score: 5,
-  diagnose: (message: string): DiagnosisResults => {
-    const valid = message.length < 50;
+  check: (commit: Commit): RuleCheckResults => {
+    const valid = commit.header.length < 50;
     return {
       valid,
       data: {},

@@ -1,13 +1,15 @@
-export interface DiagnosisResults {
+import { Commit } from "@commitlint/parse";
+
+export interface RuleCheckResults {
   valid: boolean;
   data: Record<string, unknown>;
 }
 export interface RuleConfig {
   name: string;
   score: number;
-  diagnose: DiagnoseFunc;
+  check: RuleCheckFunc;
 }
-export interface DiagnoseFunc {
-  (commitMessage: string): DiagnosisResults;
+export interface RuleCheckFunc {
+  (commitMessage: Commit): RuleCheckResults;
 }
 export type RulesList = RuleConfig[];

@@ -1,21 +1,27 @@
 import { defaultRules } from "./rules";
-import { DiagnosisResults } from "types/rules";
+import { RuleCheckResults } from "types/rules";
+import parse from "@commitlint/parse";
 
 export type LintResults = LintResult[];
 export interface LintResult {
-  diagnosis: DiagnosisResults;
+  checkResults: RuleCheckResults;
   name: string;
   score: number;
 }
 
-export function lintCommit(commitMessage: string): LintResults {
-  const lintResults = defaultRules.map((rule) => {
-    const diagnosis = rule.diagnose(commitMessage);
-    return {
-      diagnosis,
-      score: diagnosis.valid ? rule.score : 0,
-      name: rule.name,
-    };
-  });
-  return lintResults;
+export async function lintCommitMessage(
+  commitMessage: string
+): Promise<LintResults> {
+  const commit = await parse(commitMessage);
+
+  return defaultRules.map(
+    (rule): LintResult => {
+      const checkResults = rule.check(commit);
+      return {
+        checkResults,
+        score: checkResults.valid ? rule.score : 0,
+        name: rule.name,
+      };
+    }
+  );
 }
