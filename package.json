@@ -26,6 +26,7 @@
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
+    "@commitlint/parse": "8.3.4",
     "knex": "0.21.1",
     "pg": "8.2.1",
     "probot": "9.11.3"
