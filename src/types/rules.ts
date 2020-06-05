@@ -10,4 +10,4 @@ export interface RuleConfig {
 export interface DiagnoseFunc {
   (commitMessage: string): DiagnosisResults;
 }
-export type RulesList = [RuleConfig];
+export type RulesList = RuleConfig[];
