@@ -2,8 +2,8 @@
 
 ## Entity Relationship Diagram
 
-[![](https://mermaid.ink/img/eyJjb2RlIjoiZXJEaWFncmFtXG4gICAgICAgIFVTRVIgIHx8LS18eyBDT01NSVQgOiBwdXNoZXNcbiAgICAgICAgQ09NTUlUICB9by0tb3sgQ09NTUlULURJQUdOT1NJUyA6IGhhc1xuXG4iLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)](https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoiZXJEaWFncmFtXG4gICAgICAgIFVTRVIgIHx8LS18eyBDT01NSVQgOiBwdXNoZXNcbiAgICAgICAgQ09NTUlUICB9by0tb3sgQ09NTUlULURJQUdOT1NJUyA6IGhhc1xuXG4iLCJtZXJtYWlkIjp7InRoZW1lIjoiZGVmYXVsdCJ9LCJ1cGRhdGVFZGl0b3IiOmZhbHNlfQ)
+![](docs/er-diagram.png)
 
 ## Data-flow Diagram
 
-![](https://i.imgur.com/l68qoF1.jpg)
+![](docs/dfd.jpeg)
