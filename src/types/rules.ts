@@ -3,11 +3,11 @@ export interface DiagnosisResults {
   data: Record<string, unknown>;
 }
 export interface RuleConfig {
+  name: string;
   score: number;
   diagnose: DiagnoseFunc;
 }
 export interface DiagnoseFunc {
   (commitMessage: string): DiagnosisResults;
 }
-export type RuleName = "header-max-length";
-export type RulesConfig = Record<RuleName, RuleConfig>;
+export type RulesList = [RuleConfig];
