@@ -1,10 +1,7 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
 import { lintCommitMessage, LintResults } from "./lint";
-
-interface GithubCommit {
-  message: string;
-}
+import { Commit as GithubCommit } from "types/github";
 
 export async function onPush(
   context: Context<Webhooks.WebhookPayloadPush>
