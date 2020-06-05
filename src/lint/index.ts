@@ -19,7 +19,7 @@ export async function lintCommitMessage(
       const checkResults = rule.check(commit);
       return {
         checkResults,
-        score: checkResults.valid ? rule.score : 0,
+        score: checkResults === null ? rule.score : 0,
         name: rule.name,
       };
     }

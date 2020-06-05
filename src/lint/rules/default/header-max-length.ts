@@ -6,9 +6,6 @@ export default {
   score: 5,
   check: (commit: Commit): RuleCheckResults => {
     const valid = commit.header.length < 50;
-    return {
-      valid,
-      data: {},
-    };
+    return valid ? null : {};
   },
 };

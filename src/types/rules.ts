@@ -1,9 +1,6 @@
 import { Commit } from "@commitlint/parse";
 
-export interface RuleCheckResults {
-  valid: boolean;
-  data: Record<string, unknown>;
-}
+export type RuleCheckResults = null | Record<string, unknown>;
 export interface RuleConfig {
   name: string;
   score: number;
