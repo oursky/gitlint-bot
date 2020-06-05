@@ -1,7 +1,7 @@
 import { defaultRules } from "./rules";
 import { DiagnosisResults } from "types/rules";
 
-type LintResults = LintResult[];
+export type LintResults = LintResult[];
 export interface LintResult {
   diagnosis: DiagnosisResults;
   name: string;
