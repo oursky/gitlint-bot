@@ -10,6 +10,7 @@ async function processCommit(commit: GithubCommit) {
     (prevScore, currResult) => prevScore + currResult.score,
     0
   );
+  // TODO: save lint results and commit info in db
   console.log(commitScore);
 }
 
