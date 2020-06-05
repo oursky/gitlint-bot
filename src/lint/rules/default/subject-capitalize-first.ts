@@ -2,10 +2,11 @@ import { RuleCheckResults } from "types/rules";
 import { Commit } from "@commitlint/parse";
 
 export default {
-  name: "header-max-length",
+  name: "subject-capitalize-first",
   score: 5,
   check: (commit: Commit): RuleCheckResults => {
-    const valid = commit.header.length < 50;
+    const firstChar = commit.header.charAt(0);
+    const valid = firstChar === firstChar.toUpperCase();
     return valid ? null : {};
   },
 };
