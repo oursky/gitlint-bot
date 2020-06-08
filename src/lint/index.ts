@@ -2,8 +2,12 @@ import { RuleViolation } from "./rules";
 import { defaultPreset } from "./presets";
 import parse from "@commitlint/parse";
 
+interface ViolationInfo {
+  ruleName: string;
+  violation: RuleViolation;
+}
 export interface LintResult {
-  violations: RuleViolation[];
+  violations: ViolationInfo[];
   score: number;
 }
 
@@ -12,18 +16,18 @@ export async function lintCommitMessage(
 ): Promise<LintResult> {
   const commit = await parse(commitMessage);
   let score = 0;
+  const violations = [];
 
-  const violations = defaultPreset
-    .map((rule) => {
-      const checkResult = rule.check(commit);
-      if (checkResult === null) {
-        score += rule.score;
-      }
-      return checkResult;
-    })
-    .filter(
-      (checkResult): checkResult is RuleViolation => checkResult !== null
-    );
+  for (const rule of defaultPreset) {
+    const violation = rule.check(commit);
+    if (violation !== null) {
+      score += rule.score;
+      violations.push({
+        ruleName: rule.name,
+        violation,
+      });
+    }
+  }
 
   return {
     score,
