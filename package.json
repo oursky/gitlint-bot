@@ -17,15 +17,16 @@
     "build:watch": "tsc && (tsc -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
     "start": "probot run ./lib/index.js",
-    "lint": "eslint {src,migrations}/**/*.ts",
-    "lint-fix": "eslint {src,migrations}/**/*.ts --fix",
-    "check-format": "prettier {src,migrations}/**/*.ts -l",
-    "format": "prettier {src,migrations}/**/*.ts --write",
+    "lint": "eslint src/**/*.ts",
+    "lint-fix": "eslint src/**/*.ts --fix",
+    "check-format": "prettier src/**/*.ts -l",
+    "format": "prettier src/**/*.ts --write",
     "migrations": "knex migrate:latest",
     "test": "jest",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {
+    "@commitlint/parse": "8.3.4",
     "knex": "0.21.1",
     "pg": "8.2.1",
     "probot": "9.11.3"

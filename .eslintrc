@@ -6,7 +6,8 @@
     "tsconfigRootDir": "./"
   },
   "env": {
-    "node": true
+    "node": true,
+    "es6": true
   },
   "extends": [
     "plugin:@oursky/eslint",
