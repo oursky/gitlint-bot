@@ -1,5 +1,5 @@
-import { defaultRules } from "./rules";
-import { RuleCheckResults } from "types/rules";
+import { RuleCheckResults } from "./rules";
+import { defaultPreset } from "./presets";
 import parse from "@commitlint/parse";
 
 export type LintResults = LintResult[];
@@ -14,7 +14,7 @@ export async function lintCommitMessage(
 ): Promise<LintResults> {
   const commit = await parse(commitMessage);
 
-  return defaultRules.map(
+  return defaultPreset.map(
     (rule): LintResult => {
       const checkResults = rule.check(commit);
       return {

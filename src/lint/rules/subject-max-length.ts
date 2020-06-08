@@ -1,18 +1,18 @@
-import { RuleCheckResults } from "types/rules";
+import { RuleCheckResults } from "./";
 import { Commit } from "@commitlint/parse";
 
-const minLength = 0;
+const maxLength = 50;
 
 export default {
-  name: "subject-min-length",
+  name: "subject-max-length",
   score: 5,
   check: (commit: Commit): RuleCheckResults => {
     const actualLength = commit.header.length;
-    return actualLength >= minLength
+    return actualLength <= maxLength
       ? null
       : {
           actualLength,
-          minLength,
+          maxLength,
         };
   },
 };
