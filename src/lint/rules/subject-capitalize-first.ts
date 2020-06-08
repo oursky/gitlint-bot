@@ -5,11 +5,7 @@ export default createRule({
   name: "subject-capitalize-first",
   score: 5,
   check: (commit: Commit): RuleFactoryCheckResults => {
-    const codePoint = commit.header.codePointAt(0);
-    if (typeof codePoint === "undefined") {
-      return {};
-    }
-    const valid = codePoint >= 65 && codePoint <= 90;
+    const valid = /^\p{Lu}/u.test(commit.header);
     return valid ? null : {};
   },
 });
