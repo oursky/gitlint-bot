@@ -1,12 +1,12 @@
-import { createRule, RuleFactoryCheckResults } from "./factory";
+import { RuleCheckResults } from "./";
 import { Commit } from "@commitlint/parse";
 
 const minLength = 0;
 
-export default createRule({
+export default {
   name: "subject-min-length",
   score: 5,
-  check: (commit: Commit): RuleFactoryCheckResults => {
+  check: (commit: Commit): RuleCheckResults => {
     const actualLength = commit.header.length;
     return actualLength >= minLength
       ? null
@@ -15,4 +15,4 @@ export default createRule({
           minLength,
         };
   },
-});
+};

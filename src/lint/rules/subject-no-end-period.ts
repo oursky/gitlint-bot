@@ -1,11 +1,11 @@
-import { createRule, RuleFactoryCheckResults } from "./factory";
+import { RuleCheckResults } from "./";
 import { Commit } from "@commitlint/parse";
 
-export default createRule({
+export default {
   name: "subject-no-end-period",
   score: 5,
-  check: (commit: Commit): RuleFactoryCheckResults => {
+  check: (commit: Commit): RuleCheckResults => {
     const valid = commit.header.charAt(commit.header.length - 1) !== ".";
     return valid ? null : {};
   },
-});
+};
