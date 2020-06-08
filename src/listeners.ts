@@ -6,12 +6,8 @@ import { Commit as GithubCommit } from "types/github";
 async function processCommit(commit: GithubCommit) {
   const message = commit.message;
   const lintOutput = await lintCommitMessage(message);
-  const commitScore = lintOutput.reduce(
-    (prevScore, currResult) => prevScore + currResult.score,
-    0
-  );
   // TODO: save lint results and commit info in db
-  console.log(commitScore);
+  console.log(lintOutput.violations);
 }
 
 export async function onPush(

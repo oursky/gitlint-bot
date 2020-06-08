@@ -4,7 +4,7 @@ import {
   subjectMinLength,
   subjectCapitalizeFirst,
   subjectNoEndPeriod,
-} from "lint/rules";
+} from "./rules";
 
 export const defaultPreset: RulesPreset = [
   subjectMaxLength,
