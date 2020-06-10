@@ -1,7 +1,7 @@
 import { RuleCheckResults } from "./";
 import { Commit } from "lint/parser";
 
-const minLength = 0;
+const minLength = 10;
 
 export default {
   name: "subject-min-length",
