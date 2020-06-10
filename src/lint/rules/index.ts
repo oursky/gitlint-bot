@@ -11,6 +11,6 @@ export interface Rule {
   check: RuleCheckFunc;
 }
 
-type RuleCheckFunc = (commit: Commit) => RuleCheckResults;
+export type RuleCheckFunc = (commit: Commit) => RuleCheckResults;
 export type RuleCheckResults = null | RuleViolation;
 export type RuleViolation = Record<string, unknown>;
