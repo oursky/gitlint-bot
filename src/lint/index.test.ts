@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { lintCommitMessage } from "./";
 import fc from "fast-check";
 
