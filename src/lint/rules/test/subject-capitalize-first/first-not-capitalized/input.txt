@@ -1,0 +1,16 @@
+reduce memory consumption and improve debuggability of asn1 tests
+
+Running the asn1 tests in parallel requires a lot of memory, and if
+there is crash or multiple half-hour time trap timeouts, we won't know
+which test case that caused the problem. Besides, it has always been
+tricky to run tests in parallel because some test cases use the same ASN.1
+specs and these test cases must not be run in parallel.
+
+In this commit we will stop running asn1 test cases in parallel.
+
+Not running test cases in parallel means that several more minutes
+will be needed to run the entire asn1 test suite. Note that
+`asn1_test_lib:compile_all/3`, which is used by some test cases, will
+compile the given ASN.1 specs in parallel. We can shave off some time
+by using `compile_all/1` in more places, for example by combining
+test cases that test similar things.

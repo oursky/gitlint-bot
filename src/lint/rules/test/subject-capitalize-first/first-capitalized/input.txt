@@ -1,0 +1,24 @@
+Optimize tail calls created during optimization
+
+Sometimes compiler optimizations can make body calls into tail calls.
+Here is an example:
+
+    bar() ->
+        {_,_} = foo().
+
+    foo() -> {a,b}.
+
+Since `foo/0` returns a tuple of size two, the matching of the
+tuple can be eliminated:
+
+    bar() ->
+        foo().
+
+However, the generated code would not be optimal. For this example,
+an unnecessary stack frame would be allocated. For other examples,
+unnecessary `kill` or `trim` instructions would be emitted.
+
+This commit adds an additional optimization of tail calls created by
+other optimizations. For details, see the added comment in
+`beam_ssa_opt`.
+ master (#2603)  OTP-23.0.2 
