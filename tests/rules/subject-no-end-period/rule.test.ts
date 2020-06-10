@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../subject-no-end-period";
+import rule from "../../../src/lint/rules/subject-no-end-period";
 import { assertRuleCheck } from "../helper";
 
 describe("'subject-no-end-period' rule", () => {
