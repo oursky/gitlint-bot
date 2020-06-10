@@ -1,6 +1,6 @@
-import { RuleViolation } from "./rules";
+import { RuleViolation, RulesPreset } from "./rules";
 import { defaultPreset } from "./presets";
-import parse from "@commitlint/parse";
+import { parseCommit } from "./parser";
 
 interface ViolationInfo {
   ruleName: string;
@@ -12,13 +12,14 @@ export interface LintResult {
 }
 
 export async function lintCommitMessage(
-  commitMessage: string
+  commitMessage: string,
+  preset: RulesPreset = defaultPreset
 ): Promise<LintResult> {
-  const commit = await parse(commitMessage);
+  const commit = await parseCommit(commitMessage);
   let score = 0;
   const violations = [];
 
-  for (const rule of defaultPreset) {
+  for (const rule of preset) {
     const violation = rule.check(commit);
     if (violation !== null) {
       score += rule.score;

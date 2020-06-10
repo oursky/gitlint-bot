@@ -1,0 +1,3 @@
+First letter of subject is capitalized
+
+but the first letter of body is not

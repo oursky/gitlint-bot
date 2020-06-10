@@ -1,4 +1,4 @@
-import { Commit } from "@commitlint/parse";
+import { Commit } from "lint/parser";
 import { RuleCheckResults } from "./";
 
 export default {

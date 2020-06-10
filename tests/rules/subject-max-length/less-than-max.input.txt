@@ -1,0 +1,3 @@
+This subject line is less than 50 chars
+
+lorem ipsum doleur
