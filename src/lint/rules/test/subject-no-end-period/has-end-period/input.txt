@@ -1,0 +1,4 @@
+Don't use the false symbol as a label.
+
+If stdbool is included (Haiku seems to do this) in system headers,
+this becomes defined already and is bad juju. Use a unique sym
