@@ -1,5 +1,5 @@
 import { RuleCheckResults } from "./";
-import { Commit } from "@commitlint/parse";
+import { Commit } from "lint/parser";
 
 const maxLength = 50;
 

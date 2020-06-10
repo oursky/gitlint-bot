@@ -1,28 +1,6 @@
 import { RuleViolation, RulesPreset } from "./rules";
 import { defaultPreset } from "./presets";
-import parse, { Commit } from "@commitlint/parse";
-
-const blankCommit = {
-  raw: "",
-  header: "",
-  type: null,
-  scope: null,
-  subject: null,
-  body: null,
-  footer: null,
-  mentions: [],
-  notes: [],
-  references: [],
-  revert: null,
-  merge: null,
-};
-
-function createCommit(commit: Partial<Commit> = {}): Commit {
-  return {
-    ...blankCommit,
-    ...commit,
-  };
-}
+import { parseCommit } from "./parser";
 
 interface ViolationInfo {
   ruleName: string;
@@ -37,11 +15,7 @@ export async function lintCommitMessage(
   commitMessage: string,
   preset: RulesPreset = defaultPreset
 ): Promise<LintResult> {
-  // parser throws error if commit message is empty
-  const commit =
-    commitMessage.trim().length !== 0
-      ? await parse(commitMessage)
-      : createCommit();
+  const commit = await parseCommit(commitMessage);
   let score = 0;
   const violations = [];
 

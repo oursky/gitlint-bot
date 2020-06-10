@@ -1,5 +1,5 @@
 import { RuleCheckResults } from "./";
-import { Commit } from "@commitlint/parse";
+import { Commit } from "lint/parser";
 
 export default {
   name: "subject-no-end-period",

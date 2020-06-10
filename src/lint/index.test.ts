@@ -51,6 +51,7 @@ describe("'lintCommitMessage' function", () => {
           ),
           fc.fullUnicodeString(),
           async (returnValues, commitMessage) => {
+            // Mock functions for preset with custom return values
             const checkMock = jest.fn();
             returnValues.forEach((mockReturnValue) => {
               checkMock.mockReturnValueOnce(mockReturnValue);
@@ -60,11 +61,12 @@ describe("'lintCommitMessage' function", () => {
               score: 1,
               name: "sample-rule-name",
             }));
-            const { score } = await lintCommitMessage(commitMessage, preset);
             const expectedScore = returnValues.reduce<number>(
               (prev, curr) => (curr !== null ? prev + 1 : prev),
               0
             );
+
+            const { score } = await lintCommitMessage(commitMessage, preset);
 
             expect(score).toEqual(expectedScore);
           }
