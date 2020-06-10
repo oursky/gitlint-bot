@@ -4,15 +4,21 @@ import path from "path";
 import { RuleCheckFunc, RuleViolation } from "../../src/lint/rules";
 import { parseCommit } from "../../src/lint/parser";
 
-const INPUT_FILE_NAME = "input.txt";
-const OUTPUT_FILE_NAME = "output.json";
+const INPUT_FILE_EXT = ".input.txt";
+const OUTPUT_FILE_EXT = ".output.json";
 
 export async function assertRuleCheck(
   testPath: string,
   checkFunc: RuleCheckFunc
 ): Promise<void> {
-  const inputPath = path.resolve(testPath, INPUT_FILE_NAME);
-  const outputPath = path.resolve(testPath, OUTPUT_FILE_NAME);
+  const inputPath = path.format({
+    name: testPath,
+    ext: INPUT_FILE_EXT,
+  });
+  const outputPath = path.format({
+    name: testPath,
+    ext: OUTPUT_FILE_EXT,
+  });
 
   const commitMessage = fs.readFileSync(inputPath, "utf-8");
   const expectedOutput = JSON.parse(
