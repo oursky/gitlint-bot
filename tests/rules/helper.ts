@@ -8,15 +8,15 @@ const INPUT_FILE_EXT = ".input.txt";
 const OUTPUT_FILE_EXT = ".output.json";
 
 export async function assertRuleCheck(
-  testPath: string,
+  testFileBase: string,
   checkFunc: RuleCheckFunc
 ): Promise<void> {
   const inputPath = path.format({
-    name: testPath,
+    name: testFileBase,
     ext: INPUT_FILE_EXT,
   });
   const outputPath = path.format({
-    name: testPath,
+    name: testFileBase,
     ext: OUTPUT_FILE_EXT,
   });
 
