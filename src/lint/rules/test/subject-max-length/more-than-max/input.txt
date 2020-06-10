@@ -1,0 +1,1 @@
+Add a note about dropped support for automatic latin-1 support

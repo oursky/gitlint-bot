@@ -1,0 +1,5 @@
+Remove an ineffective optimization
+
+Remove an optimization of is_boolean/1 followed by a failing boolean
+operator. This optimization was only triggered in convoluted test
+cases. Removing it allows some further simplifications.
