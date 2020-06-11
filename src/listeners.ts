@@ -2,12 +2,43 @@ import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
 import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "types/github";
+import { findOrCreateUser } from "./models/User";
+import { createCommit, findCommit } from "./models/Commit";
+import { createCommitDiagnosis } from "./models/CommitDiagnosis";
 
-async function processCommit(commit: GithubCommit) {
-  const message = commit.message;
-  const lintOutput = await lintCommitMessage(message);
-  // TODO: save lint results and commit info in db
-  console.log(lintOutput.violations);
+async function processCommit(githubCommit: GithubCommit): Promise<void> {
+  const commitExists = await findCommit(githubCommit.id);
+  if (!!commitExists) {
+    return;
+  }
+  const message = githubCommit.message;
+  const { score, violations } = await lintCommitMessage(message);
+  const userName = githubCommit.author.name;
+  const user = await findOrCreateUser(userName);
+  if (!user) {
+    // TODO: Log unexpected error
+    return;
+  }
+  const commit = await createCommit({
+    id: githubCommit.id,
+    user_id: user.id,
+    committed_at: githubCommit.timestamp,
+    score,
+    message,
+  });
+  if (!commit) {
+    // TODO: Add logs
+    return;
+  }
+  await Promise.all(
+    violations.map(async (violation) =>
+      createCommitDiagnosis({
+        commit_id: commit.id,
+        rule: violation.ruleName,
+        data: violation.violation,
+      })
+    )
+  );
 }
 
 export async function onPush(
