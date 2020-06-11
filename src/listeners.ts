@@ -1,24 +1,34 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
-import { lintCommitMessage } from "./lint";
-import { Commit as GithubCommit } from "types/github";
-import { findOrCreateUser } from "./models/User";
-import { createCommit, findCommit } from "./models/Commit";
-import { createCommitDiagnosis } from "./models/CommitDiagnosis";
+import { lintCommitMessage, ViolationInfo } from "./lint";
+import { Commit as GithubCommit, CommitUser } from "types/github";
+import { createCommitDiagnosis } from "./db/models/CommitDiagnosis";
+import { createCommit, findCommit } from "./db/models/Commit";
+import { findOrCreateUser } from "./db/models/User";
 
-async function processCommit(githubCommit: GithubCommit): Promise<void> {
-  const commitExists = await findCommit(githubCommit.id);
+interface CommitInfo {
+  author: CommitUser;
+  commit: {
+    id: string;
+    message: string;
+    score: number;
+    timestamp: string;
+    violations: ViolationInfo[];
+  };
+}
+
+async function saveCommit(commitInfo: CommitInfo) {
+  const commitExists = await findCommit(commitInfo.commit.id);
   if (!!commitExists) {
     return;
   }
-  const message = githubCommit.message;
-  const { score, violations } = await lintCommitMessage(message);
-  const userName = githubCommit.author.name;
-  const user = await findOrCreateUser(userName);
+  const user = await findOrCreateUser(commitInfo.author.name);
+
+  const { id, message, score, timestamp, violations } = commitInfo.commit;
   const commit = await createCommit({
-    id: githubCommit.id,
+    id,
     user_id: user.id,
-    committed_at: githubCommit.timestamp,
+    committed_at: timestamp,
     score,
     message,
   });
@@ -33,9 +43,25 @@ async function processCommit(githubCommit: GithubCommit): Promise<void> {
   );
 }
 
+async function processCommit(githubCommit: GithubCommit): Promise<CommitInfo> {
+  const message = githubCommit.message;
+  const { score, violations } = await lintCommitMessage(message);
+  return {
+    commit: {
+      id: githubCommit.id,
+      timestamp: githubCommit.timestamp,
+      message,
+      score,
+      violations,
+    },
+    author: githubCommit.author,
+  };
+}
+
 export async function onPush(
   context: Context<Webhooks.WebhookPayloadPush>
 ): Promise<void> {
-  const commits = context.payload.commits;
-  await Promise.all(commits.map(processCommit));
+  const rawCommits = context.payload.commits;
+  const commitInfos = await Promise.all(rawCommits.map(processCommit));
+  await Promise.all(commitInfos.map(saveCommit));
 }
