@@ -2,7 +2,7 @@ import db from "../db";
 
 const tableName = "commit_diagnosis";
 
-export interface CommitDiagnosisModel {
+export interface CommitDiagnosis {
   id: number;
   commit_id: string;
   rule: string;
@@ -10,7 +10,7 @@ export interface CommitDiagnosisModel {
 }
 
 export async function createCommitDiagnosis(
-  commitDiagnosis: Omit<CommitDiagnosisModel, "id">
+  commitDiagnosis: Omit<CommitDiagnosis, "id">
 ): Promise<void> {
   return db(tableName).insert(commitDiagnosis);
 }

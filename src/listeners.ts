@@ -15,10 +15,6 @@ async function processCommit(githubCommit: GithubCommit): Promise<void> {
   const { score, violations } = await lintCommitMessage(message);
   const userName = githubCommit.author.name;
   const user = await findOrCreateUser(userName);
-  if (!user) {
-    // TODO: Log unexpected error
-    return;
-  }
   const commit = await createCommit({
     id: githubCommit.id,
     user_id: user.id,
@@ -26,10 +22,6 @@ async function processCommit(githubCommit: GithubCommit): Promise<void> {
     score,
     message,
   });
-  if (!commit) {
-    // TODO: Add logs
-    return;
-  }
   await Promise.all(
     violations.map(async (violation) =>
       createCommitDiagnosis({
