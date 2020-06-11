@@ -2,7 +2,7 @@ import { RuleViolation, RulesPreset } from "./rules";
 import { defaultPreset } from "./presets";
 import { parseCommit } from "./parser";
 
-interface ViolationInfo {
+export interface ViolationInfo {
   ruleName: string;
   violation: RuleViolation;
 }

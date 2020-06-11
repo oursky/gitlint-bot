@@ -1,10 +1,26 @@
-import "ts-node/register";
+import knex from "knex";
 
-// eslint-disable-next-line no-undef
-module.exports = {
+type KnexConfigs = Record<string, knex.Config>;
+
+const config = {
   development: {
     client: "pg",
     connection: {
+      // host: "db",
+      database: "gitlint-bot",
+      user: "user",
+      password: "password",
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./migrations",
+      extension: "ts",
+    },
+  },
+  test: {
+    client: "pg",
+    connection: {
+      host: "db",
       database: "gitlint-bot",
       user: "user",
       password: "password",
@@ -33,4 +49,6 @@ module.exports = {
       extension: "ts",
     },
   },
-};
+} as KnexConfigs;
+
+export = config;
