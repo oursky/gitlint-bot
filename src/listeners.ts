@@ -4,7 +4,12 @@ import { lintCommitMessage, ViolationInfo } from "./lint";
 import { Commit as GithubCommit, CommitUser } from "types/github";
 import { createCommitDiagnosis } from "./db/models/CommitDiagnosis";
 import { createCommit, findCommit } from "./db/models/Commit";
-import { findOrCreateUser } from "./db/models/User";
+import {
+  findUserByEmail,
+  findUserByName,
+  createUser,
+  User,
+} from "./db/models/User";
 
 interface CommitInfo {
   author: CommitUser;
@@ -17,12 +22,24 @@ interface CommitInfo {
   };
 }
 
+async function findOrCreateUser(user: CommitUser): Promise<User> {
+  const existingUser =
+    (await findUserByName(user.name)) ?? (await findUserByEmail(user.email));
+  if (!existingUser) {
+    return createUser({
+      email: user.email,
+      name: user.name,
+    });
+  }
+  return existingUser;
+}
+
 async function saveCommit(commitInfo: CommitInfo) {
   const commitExists = await findCommit(commitInfo.commit.id);
   if (!!commitExists) {
     return;
   }
-  const user = await findOrCreateUser(commitInfo.author.name);
+  const user = await findOrCreateUser(commitInfo.author);
 
   const { id, message, score, timestamp, violations } = commitInfo.commit;
   const commit = await createCommit({
