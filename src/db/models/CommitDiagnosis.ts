@@ -1,4 +1,4 @@
-import db from "..";
+import db from "../db";
 
 const tableName = "commit_diagnosis";
 

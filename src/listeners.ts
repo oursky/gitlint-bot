@@ -1,64 +1,8 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
-import { lintCommitMessage, ViolationInfo } from "./lint";
-import { Commit as GithubCommit, CommitUser } from "types/github";
-import { createCommitDiagnosis } from "./db/models/CommitDiagnosis";
-import { createCommit, findCommit } from "./db/models/Commit";
-import {
-  findUserByEmail,
-  findUserByName,
-  createUser,
-  User,
-} from "./db/models/User";
-
-interface CommitInfo {
-  author: CommitUser;
-  commit: {
-    id: string;
-    message: string;
-    score: number;
-    timestamp: string;
-    violations: ViolationInfo[];
-  };
-}
-
-async function findOrCreateUser(user: CommitUser): Promise<User> {
-  const existingUser =
-    (await findUserByName(user.name)) ?? (await findUserByEmail(user.email));
-  if (!existingUser) {
-    return createUser({
-      email: user.email,
-      name: user.name,
-    });
-  }
-  return existingUser;
-}
-
-async function saveCommit(commitInfo: CommitInfo) {
-  const commitExists = await findCommit(commitInfo.commit.id);
-  if (!!commitExists) {
-    return;
-  }
-  const user = await findOrCreateUser(commitInfo.author);
-
-  const { id, message, score, timestamp, violations } = commitInfo.commit;
-  const commit = await createCommit({
-    id,
-    user_id: user.id,
-    committed_at: timestamp,
-    score,
-    message,
-  });
-  await Promise.all(
-    violations.map(async (violation) =>
-      createCommitDiagnosis({
-        commit_id: commit.id,
-        rule: violation.ruleName,
-        data: violation.violation,
-      })
-    )
-  );
-}
+import { lintCommitMessage } from "./lint";
+import { Commit as GithubCommit } from "types/github";
+import { CommitInfo, saveCommit } from "./db";
 
 async function processCommit(githubCommit: GithubCommit): Promise<CommitInfo> {
   const message = githubCommit.message;

@@ -6,7 +6,7 @@ const config = {
   development: {
     client: "pg",
     connection: {
-      host: "db",
+      // host: "db",
       database: "gitlint-bot",
       user: "user",
       password: "password",
