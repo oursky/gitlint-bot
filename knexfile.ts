@@ -17,6 +17,20 @@ const config = {
       extension: "ts",
     },
   },
+  test: {
+    client: "pg",
+    connection: {
+      host: "db",
+      database: "gitlint-bot",
+      user: "user",
+      password: "password",
+    },
+    migrations: {
+      tableName: "knex_migrations",
+      directory: "./migrations",
+      extension: "ts",
+    },
+  },
   staging: {
     client: "pg",
     connection: process.env.DB_URL,
