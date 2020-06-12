@@ -1,6 +1,8 @@
-.PHONY: deploy-image
+.PHONY: deploy-image deploy
 
-GIT_SHA := $(shell git rev-parse --short=7 HEAD)
+deploy:
+	@kubectl -n gitlint-bot apply -f ./k8s-deployment.yaml
+
 deploy-image:
-	@docker build --tag gcr.io/oursky-kube/gitlint-bot:$(GIT_SHA) .
-	@docker push gcr.io/oursky-kube/gitlint-bot:$(GIT_SHA)
+	@docker build --tag gcr.io/oursky-kube/gitlint-bot:latest .
+	@docker push gcr.io/oursky-kube/gitlint-bot:latest
