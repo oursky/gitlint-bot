@@ -1,6 +1,6 @@
 name: gitlint-bot CI
 
-on: [pull_request]
+on: [pull_request, push]
 
 jobs:
   test:
@@ -21,3 +21,25 @@ jobs:
         run: npm run test
       - name: Build TypeScript
         run: npm run build
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+      GCE_ZONE: ${{ secrets.GCE_ZONE }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup gcloud CLI
+        uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: "296.0.1"
+          service_account_key: ${{ secrets.GKE_SA_KEY }}
+          project_id: ${{ secrets.GKE_PROJECT }}
+      - name: Configure docker to use gcloud credential helper
+        run: gcloud --quiet auth configure-docker
+      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - name: Build and push docker image to registry
+        run: make deploy-image
+      - name: Create k8s deployment
+        run: make deploy
