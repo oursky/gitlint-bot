@@ -9,6 +9,7 @@ FROM node:12 as app
 WORKDIR /app
 COPY --from=builder /app/node_modules/ ./node_modules
 COPY --from=builder /app/lib ./lib
+COPY ./package.json ./
 COPY .env ./
 ENV NODE_ENV production
 EXPOSE 3000
