@@ -15,5 +15,6 @@ export async function findCommit(id: string): Promise<Commit | undefined> {
 }
 
 export async function createCommit(commit: Commit): Promise<Commit> {
-  return db(tableName).returning("*").insert(commit);
+  const commits = await db(tableName).returning("*").insert<Commit[]>([commit]);
+  return commits[0];
 }

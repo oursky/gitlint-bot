@@ -19,5 +19,6 @@ export async function findUserByEmail(
 }
 
 export async function createUser(user: Omit<User, "id">): Promise<User> {
-  return db(tableName).returning("*").insert(user);
+  const users = await db(tableName).returning("*").insert<User[]>([user]);
+  return users[0];
 }
