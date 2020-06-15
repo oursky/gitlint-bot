@@ -13,6 +13,3 @@ deploy-image:
 	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} .
 	@docker push ${APP_IMAGE_LATEST}
 	@docker push ${APP_IMAGE_SHA}
-
-run-migrations:
-	@kubectl -n gitlint-bot apply -f ./deploy/migrations-job.yaml
