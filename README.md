@@ -4,6 +4,8 @@ gitlint-bot is a Github App that lints commit messages against custom rules and 
 
 The goal of this App is to promote better and more consistent commit message style among developers in an organization.
 
+This Github App is built using [Probot](https://probot.github.io/docs/)
+
 ## Development Setup
 
 Requires Docker v19.03.0+
@@ -13,7 +15,7 @@ cp .env.example .env
 docker-compose up
 ```
 
-Navigate to `http://localhost:3000` and click on the `Register Github App` button
+Navigate to `http://localhost:3000` and click on the `Register Github App` button.
 
 ## Data-flow Diagram
 
