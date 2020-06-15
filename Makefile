@@ -5,7 +5,7 @@ APP_IMAGE_NAME=gcr.io/oursky-kube/gitlint-bot:${SHORT_SHA}
 POD_NAME = $(shell kubectl get pod -l app=gitlint-bot-production -o name)
 
 deploy:
-	@kubectl -n gitlint-bot apply -f ./k8s-deployment.yaml
+	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml
 	@kubectl -n gitlint-bot set image deployment/gitlint-bot-production gitlint-bot-production=${APP_IMAGE_NAME}
 
 deploy-image:
