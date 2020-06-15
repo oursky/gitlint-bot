@@ -3,6 +3,7 @@ kind: Job
 metadata:
   name: gitlint-bot-db-migrations
 spec:
+  ttlSecondsAfterFinished: 100
   template:
     spec:
       containers:
