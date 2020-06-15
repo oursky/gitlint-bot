@@ -8,7 +8,12 @@ The goal of this App is to promote better and more consistent commit message sty
 
 Requires Docker v19.03.0+
 
-`docker-compose up`
+```
+cp .env.example .env
+docker-compose up
+```
+
+Navigate to `http://localhost:3000` and click on the `Register Github App` button
 
 ## Data-flow Diagram
 
