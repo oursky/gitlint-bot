@@ -42,6 +42,21 @@ spec:
                 secretKeyRef:
                   name: config
                   key: DB_URL
+            - name: APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: APP_ID
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: PRIVATE_KEY
+            - name: WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: WEBHOOK_SECRET
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
