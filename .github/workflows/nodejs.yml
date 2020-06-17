@@ -41,5 +41,7 @@ jobs:
       - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
       - name: Build and push docker image to registry
         run: make deploy-image
+      - name: Run migrations
+        run: make run-migrations
       - name: Create k8s deployment
         run: make deploy
