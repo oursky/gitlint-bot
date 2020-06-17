@@ -1,13 +1,16 @@
-// You can import your modules
-// import index from '../src/index'
+// Requiring our fixtures
+const fs = require("fs");
+const path = require("path");
+
+import dotenv from "dotenv";
+dotenv.config({
+  path: path.join(process.cwd(), ".env.example"),
+});
 
 import nock from "nock";
 // Requiring our app implementation
 import myProbotApp from "../src";
 import { Probot } from "probot";
-// Requiring our fixtures
-const fs = require("fs");
-const path = require("path");
 
 describe("My Probot app", () => {
   let probot: any;
