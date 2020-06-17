@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@commitlint/parse": "8.3.4",
+    "@slack/webhook": "5.0.3",
     "knex": "0.21.1",
     "node-cron": "2.0.3",
     "pg": "8.2.1",
