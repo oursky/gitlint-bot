@@ -27,3 +27,9 @@ export async function createCommit(
     .insert<Commit[]>([commit]);
   return commits[0];
 }
+
+export async function getCommits(afterTimestamp: Date): Promise<Commit[]> {
+  return db(tableName)
+    .select("*")
+    .where<Commit[]>("commit.committed_at", ">", afterTimestamp.toISOString());
+}
