@@ -13,3 +13,8 @@ deploy-image:
 	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} .
 	@docker push ${APP_IMAGE_LATEST}
 	@docker push ${APP_IMAGE_SHA}
+
+run-migrations:
+	@kubectl -n gitlint-bot delete job/gitlint-bot-db-migrations --ignore-not-found
+	@kubectl -n gitlint-bot apply -f ./deploy/migrations-job.yaml
+	@kubectl -n gitlint-bot wait --for=condition=complete job/gitlint-bot-db-migrations --timeout=30s
