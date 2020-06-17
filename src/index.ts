@@ -1,12 +1,8 @@
 import { Application } from "probot";
 import { onPush } from "./listeners";
 import { slackJob } from "./jobs";
+import { SLACK_CRON_PATTERN } from "./config";
 import cron from "node-cron";
-
-if (typeof process.env.SLACK_CRON_PATTERN !== "string") {
-  throw new Error("Missing 'SLACK_CRON_PATTERN' env variable");
-}
-const SLACK_CRON_PATTERN = process.env.SLACK_CRON_PATTERN;
 
 export = (app: Application) => {
   app.on("push", onPush);
