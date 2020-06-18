@@ -1,14 +1,15 @@
 import { sendSlackSummary } from "./slack";
-import { getCommitDiagnoses } from "./db/models/CommitDiagnosis";
-import { getCommits } from "./db/models/Commit";
+import { getCommitDiagnosesAfterDate } from "./db/models/CommitDiagnosis";
+import { getCommitsAfterDate } from "./db/models/Commit";
 import { SLACK_DAY_INTERVAL } from "./config";
 
-const dateOffset = 86400000 * SLACK_DAY_INTERVAL; // day interval in milliseconds: 24 * 60 * 60 * 1000 * DAY_INTERVAL
+const msInDay = 86400000; // 24 * 60 * 60 * 1000 milliseconds in 1 day
+const summaryDuration = msInDay * SLACK_DAY_INTERVAL;
 
 export async function slackJob(): Promise<void> {
-  const afterTimestamp = new Date(Date.now() - dateOffset);
-  const commitDiagnoses = await getCommitDiagnoses(afterTimestamp);
-  const commits = await getCommits(afterTimestamp);
+  const afterDate = new Date(Date.now() - summaryDuration);
+  const commitDiagnoses = await getCommitDiagnosesAfterDate(afterDate);
+  const commits = await getCommitsAfterDate(afterDate);
   await sendSlackSummary({
     numCommits: commits.length,
     numCommitDiagnoses: commitDiagnoses.length,

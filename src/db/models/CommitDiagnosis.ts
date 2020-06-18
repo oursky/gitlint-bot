@@ -17,8 +17,8 @@ export async function createCommitDiagnosis(
   return client(tableName).insert(commitDiagnosis);
 }
 
-export async function getCommitDiagnoses(
-  afterTimestamp: Date
+export async function getCommitDiagnosesAfterDate(
+  afterDate: Date
 ): Promise<Pick<CommitDiagnosis, "rule" | "data">[]> {
   return db(tableName)
     .select(["rule", "data"])
@@ -26,5 +26,5 @@ export async function getCommitDiagnoses(
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
       this.on("commit_diagnosis.commit_id", "=", "commit.id");
     })
-    .where("commit.committed_at", ">", afterTimestamp.toISOString());
+    .where("commit.committed_at", ">", afterDate.toISOString());
 }

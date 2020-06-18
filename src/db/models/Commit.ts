@@ -28,8 +28,8 @@ export async function createCommit(
   return commits[0];
 }
 
-export async function getCommits(afterTimestamp: Date): Promise<Commit[]> {
+export async function getCommitsAfterDate(afterDate: Date): Promise<Commit[]> {
   return db(tableName)
     .select("*")
-    .where<Commit[]>("commit.committed_at", ">", afterTimestamp.toISOString());
+    .where<Commit[]>("commit.committed_at", ">", afterDate.toISOString());
 }
