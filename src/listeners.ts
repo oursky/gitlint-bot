@@ -24,5 +24,7 @@ export async function onPush(
 ): Promise<void> {
   const rawCommits = context.payload.commits;
   const commitInfos = await Promise.all(rawCommits.map(processCommit));
-  await Promise.all(commitInfos.map(saveCommit));
+  for (const commitInfo of commitInfos) {
+    await saveCommit(commitInfo);
+  }
 }
