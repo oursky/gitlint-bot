@@ -8,6 +8,8 @@ import {
   createUser,
   User,
 } from "./models/User";
+import * as Knex from "knex";
+import db from "./db";
 
 export interface CommitInfo {
   author: CommitUser;
@@ -20,40 +22,52 @@ export interface CommitInfo {
   };
 }
 
-async function findOrCreateUser(user: CommitUser): Promise<User> {
+async function findOrCreateUser(user: CommitUser, trx: Knex): Promise<User> {
   const existingUser =
-    (await findUserByName(user.name)) ?? (await findUserByEmail(user.email));
+    (await findUserByName(user.name, trx)) ??
+    (await findUserByEmail(user.email, trx));
   if (!existingUser) {
-    return createUser({
-      email: user.email,
-      name: user.name,
-    });
+    return createUser(
+      {
+        email: user.email,
+        name: user.name,
+      },
+      trx
+    );
   }
   return existingUser;
 }
 
 export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
-  const commitExists = await findCommit(commitInfo.commit.id);
-  if (!!commitExists) {
-    return;
-  }
-  const user = await findOrCreateUser(commitInfo.author);
+  await db.transaction(async (trx) => {
+    const commitExists = await findCommit(commitInfo.commit.id, trx);
+    if (!!commitExists) {
+      return;
+    }
+    const user = await findOrCreateUser(commitInfo.author, trx);
 
-  const { id, message, score, timestamp, violations } = commitInfo.commit;
-  const commit = await createCommit({
-    id,
-    user_id: user.id,
-    committed_at: timestamp,
-    score,
-    message,
+    const { id, message, score, timestamp, violations } = commitInfo.commit;
+    const commit = await createCommit(
+      {
+        id,
+        user_id: user.id,
+        committed_at: timestamp,
+        score,
+        message,
+      },
+      trx
+    );
+    await Promise.all(
+      violations.map(async (violation) =>
+        createCommitDiagnosis(
+          {
+            commit_id: commit.id,
+            rule: violation.ruleName,
+            data: violation.violation,
+          },
+          trx
+        )
+      )
+    );
   });
-  await Promise.all(
-    violations.map(async (violation) =>
-      createCommitDiagnosis({
-        commit_id: commit.id,
-        rule: violation.ruleName,
-        data: violation.violation,
-      })
-    )
-  );
 }

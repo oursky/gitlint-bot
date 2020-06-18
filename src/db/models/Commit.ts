@@ -1,4 +1,5 @@
 import db from "../db";
+import * as Knex from "knex";
 
 const tableName = "commit";
 
@@ -10,11 +11,19 @@ export interface Commit {
   committed_at: string;
 }
 
-export async function findCommit(id: string): Promise<Commit | undefined> {
-  return db(tableName).where("id", id).first();
+export async function findCommit(
+  id: string,
+  client: Knex = db
+): Promise<Commit | undefined> {
+  return client(tableName).where("id", id).first();
 }
 
-export async function createCommit(commit: Commit): Promise<Commit> {
-  const commits = await db(tableName).returning("*").insert<Commit[]>([commit]);
+export async function createCommit(
+  commit: Commit,
+  client: Knex = db
+): Promise<Commit> {
+  const commits = await client(tableName)
+    .returning("*")
+    .insert<Commit[]>([commit]);
   return commits[0];
 }
