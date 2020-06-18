@@ -13,6 +13,8 @@ import db from "./db";
 
 export interface CommitInfo {
   author: CommitUser;
+  repoName: string;
+  ref: string;
   commit: {
     id: string;
     message: string;
@@ -54,6 +56,8 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
         committed_at: timestamp,
         score,
         message,
+        repo_name: commitInfo.repoName,
+        ref: commitInfo.ref,
       },
       trx
     );
