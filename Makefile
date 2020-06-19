@@ -18,12 +18,12 @@ ci:
 	@echo "Build project"
 	@npm run build
 
-configure-docker: 
-	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
-
-deploy:
+deploy: configure-docker deploy-image run-migrations
 	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml
 	@kubectl -n gitlint-bot set image deployment/gitlint-bot-production gitlint-bot-production=${APP_IMAGE_SHA}
+
+configure-docker: 
+	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
 
 deploy-image:
 	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} .
