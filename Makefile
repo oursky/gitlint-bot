@@ -1,9 +1,12 @@
-.PHONY: deploy-image deploy run-migrations
+.PHONY: deploy-image deploy run-migrations configure-docker
 
 SHORT_SHA=$(shell git rev-parse --short=7 HEAD)
-APP_IMAGE_REPO=gcr.io/oursky-kube/gitlint-bot
+APP_IMAGE_REPO=oursky/gitlint-bot
 APP_IMAGE_LATEST=${APP_IMAGE_REPO}:latest
 APP_IMAGE_SHA=${APP_IMAGE_REPO}:${SHORT_SHA}
+
+configure-docker: 
+	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
 
 deploy:
 	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml

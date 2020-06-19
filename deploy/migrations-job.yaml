@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: gitlint-bot-db-migrations
-          image: gcr.io/oursky-kube/gitlint-bot:latest
+          image: oursky/gitlint-bot:latest
           command: ["npm", "run", "migrations"]
           env:
             - name: DB_URL

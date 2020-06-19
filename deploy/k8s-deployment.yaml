@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: gitlint-bot-production
-          image: gcr.io/oursky-kube/gitlint-bot:latest
+          image: oursky/gitlint-bot:latest
           ports:
             - containerPort: 3000
           env:
