@@ -1,3 +1,6 @@
+import { setupLogging } from "./logger";
+setupLogging();
+
 import { Application } from "probot";
 import { onPush } from "./listeners";
 import { slackJob } from "./jobs";
