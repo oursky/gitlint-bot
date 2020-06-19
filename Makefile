@@ -1,9 +1,22 @@
-.PHONY: deploy-image deploy run-migrations configure-docker
+.PHONY: deploy-image deploy run-migrations configure-docker ci
 
 SHORT_SHA=$(shell git rev-parse --short=7 HEAD)
 APP_IMAGE_REPO=oursky/gitlint-bot
 APP_IMAGE_LATEST=${APP_IMAGE_REPO}:latest
 APP_IMAGE_SHA=${APP_IMAGE_REPO}:${SHORT_SHA}
+
+
+ci:
+	@echo "Install dependencies"
+	@npm ci
+	@echo "Check code formatting"
+	@npm run check-format
+	@echo "Lint TypeScript"
+	@npm run lint
+	@echo "Run tests"
+	@npm run test
+	@echo "Build project"
+	@npm run build
 
 configure-docker: 
 	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
