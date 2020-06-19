@@ -16,4 +16,12 @@ export function setupLogging(): void {
   });
 }
 
+export function addInvocationBreadcrumb(message: string): void {
+  Sentry.addBreadcrumb({
+    level: Sentry.Severity.Info,
+    category: "function-call",
+    message,
+  });
+}
+
 export default Sentry;

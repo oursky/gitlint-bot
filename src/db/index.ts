@@ -10,6 +10,7 @@ import {
 } from "./models/User";
 import * as Knex from "knex";
 import db from "./db";
+import Logger, { addInvocationBreadcrumb } from "../logger";
 
 export interface CommitInfo {
   author: CommitUser;
@@ -40,36 +41,41 @@ async function findOrCreateUser(user: CommitUser, trx: Knex): Promise<User> {
 }
 
 export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
-  await db.transaction(async (trx) => {
-    const commitExists = await findCommit(commitInfo.commit.id, trx);
-    if (!!commitExists) {
-      return;
-    }
-    const user = await findOrCreateUser(commitInfo.author, trx);
+  try {
+    addInvocationBreadcrumb("'saveCommit' function");
+    await db.transaction(async (trx) => {
+      const commitExists = await findCommit(commitInfo.commit.id, trx);
+      if (!!commitExists) {
+        return;
+      }
+      const user = await findOrCreateUser(commitInfo.author, trx);
 
-    const { id, message, score, timestamp, violations } = commitInfo.commit;
-    const commit = await createCommit(
-      {
-        id,
-        user_id: user.id,
-        committed_at: timestamp,
-        score,
-        message,
-        repo_name: commitInfo.repoName,
-      },
-      trx
-    );
-    await Promise.all(
-      violations.map(async (violation) =>
-        createCommitDiagnosis(
-          {
-            commit_id: commit.id,
-            rule: violation.ruleName,
-            data: violation.violation,
-          },
-          trx
+      const { id, message, score, timestamp, violations } = commitInfo.commit;
+      const commit = await createCommit(
+        {
+          id,
+          user_id: user.id,
+          committed_at: timestamp,
+          score,
+          message,
+          repo_name: commitInfo.repoName,
+        },
+        trx
+      );
+      await Promise.all(
+        violations.map(async (violation) =>
+          createCommitDiagnosis(
+            {
+              commit_id: commit.id,
+              rule: violation.ruleName,
+              data: violation.violation,
+            },
+            trx
+          )
         )
-      )
-    );
-  });
+      );
+    });
+  } catch (err) {
+    Logger.captureException(err);
+  }
 }
