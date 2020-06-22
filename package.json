@@ -29,7 +29,9 @@
     "@commitlint/parse": "8.3.4",
     "knex": "0.21.1",
     "pg": "8.2.1",
-    "probot": "9.11.3"
+    "probot": "9.11.3",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.3"
   },
   "devDependencies": {
     "@oursky/eslint-plugin": "3.1.0",
@@ -45,9 +47,7 @@
     "nodemon": "2.0.4",
     "prettier": "2.0.5",
     "smee-client": "1.1.0",
-    "ts-jest": "26.0.0",
-    "ts-node": "8.10.2",
-    "typescript": "3.9.3"
+    "ts-jest": "26.0.0"
   },
   "engines": {
     "node": ">= 8.3.0"

@@ -1,0 +1,19 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlint-bot-db-migrations
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+        - name: gitlint-bot-db-migrations
+          image: oursky/gitlint-bot:latest
+          command: ["npm", "run", "migrations"]
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: DB_URL
+      restartPolicy: OnFailure
