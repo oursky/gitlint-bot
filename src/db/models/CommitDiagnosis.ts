@@ -1,4 +1,5 @@
 import db from "../db";
+import * as Knex from "knex";
 
 const tableName = "commit_diagnosis";
 
@@ -10,7 +11,8 @@ export interface CommitDiagnosis {
 }
 
 export async function createCommitDiagnosis(
-  commitDiagnosis: Omit<CommitDiagnosis, "id">
+  commitDiagnosis: Omit<CommitDiagnosis, "id">,
+  client: Knex = db
 ): Promise<void> {
-  return db(tableName).insert(commitDiagnosis);
+  return client(tableName).insert(commitDiagnosis);
 }
