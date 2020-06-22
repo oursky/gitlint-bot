@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
-      GCE_ZONE: ${{ secrets.GCE_ZONE }}
+      GKE_ZONE: ${{ secrets.GKE_ZONE }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
     steps:
