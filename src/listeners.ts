@@ -6,7 +6,6 @@ import { CommitInfo, saveCommit } from "./db";
 
 async function processCommit(
   githubCommit: GithubCommit,
-  ref: string,
   repoName: string
 ): Promise<CommitInfo> {
   const message = githubCommit.message;
@@ -21,18 +20,15 @@ async function processCommit(
     },
     author: githubCommit.author,
     repoName,
-    ref,
   };
 }
 
 export async function onPush(
   context: Context<Webhooks.WebhookPayloadPush>
 ): Promise<void> {
-  const { commits, ref, repository } = context.payload;
+  const { commits, repository } = context.payload;
   const commitInfos = await Promise.all(
-    commits.map(async (commit) =>
-      processCommit(commit, ref, repository.full_name)
-    )
+    commits.map(async (commit) => processCommit(commit, repository.full_name))
   );
   for (const commitInfo of commitInfos) {
     await saveCommit(commitInfo);
