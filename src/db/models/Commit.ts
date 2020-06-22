@@ -9,6 +9,7 @@ export interface Commit {
   score: number;
   message: string;
   committed_at: string;
+  repo_name: string;
 }
 
 export async function findCommit(
