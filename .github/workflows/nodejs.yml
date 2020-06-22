@@ -18,6 +18,7 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     env:
+      PROJECT_ID: ${{ secrets.GKE_PROJECT }}
       GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
       GKE_ZONE: ${{ secrets.GKE_ZONE }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -30,6 +31,6 @@ jobs:
           version: "296.0.1"
           service_account_key: ${{ secrets.OURSKY_KUBE_GITHUB_RUNNER_KEY }}
           project_id: ${{ secrets.GKE_PROJECT }}
-      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE"
+      - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$PROJECT_ID"
       - name: Run deploy task
         run: make deploy
