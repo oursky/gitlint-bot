@@ -27,7 +27,9 @@
   },
   "dependencies": {
     "@commitlint/parse": "8.3.4",
+    "@slack/webhook": "5.0.3",
     "knex": "0.21.1",
+    "node-cron": "2.0.3",
     "pg": "8.2.1",
     "probot": "9.11.3",
     "ts-node": "8.10.2",
@@ -38,6 +40,8 @@
     "@types/jest": "25.2.3",
     "@types/nock": "11.1.0",
     "@types/node": "14.0.5",
+    "@types/node-cron": "2.0.3",
+    "dotenv": "8.2.0",
     "eslint": "7.1.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.3",

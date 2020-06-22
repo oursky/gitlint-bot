@@ -16,3 +16,15 @@ export async function createCommitDiagnosis(
 ): Promise<void> {
   return client(tableName).insert(commitDiagnosis);
 }
+
+export async function getCommitDiagnosesAfterDate(
+  afterDate: Date
+): Promise<Pick<CommitDiagnosis, "rule" | "data">[]> {
+  return db(tableName)
+    .select(["rule", "data"])
+    .innerJoin("commit", function () {
+      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+      this.on("commit_diagnosis.commit_id", "=", "commit.id");
+    })
+    .where("commit.committed_at", ">", afterDate.toISOString());
+}

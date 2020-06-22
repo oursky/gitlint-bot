@@ -57,6 +57,21 @@ spec:
                 secretKeyRef:
                   name: config
                   key: WEBHOOK_SECRET
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: SLACK_WEBHOOK_URL
+            - name: SLACK_CRON_PATTERN
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: SLACK_CRON_PATTERN
+            - name: SLACK_DAY_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: SLACK_DAY_INTERVAL
 ---
 apiVersion: networking.k8s.io/v1beta1
 kind: Ingress
