@@ -7,6 +7,7 @@ const rootDir = __dirname || process.cwd();
 export function setupLogging(): void {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
+    release: process.env.SENTRY_RELEASE,
     integrations: [
       new RewriteFrames({
         root: rootDir,
