@@ -6,7 +6,6 @@ import { onPush } from "./listeners";
 import { slackJob } from "./jobs";
 import { SLACK_CRON_PATTERN } from "./config";
 import cron from "node-cron";
-import "./setupLogging";
 
 export = (app: Application) => {
   app.on("push", onPush);

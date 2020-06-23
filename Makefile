@@ -4,6 +4,7 @@ SHORT_SHA=$(shell git rev-parse --short=7 HEAD)
 APP_IMAGE_REPO=oursky/gitlint-bot
 APP_IMAGE_LATEST=${APP_IMAGE_REPO}:latest
 APP_IMAGE_SHA=${APP_IMAGE_REPO}:${SHORT_SHA}
+SENTRY_RELEASE=${SHORT_SHA}
 
 ci:
 	@echo "Install dependencies"
@@ -25,7 +26,7 @@ configure-docker:
 	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
 
 deploy-image:
-	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} .
+	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} . --build-arg SENTRY_RELEASE=${SENTRY_RELEASE}
 	@docker push ${APP_IMAGE_LATEST}
 	@docker push ${APP_IMAGE_SHA}
 
@@ -33,8 +34,6 @@ run-migrations:
 	@kubectl -n gitlint-bot delete job/gitlint-bot-db-migrations --ignore-not-found
 	@kubectl -n gitlint-bot apply -f ./deploy/migrations-job.yaml
 	@kubectl -n gitlint-bot wait --for=condition=complete job/gitlint-bot-db-migrations --timeout=30s
-
-SENTRY_RELEASE=$(shell sentry-cli releases propose-version)
 
 upload-sourcemaps:
 	@npm run build
