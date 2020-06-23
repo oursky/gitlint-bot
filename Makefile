@@ -18,7 +18,7 @@ ci:
 	@echo "Build project"
 	@npm run build
 
-deploy: configure-docker deploy-image run-migrations upload-sourcemaps
+deploy: configure-docker deploy-image run-migrations
 	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml
 	@kubectl -n gitlint-bot set image deployment/gitlint-bot-production gitlint-bot-production=${APP_IMAGE_SHA}
 
