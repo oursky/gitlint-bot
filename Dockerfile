@@ -1,4 +1,4 @@
-ARG SENTRY_RELEASE=latest
+ARG SENTRY_RELEASE
 FROM node:12 as builder
 WORKDIR /app
 COPY ./package*.json ./
