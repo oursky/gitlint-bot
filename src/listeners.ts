@@ -3,18 +3,12 @@ import Webhooks from "@octokit/webhooks";
 import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "types/github";
 import { CommitInfo, saveCommit } from "./db";
-import Logger, { addInvocationBreadcrumb } from "./logger";
+import { addInvocationBreadcrumb } from "./logger";
 
 async function processCommit(
   githubCommit: GithubCommit,
   repoName: string
 ): Promise<CommitInfo> {
-  Logger.captureMessage("Receive new commit", (scope) =>
-    scope.setExtra("data", {
-      repoName,
-      hash: githubCommit.id,
-    })
-  );
   const message = githubCommit.message;
   const { score, violations } = await lintCommitMessage(message);
   return {
@@ -36,7 +30,16 @@ export async function onPush(
   addInvocationBreadcrumb("'onPush' Github Webhook push event handler");
   const { commits, repository } = context.payload;
   const commitInfos = await Promise.all(
-    commits.map(async (commit) => processCommit(commit, repository.full_name))
+    commits.map(async (commit: GithubCommit) => {
+      context.log.info(
+        "Received new #commit: %s",
+        JSON.stringify({
+          repoName: repository.full_name,
+          hash: commit.id,
+        })
+      );
+      return processCommit(commit, repository.full_name);
+    })
   );
   for (const commitInfo of commitInfos) {
     await saveCommit(commitInfo);
