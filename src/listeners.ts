@@ -3,12 +3,18 @@ import Webhooks from "@octokit/webhooks";
 import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "types/github";
 import { CommitInfo, saveCommit } from "./db";
-import { addInvocationBreadcrumb } from "./logger";
+import Logger, { addInvocationBreadcrumb } from "./logger";
 
 async function processCommit(
   githubCommit: GithubCommit,
   repoName: string
 ): Promise<CommitInfo> {
+  Logger.captureMessage("Receive new commit", (scope) =>
+    scope.setExtra("data", {
+      repoName,
+      hash: githubCommit.id,
+    })
+  );
   const message = githubCommit.message;
   const { score, violations } = await lintCommitMessage(message);
   return {
