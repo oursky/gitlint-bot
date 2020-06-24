@@ -26,7 +26,7 @@ configure-docker:
 	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
 
 deploy-image:
-	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} . --build-arg SENTRY_RELEASE=${SENTRY_RELEASE}
+	@docker build -t ${APP_IMAGE_LATEST} -t ${APP_IMAGE_SHA} .
 	@docker push ${APP_IMAGE_LATEST}
 	@docker push ${APP_IMAGE_SHA}
 
