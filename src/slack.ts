@@ -1,10 +1,10 @@
 import { IncomingWebhook } from "@slack/webhook";
-import { CommitsWithDiagnoses } from "./db";
+import { CommitWithDiagnoses } from "./db";
 import { SLACK_WEBHOOK_URL } from "./config";
 import { SectionBlock, DividerBlock } from "@slack/types";
 
 interface SendSlackSummaryParams {
-  topCommits: CommitsWithDiagnoses[];
+  topCommits: CommitWithDiagnoses[];
 }
 const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
@@ -22,7 +22,7 @@ function createMarkdownSection(text: string): SectionBlock {
   };
 }
 
-function createTopCommitsBlock(topCommits: CommitsWithDiagnoses[]) {
+function createTopCommitsBlock(topCommits: CommitWithDiagnoses[]) {
   const header =
     "*Top 10 commit messages with highest lint violation scores:*\n";
   const messageBody = topCommits

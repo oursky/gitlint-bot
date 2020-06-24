@@ -96,14 +96,14 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
   }
 }
 
-export interface CommitsWithDiagnoses extends Commit {
+export interface CommitWithDiagnoses extends Commit {
   diagnoses: CommitDiagnosis[];
 }
 
 export async function getTopCommitsWithDiagnoses(
   afterDate: Date = new Date(0),
   limitCount = 10
-): Promise<CommitsWithDiagnoses[]> {
+): Promise<CommitWithDiagnoses[]> {
   const commits = await getTopCommitsAfterDate(afterDate, limitCount);
   const commitsWithDiagnoses = await Promise.all(
     commits.map(async (commit) => {
