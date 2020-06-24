@@ -10,7 +10,7 @@ import {
 } from "./models/User";
 import * as Knex from "knex";
 import db from "./db";
-import Logger, { addInvocationBreadcrumb } from "../logger";
+import Sentry, { addInvocationBreadcrumb } from "../sentry";
 
 export interface CommitInfo {
   author: CommitUser;
@@ -76,6 +76,6 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
       );
     });
   } catch (err) {
-    Logger.captureException(err);
+    Sentry.captureException(err);
   }
 }

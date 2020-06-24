@@ -3,7 +3,7 @@ import Webhooks from "@octokit/webhooks";
 import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "types/github";
 import { CommitInfo, saveCommit } from "./db";
-import { addInvocationBreadcrumb } from "./logger";
+import { addInvocationBreadcrumb } from "./sentry";
 
 async function processCommit(
   githubCommit: GithubCommit,
@@ -31,13 +31,10 @@ export async function onPush(
   const { commits, repository } = context.payload;
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
-      context.log.info(
-        "Received new #commit: %s",
-        JSON.stringify({
-          repoName: repository.full_name,
-          hash: commit.id,
-        })
-      );
+      context.log.info("Received new #commit: %O", {
+        repoName: repository.full_name,
+        hash: commit.id,
+      });
       return processCommit(commit, repository.full_name);
     })
   );

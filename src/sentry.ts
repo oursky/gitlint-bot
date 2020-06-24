@@ -4,7 +4,7 @@ import { RewriteFrames } from "@sentry/integrations";
 // This must be set to project source root directory
 const rootDir = __dirname || process.cwd();
 
-export function setupLogging(): void {
+export function setupSentry(): void {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     release: process.env.SENTRY_RELEASE,

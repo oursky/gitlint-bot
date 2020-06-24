@@ -1,5 +1,5 @@
-import { setupLogging } from "./logger";
-setupLogging();
+import { setupSentry } from "./sentry";
+setupSentry();
 
 import { Application } from "probot";
 import { onPush } from "./listeners";
