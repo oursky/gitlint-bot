@@ -1,5 +1,6 @@
 import db from "../db";
 import * as Knex from "knex";
+import { table } from "console";
 
 const tableName = "commit";
 
@@ -34,4 +35,16 @@ export async function getCommitsAfterDate(afterDate: Date): Promise<Commit[]> {
   return db(tableName)
     .select("*")
     .where<Commit[]>("commit.committed_at", ">", afterDate.toISOString());
+}
+
+export async function getTopCommitsAfterDate(
+  afterDate: Date,
+  limitCount: number
+): Promise<Commit[]> {
+  return db
+    .from<Commit>(tableName)
+    .select("*")
+    .where("commit.committed_at", ">", afterDate.toISOString())
+    .orderBy("commit.score", "desc")
+    .limit(limitCount);
 }

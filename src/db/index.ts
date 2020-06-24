@@ -1,7 +1,16 @@
 import { ViolationInfo } from "../lint";
 import { CommitUser } from "types/github";
-import { createCommitDiagnosis } from "./models/CommitDiagnosis";
-import { createCommit, findCommit } from "./models/Commit";
+import {
+  createCommitDiagnosis,
+  getCommitDiagnosesByCommit,
+  CommitDiagnosis,
+} from "./models/CommitDiagnosis";
+import {
+  createCommit,
+  findCommit,
+  getTopCommitsAfterDate,
+  Commit,
+} from "./models/Commit";
 import {
   findUserByEmail,
   findUserByName,
@@ -85,4 +94,25 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
   } catch (err) {
     Sentry.captureException(err);
   }
+}
+
+interface CommitsWithDiagnoses extends Commit {
+  diagnoses: CommitDiagnosis[];
+}
+
+export async function getTopCommitsWithDiagnoses(
+  afterDate: Date = new Date(0),
+  limitCount = 10
+): Promise<CommitsWithDiagnoses[]> {
+  const commits = await getTopCommitsAfterDate(afterDate, limitCount);
+  const commitsWithDiagnoses = await Promise.all(
+    commits.map(async (commit) => {
+      const diagnoses = await getCommitDiagnosesByCommit(commit.id);
+      return {
+        ...commit,
+        diagnoses,
+      };
+    })
+  );
+  return commitsWithDiagnoses;
 }
