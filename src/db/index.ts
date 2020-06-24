@@ -96,7 +96,7 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
   }
 }
 
-interface CommitsWithDiagnoses extends Commit {
+export interface CommitsWithDiagnoses extends Commit {
   diagnoses: CommitDiagnosis[];
 }
 

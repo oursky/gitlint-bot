@@ -1,6 +1,5 @@
 import db from "../db";
 import * as Knex from "knex";
-import { table } from "console";
 
 const tableName = "commit";
 
