@@ -23,10 +23,6 @@ jobs:
       GKE_ZONE: ${{ secrets.GKE_ZONE }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
-      SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
-      SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
-      SENTRY_DEPLOY_ENVIRONMENT: production
     steps:
       - uses: actions/checkout@v2
       - name: Setup gcloud CLI
@@ -36,7 +32,5 @@ jobs:
           service_account_key: ${{ secrets.OURSKY_KUBE_GITHUB_RUNNER_KEY }}
           project_id: ${{ secrets.GKE_PROJECT }}
       - run: gcloud container clusters get-credentials "$GKE_CLUSTER" --zone "$GKE_ZONE" --project "$GKE_PROJECT"
-      - name: Install Sentry CLI
-        run: curl -sL https://sentry.io/get-cli/ | bash
       - name: Run deploy task
         run: make deploy
