@@ -31,11 +31,13 @@ export async function onPush(
   const { commits, repository } = context.payload;
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
-      context.log.info({
-        msg: "Received new #commit",
-        repoName: repository.full_name,
-        hash: commit.id,
-      });
+      context.log.info(
+        {
+          repoName: repository.full_name,
+          hash: commit.id,
+        },
+        "received a new commit"
+      );
       return processCommit(commit, repository.full_name);
     })
   );
