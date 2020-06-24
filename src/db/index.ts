@@ -21,6 +21,7 @@ export interface CommitInfo {
     score: number;
     timestamp: string;
     violations: ViolationInfo[];
+    url: string;
   };
 }
 
@@ -50,7 +51,14 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
       }
       const user = await findOrCreateUser(commitInfo.author, trx);
 
-      const { id, message, score, timestamp, violations } = commitInfo.commit;
+      const {
+        id,
+        message,
+        score,
+        timestamp,
+        violations,
+        url,
+      } = commitInfo.commit;
       const commit = await createCommit(
         {
           id,
@@ -58,6 +66,7 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
           committed_at: timestamp,
           score,
           message,
+          url,
           repo_name: commitInfo.repoName,
         },
         trx

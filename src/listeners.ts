@@ -18,6 +18,7 @@ async function processCommit(
       message,
       score,
       violations,
+      url: githubCommit.url,
     },
     author: githubCommit.author,
     repoName,

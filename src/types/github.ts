@@ -19,4 +19,5 @@ export interface Commit {
   added: string[];
   removed: string[];
   modified: string[];
+  url: string;
 }

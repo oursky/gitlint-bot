@@ -10,6 +10,7 @@ export interface Commit {
   message: string;
   committed_at: string;
   repo_name: string;
+  url: string;
 }
 
 export async function findCommit(
