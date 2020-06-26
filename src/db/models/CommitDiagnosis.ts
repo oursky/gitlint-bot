@@ -29,11 +29,11 @@ export async function getCommitDiagnosesAfterDate(
     .where("commit.committed_at", ">", afterDate.toISOString());
 }
 
-export async function getCommitDiagnosesByCommit(
-  commitId: string
+export async function getCommitDiagnosesByCommitIds(
+  commitIds: string[]
 ): Promise<CommitDiagnosis[]> {
   return db
     .from<CommitDiagnosis>(tableName)
     .select("*")
-    .where("commit_id", "=", commitId);
+    .whereIn("commit_id", commitIds);
 }

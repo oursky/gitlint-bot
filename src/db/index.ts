@@ -2,7 +2,7 @@ import { ViolationInfo } from "../lint";
 import { CommitUser } from "types/github";
 import {
   createCommitDiagnosis,
-  getCommitDiagnosesByCommit,
+  getCommitDiagnosesByCommitIds,
   CommitDiagnosis,
 } from "./models/CommitDiagnosis";
 import {
@@ -105,14 +105,21 @@ export async function getTopCommitsWithDiagnoses(
   limitCount = 10
 ): Promise<CommitWithDiagnoses[]> {
   const commits = await getTopCommitsAfterDate(afterDate, limitCount);
-  const commitsWithDiagnoses = await Promise.all(
-    commits.map(async (commit) => {
-      const diagnoses = await getCommitDiagnosesByCommit(commit.id);
-      return {
-        ...commit,
-        diagnoses,
-      };
-    })
-  );
-  return commitsWithDiagnoses;
+  const commitIds = commits.map((commit) => commit.id);
+  const diagnoses = await getCommitDiagnosesByCommitIds(commitIds);
+  const commitDiagnosesMap = diagnoses.reduce<
+    Record<string, CommitDiagnosis[] | undefined>
+  >((mapping, diagnosis) => {
+    const commitId = diagnosis.commit_id;
+    let diagnoses = mapping[commitId] ?? [];
+    diagnoses = diagnoses.concat(diagnosis);
+    return {
+      ...mapping,
+      [commitId]: diagnoses,
+    };
+  }, {});
+  return commits.map((commit) => ({
+    ...commit,
+    diagnoses: commitDiagnosesMap[commit.id] ?? [],
+  }));
 }
