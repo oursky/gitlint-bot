@@ -1,4 +1,4 @@
-import { sendSlackSummary } from "./slack";
+import { sendSlackSummary } from "./slack/index";
 import { SLACK_DAY_INTERVAL } from "./config";
 import { getTopCommitsWithDiagnoses } from "./db";
 

@@ -11,14 +11,15 @@ export async function createTopCommitsSection(
     await Promise.all(
       topCommits.map(async (commit) => {
         const subjectLine = await getCommitSubjectLine(commit);
-        const paddedScore = String(commit.score).padEnd(3, " ");
         const shortId = commit.id.slice(0, 8);
 
         const messageComponents: string[] = [
-          `• Score: ${paddedScore} | ${commit.repo_name}@<${commit.url}|${shortId}> | "${subjectLine}"`,
+          `• <${commit.url}|${commit.repo_name}@${shortId}> | total score: ${commit.score}\n\t\`${subjectLine}\``,
         ];
         commit.diagnoses.forEach((diagnosis) => {
-          messageComponents.push(`\t• \`${diagnosis.rule}\``);
+          messageComponents.push(
+            `\t• \`${diagnosis.rule}\` | score: ${diagnosis.score}`
+          );
         });
         return messageComponents.join("\n");
       })
