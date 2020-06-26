@@ -62,18 +62,16 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
         },
         trx
       );
-      await Promise.all(
-        violations.map(async (violation) =>
-          createCommitDiagnosis(
-            {
-              commit_id: commit.id,
-              rule: violation.ruleName,
-              data: violation.violation,
-            },
-            trx
-          )
-        )
-      );
+      for (const violation of violations) {
+        await createCommitDiagnosis(
+          {
+            commit_id: commit.id,
+            rule: violation.ruleName,
+            data: violation.violation,
+          },
+          trx
+        );
+      }
     });
   } catch (err) {
     Sentry.captureException(err);
