@@ -45,5 +45,6 @@ export async function getTopCommitsAfterDate(
     .select("*")
     .where("commit.committed_at", ">", afterDate.toISOString())
     .orderBy("commit.score", "desc")
+    .orderBy("commit.committed_at", "desc")
     .limit(limitCount);
 }
