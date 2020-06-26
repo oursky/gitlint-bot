@@ -5,6 +5,7 @@ import { parseCommit } from "./parser";
 export interface ViolationInfo {
   ruleName: string;
   violation: RuleViolation;
+  score: number;
 }
 export interface LintResult {
   violations: ViolationInfo[];
@@ -26,6 +27,7 @@ export async function lintCommitMessage(
       violations.push({
         ruleName: rule.name,
         violation,
+        score: rule.score,
       });
     }
   }

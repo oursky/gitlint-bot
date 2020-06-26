@@ -1,7 +1,16 @@
 import { ViolationInfo } from "../lint";
 import { CommitUser } from "types/github";
-import { createCommitDiagnosis } from "./models/CommitDiagnosis";
-import { createCommit, findCommit } from "./models/Commit";
+import {
+  createCommitDiagnosis,
+  getCommitDiagnosesByCommitIds,
+  CommitDiagnosis,
+} from "./models/CommitDiagnosis";
+import {
+  createCommit,
+  findCommit,
+  getTopCommitsAfterDate,
+  Commit,
+} from "./models/Commit";
 import {
   findUserByEmail,
   findUserByName,
@@ -21,6 +30,7 @@ export interface CommitInfo {
     score: number;
     timestamp: string;
     violations: ViolationInfo[];
+    url: string;
   };
 }
 
@@ -50,7 +60,14 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
       }
       const user = await findOrCreateUser(commitInfo.author, trx);
 
-      const { id, message, score, timestamp, violations } = commitInfo.commit;
+      const {
+        id,
+        message,
+        score,
+        timestamp,
+        violations,
+        url,
+      } = commitInfo.commit;
       const commit = await createCommit(
         {
           id,
@@ -58,6 +75,7 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
           committed_at: timestamp,
           score,
           message,
+          url,
           repo_name: commitInfo.repoName,
         },
         trx
@@ -68,6 +86,7 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
             commit_id: commit.id,
             rule: violation.ruleName,
             data: violation.violation,
+            score: violation.score,
           },
           trx
         );
@@ -76,4 +95,32 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
   } catch (err) {
     Sentry.captureException(err);
   }
+}
+
+export interface CommitWithDiagnoses extends Commit {
+  diagnoses: CommitDiagnosis[];
+}
+
+export async function getTopCommitsWithDiagnoses(
+  afterDate: Date,
+  limitCount = 10
+): Promise<CommitWithDiagnoses[]> {
+  const commits = await getTopCommitsAfterDate(afterDate, limitCount);
+  const commitIds = commits.map((commit) => commit.id);
+  const diagnoses = await getCommitDiagnosesByCommitIds(commitIds);
+  const commitDiagnosesMap = diagnoses.reduce<
+    Record<string, CommitDiagnosis[] | undefined>
+  >((mapping, diagnosis) => {
+    const commitId = diagnosis.commit_id;
+    let diagnoses = mapping[commitId] ?? [];
+    diagnoses = diagnoses.concat(diagnosis);
+    return {
+      ...mapping,
+      [commitId]: diagnoses,
+    };
+  }, {});
+  return commits.map((commit) => ({
+    ...commit,
+    diagnoses: commitDiagnosesMap[commit.id] ?? [],
+  }));
 }

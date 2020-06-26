@@ -10,6 +10,7 @@ export interface Commit {
   message: string;
   committed_at: string;
   repo_name: string;
+  url: string;
 }
 
 export async function findCommit(
@@ -33,4 +34,17 @@ export async function getCommitsAfterDate(afterDate: Date): Promise<Commit[]> {
   return db(tableName)
     .select("*")
     .where<Commit[]>("commit.committed_at", ">", afterDate.toISOString());
+}
+
+export async function getTopCommitsAfterDate(
+  afterDate: Date,
+  limitCount: number
+): Promise<Commit[]> {
+  return db
+    .from<Commit>(tableName)
+    .select("*")
+    .where("commit.committed_at", ">", afterDate.toISOString())
+    .orderBy("commit.score", "desc")
+    .orderBy("commit.committed_at", "desc")
+    .limit(limitCount);
 }

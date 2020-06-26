@@ -8,6 +8,7 @@ export interface CommitDiagnosis {
   commit_id: string;
   rule: string;
   data: Record<string, unknown>;
+  score: number;
 }
 
 export async function createCommitDiagnosis(
@@ -27,4 +28,13 @@ export async function getCommitDiagnosesAfterDate(
       this.on("commit_diagnosis.commit_id", "=", "commit.id");
     })
     .where("commit.committed_at", ">", afterDate.toISOString());
+}
+
+export async function getCommitDiagnosesByCommitIds(
+  commitIds: string[]
+): Promise<CommitDiagnosis[]> {
+  return db
+    .from<CommitDiagnosis>(tableName)
+    .select("*")
+    .whereIn("commit_id", commitIds);
 }
