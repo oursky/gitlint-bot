@@ -30,8 +30,8 @@ async function getCommitSubjectLine(commit: Commit): Promise<string> {
 }
 
 async function createTopCommitsBlock(topCommits: CommitWithDiagnoses[]) {
-  const header =
-    "*Top 10 commit messages with highest lint violation scores:*\n";
+  const commitCount = topCommits.length;
+  const header = `*Top ${commitCount} commit messages with highest lint violation scores:*\n`;
   const messageBody = (
     await Promise.all(
       topCommits.map(async (commit) => {
@@ -58,7 +58,8 @@ export async function sendSlackSummary({
   const summaryHeaderBlock = createMarkdownSection(
     "Weekly commit message lint summary (Published on Friday at 5pm)"
   );
-  const topCommitsBlock = await createTopCommitsBlock(topCommits);
+  const filteredTopCommits = topCommits.filter((commit) => commit.score > 0);
+  const topCommitsBlock = await createTopCommitsBlock(filteredTopCommits);
   await webhook.send({
     blocks: [summaryHeaderBlock, dividerBlock, topCommitsBlock],
   });
