@@ -1,5 +1,7 @@
 import { IncomingWebhook } from "@slack/webhook";
 import { CommitWithDiagnoses } from "./db";
+import { parseCommit } from "./lint/parser";
+import { Commit } from "./db/models/Commit";
 import { SLACK_WEBHOOK_URL } from "./config";
 import { SectionBlock, DividerBlock } from "@slack/types";
 
@@ -22,23 +24,31 @@ function createMarkdownSection(text: string): SectionBlock {
   };
 }
 
-function createTopCommitsBlock(topCommits: CommitWithDiagnoses[]) {
+async function getCommitSubjectLine(commit: Commit): Promise<string> {
+  const parsedCommit = await parseCommit(commit.message);
+  return parsedCommit.header;
+}
+
+async function createTopCommitsBlock(topCommits: CommitWithDiagnoses[]) {
   const header =
     "*Top 10 commit messages with highest lint violation scores:*\n";
-  const messageBody = topCommits
-    .map((commit) => {
-      const paddedScore = String(commit.score).padEnd(3, " ");
-      const shortId = commit.id.slice(0, 8);
+  const messageBody = (
+    await Promise.all(
+      topCommits.map(async (commit) => {
+        const subjectLine = await getCommitSubjectLine(commit);
+        const paddedScore = String(commit.score).padEnd(3, " ");
+        const shortId = commit.id.slice(0, 8);
 
-      const messageComponents: string[] = [
-        `• Score: ${paddedScore} | ${commit.repo_name}: <${commit.url}|${shortId}>`,
-      ];
-      commit.diagnoses.forEach((diagnosis) => {
-        messageComponents.push(`\t• \`${diagnosis.rule}\``);
-      });
-      return messageComponents.join("\n");
-    })
-    .join("\n");
+        const messageComponents: string[] = [
+          `• Score: ${paddedScore} | ${commit.repo_name}@<${commit.url}|${shortId}> | "${subjectLine}"`,
+        ];
+        commit.diagnoses.forEach((diagnosis) => {
+          messageComponents.push(`\t• \`${diagnosis.rule}\``);
+        });
+        return messageComponents.join("\n");
+      })
+    )
+  ).join("\n");
   return createMarkdownSection(header + messageBody);
 }
 
@@ -48,7 +58,7 @@ export async function sendSlackSummary({
   const summaryHeaderBlock = createMarkdownSection(
     "Weekly commit message lint summary (Published on Friday at 5pm)"
   );
-  const topCommitsBlock = createTopCommitsBlock(topCommits);
+  const topCommitsBlock = await createTopCommitsBlock(topCommits);
   await webhook.send({
     blocks: [summaryHeaderBlock, dividerBlock, topCommitsBlock],
   });
