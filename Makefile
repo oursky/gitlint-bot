@@ -5,7 +5,6 @@ APP_IMAGE_REPO=oursky/gitlint-bot
 APP_IMAGE_LATEST=${APP_IMAGE_REPO}:latest
 APP_IMAGE_SHA=${APP_IMAGE_REPO}:${SHORT_SHA}
 
-
 ci:
 	@echo "Install dependencies"
 	@npm ci

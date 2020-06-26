@@ -1,3 +1,6 @@
+import { setupSentry } from "./sentry";
+setupSentry();
+
 import { Application } from "probot";
 import { onPush } from "./listeners";
 import { slackJob } from "./jobs";
