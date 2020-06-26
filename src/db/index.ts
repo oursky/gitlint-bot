@@ -101,7 +101,7 @@ export interface CommitWithDiagnoses extends Commit {
 }
 
 export async function getTopCommitsWithDiagnoses(
-  afterDate: Date = new Date(0),
+  afterDate: Date,
   limitCount = 10
 ): Promise<CommitWithDiagnoses[]> {
   const commits = await getTopCommitsAfterDate(afterDate, limitCount);
