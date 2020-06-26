@@ -86,6 +86,7 @@ export async function saveCommit(commitInfo: CommitInfo): Promise<void> {
             commit_id: commit.id,
             rule: violation.ruleName,
             data: violation.violation,
+            score: violation.score,
           },
           trx
         );

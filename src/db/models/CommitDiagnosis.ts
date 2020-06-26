@@ -8,6 +8,7 @@ export interface CommitDiagnosis {
   commit_id: string;
   rule: string;
   data: Record<string, unknown>;
+  score: number;
 }
 
 export async function createCommitDiagnosis(
