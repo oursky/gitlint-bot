@@ -1,0 +1,8 @@
+apiVersion: v1
+data:
+  SLACK_DAY_INTERVAL: {{ .Values.configmap.SLACK_DAY_INTERVAL | quote }}
+  SLACK_CRON_PATTERN: {{ .Values.configmap.SLACK_CRON_PATTERN | quote }}
+kind: ConfigMap
+metadata:
+  name: config
+  namespace: {{ .Values.namespace | quote }}
