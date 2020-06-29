@@ -1,61 +1,65 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "gitlint-bot.fullname" . }}
   labels:
-    {{- include "gitlint-bot.labels" . | nindent 4 }}
+    app: "{{ .Values.appName }}"
+    version: "{{ .Values.appVersion }}"
+  name: "{{ .Values.appName }}"
+  namespace: "{{ .Values.namespace }}"
 spec:
-{{- if not .Values.autoscaling.enabled }}
-  replicas: {{ .Values.replicaCount }}
-{{- end }}
+  replicas: { { .Values.replicaCount } }
   selector:
     matchLabels:
-      {{- include "gitlint-bot.selectorLabels" . | nindent 6 }}
+      app: "{{ .Values.appName }}"
   template:
     metadata:
-    {{- with .Values.podAnnotations }}
-      annotations:
-        {{- toYaml . | nindent 8 }}
-    {{- end }}
       labels:
-        {{- include "gitlint-bot.selectorLabels" . | nindent 8 }}
+        app: "{{ .Values.appName }}"
+        version: "{{ .Values.appVersion }}"
     spec:
-      {{- with .Values.imagePullSecrets }}
-      imagePullSecrets:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      serviceAccountName: {{ include "gitlint-bot.serviceAccountName" . }}
-      securityContext:
-        {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
-        - name: {{ .Chart.Name }}
-          securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: "{{ .Values.appName }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default . }}"
           ports:
-            - name: http
-              containerPort: 80
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-      {{- with .Values.nodeSelector }}
-      nodeSelector:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.affinity }}
-      affinity:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
-      {{- with .Values.tolerations }}
-      tolerations:
-        {{- toYaml . | nindent 8 }}
-      {{- end }}
+            - containerPort: 3000
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: DB_URL
+            - name: APP_ID
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: APP_ID
+            - name: PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: PRIVATE_KEY
+            - name: WEBHOOK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: WEBHOOK_SECRET
+            - name: SLACK_WEBHOOK_URL
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: SLACK_WEBHOOK_URL
+            - name: SLACK_CRON_PATTERN
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: SLACK_CRON_PATTERN
+            - name: SLACK_DAY_INTERVAL
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: SLACK_DAY_INTERVAL
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: SENTRY_DSN
