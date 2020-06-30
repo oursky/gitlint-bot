@@ -37,5 +37,9 @@ jobs:
         uses: azure/setup-helm@v1
         with:
           version: '3.2.4'
+      - name: Install blackbox CLI
+        run: |
+          git clone --branch stable --depth 1 https://github.com/StackExchange/blackbox.git "$HOME/.blackbox"
+          echo "::add-path::$HOME/.blackbox/bin"
       - name: Run deploy task
         run: make deploy

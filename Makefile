@@ -38,6 +38,5 @@ deploy-chart:
 		--install 
 
 decrypt-blackbox:
-	@git clone --branch stable --depth 1 https://github.com/StackExchange/blackbox.git "${HOME}/.blackbox" && export PATH="${HOME}/.blackbox/bin:${PATH}"
 	@echo "${OURSKY_FASENG_GPG}" | gpg --import
 	@blackbox_postdeploy
