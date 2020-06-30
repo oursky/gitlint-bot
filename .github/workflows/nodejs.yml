@@ -23,6 +23,7 @@ jobs:
       GKE_ZONE: ${{ secrets.GKE_ZONE }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+      OURSKY_FASENG_GPG: ${{ secrets.OURSKY_FASENG_GPG }}
     steps:
       - uses: actions/checkout@v2
       - name: Setup gcloud CLI

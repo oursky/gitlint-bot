@@ -1,4 +1,4 @@
-.PHONY: deploy-image deploy run-migrations configure-docker ci
+.PHONY: deploy-image deploy configure-docker ci decrypt-blackbox
 
 SHORT_SHA=$(shell git rev-parse --short=7 HEAD)
 APP_IMAGE_REPO=oursky/gitlint-bot
@@ -17,7 +17,7 @@ ci:
 	@echo "Build project"
 	@npm run build
 
-deploy: configure-docker deploy-image run-migrations
+deploy: decrypt-blackbox configure-docker deploy-image
 	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml
 	@kubectl -n gitlint-bot set image deployment/gitlint-bot-production gitlint-bot-production=${APP_IMAGE_SHA}
 
@@ -29,7 +29,7 @@ deploy-image:
 	@docker push ${APP_IMAGE_LATEST}
 	@docker push ${APP_IMAGE_SHA}
 
-run-migrations:
-	@kubectl -n gitlint-bot delete job/gitlint-bot-db-migrations --ignore-not-found
-	@kubectl -n gitlint-bot apply -f ./deploy/migrations-job.yaml
-	@kubectl -n gitlint-bot wait --for=condition=complete job/gitlint-bot-db-migrations --timeout=30s
+decrypt-blackbox:
+	@git clone --branch stable --depth 1 https://github.com/StackExchange/blackbox.git "${HOME}/.blackbox" && export PATH="${HOME}/.blackbox/bin:${PATH}"
+	@echo "${OURSKY_FASENG_GPG}" | gpg --import
+	@blackbox_postdeploy
