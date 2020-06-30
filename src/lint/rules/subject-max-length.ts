@@ -1,7 +1,7 @@
 import { RuleCheckResults } from "./";
 import { Commit } from "lint/parser";
 
-const maxLength = 50;
+const maxLength = 80;
 
 export default {
   name: "subject-max-length",
