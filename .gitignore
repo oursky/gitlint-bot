@@ -11,4 +11,3 @@ tsconfig.tsbuildinfo
 /.blackbox/pubring.gpg~
 /.blackbox/pubring.kbx~
 /.blackbox/secring.gpg
-/deploy/helm/values.yaml
