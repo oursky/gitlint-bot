@@ -37,6 +37,8 @@ deploy-chart:
 		--set image.tag=${SHORT_SHA} \
 		--install 
 
+
+
 decrypt-blackbox:
-	@echo "${OURSKY_FASENG_GPG}" | gpg --import
+	@echo "$$OURSKY_FASENG_GPG" | gpg --import
 	@blackbox_postdeploy
