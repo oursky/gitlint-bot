@@ -17,7 +17,7 @@ ci:
 	@echo "Build project"
 	@npm run build
 
-deploy: decrypt-blackbox configure-docker deploy-image deploy-chart
+deploy: | decrypt-blackbox configure-docker deploy-image deploy-chart
 
 configure-docker: 
 	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
