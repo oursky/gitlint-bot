@@ -1,0 +1,24 @@
+replicaCount: 1
+appName: gitlint-bot-production
+appVersion: latest
+image:
+  repository: oursky/gitlint-bot
+  tag: "latest"
+service:
+  type: ClusterIP
+ingress:
+  annotations:
+    {
+      ingress.kubernetes.io/proxy-body-size: 10m,
+      kubernetes.io/tls-acme: "true",
+    }
+configmap:
+  SLACK_DAY_INTERVAL: "7"
+  SLACK_CRON_PATTERN: "0 17 * * *"
+secrets:
+  APP_ID: ""
+  DB_URL: ""
+  PRIVATE_KEY: ""
+  WEBHOOK_SECRET: ""
+  SLACK_WEBHOOK_URL: ""
+  SENTRY_DSN: ""

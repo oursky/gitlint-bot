@@ -1,4 +1,4 @@
-.PHONY: deploy-image deploy run-migrations configure-docker ci
+.PHONY: deploy-image deploy configure-docker ci decrypt-blackbox deploy-chart
 
 SHORT_SHA=$(shell git rev-parse --short=7 HEAD)
 APP_IMAGE_REPO=oursky/gitlint-bot
@@ -17,9 +17,7 @@ ci:
 	@echo "Build project"
 	@npm run build
 
-deploy: configure-docker deploy-image run-migrations
-	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml
-	@kubectl -n gitlint-bot set image deployment/gitlint-bot-production gitlint-bot-production=${APP_IMAGE_SHA}
+deploy: | decrypt-blackbox configure-docker deploy-image deploy-chart
 
 configure-docker: 
 	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
@@ -29,7 +27,17 @@ deploy-image:
 	@docker push ${APP_IMAGE_LATEST}
 	@docker push ${APP_IMAGE_SHA}
 
-run-migrations:
-	@kubectl -n gitlint-bot delete job/gitlint-bot-db-migrations --ignore-not-found
-	@kubectl -n gitlint-bot apply -f ./deploy/migrations-job.yaml
-	@kubectl -n gitlint-bot wait --for=condition=complete job/gitlint-bot-db-migrations --timeout=30s
+deploy-chart:
+	@helm upgrade gitlint-bot deploy/helm \
+		--cleanup-on-fail \
+		-n gitlint-bot \
+		-f deploy/helm/values.yaml \
+		-f deploy/helm/pandawork.values.yaml \
+		--set appVersion=${SHORT_SHA} \
+		--set image.tag=${SHORT_SHA} \
+		--install 
+
+decrypt-blackbox:
+	@git clone --branch stable --depth 1 https://github.com/StackExchange/blackbox.git "${HOME}/.blackbox" && export PATH="${HOME}/.blackbox/bin:${PATH}"
+	@echo "${OURSKY_FASENG_GPG}" | gpg --import
+	@blackbox_postdeploy
