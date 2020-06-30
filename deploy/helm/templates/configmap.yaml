@@ -6,3 +6,5 @@ kind: ConfigMap
 metadata:
   name: config
   namespace: {{ .Values.namespace | quote }}
+  labels:
+    {{- include "gitlint-bot.labels" . | nindent 4 }}
