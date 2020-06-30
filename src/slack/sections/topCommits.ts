@@ -14,12 +14,10 @@ export async function createTopCommitsSection(
         const shortId = commit.id.slice(0, 8);
 
         const messageComponents: string[] = [
-          `• <${commit.url}|${commit.repo_name}@${shortId}> | total score: ${commit.score}\n\t\`${subjectLine}\``,
+          `• <${commit.url}|${commit.repo_name}@${shortId}> | \`${subjectLine}\``,
         ];
         commit.diagnoses.forEach((diagnosis) => {
-          messageComponents.push(
-            `\t• \`${diagnosis.rule}\` | score: ${diagnosis.score}`
-          );
+          messageComponents.push(`\t•${diagnosis.rule}`);
         });
         return messageComponents.join("\n");
       })
