@@ -22,7 +22,9 @@ deploy: decrypt-blackbox configure-docker deploy-image
 		--cleanup-on-fail \
 		-n gitlint-bot \
 		-f deploy/helm/values.yaml \
+		-f deploy/helm/pandawork.values.yaml \
 		--set appVersion=${SHORT_SHA} \
+		--set image.tag=${SHORT_SHA} \
 		--install 
 
 configure-docker: 
