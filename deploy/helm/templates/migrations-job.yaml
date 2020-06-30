@@ -1,0 +1,24 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: gitlint-bot-db-migrations
+  labels:
+    {{- include "gitlint-bot.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": "pre-upgrade,pre-install"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  ttlSecondsAfterFinished: 100
+  template:
+    spec:
+      containers:
+        - name: gitlint-bot-db-migrations
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          command: ["npm", "run", "migrations"]
+          env:
+            - name: DB_URL
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: DB_URL
+      restartPolicy: OnFailure
