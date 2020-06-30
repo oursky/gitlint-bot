@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: "{{ .Values.appName }}"
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default "latest" }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.appVersion | default "latest" }}"
           ports:
             - containerPort: 3000
           env:

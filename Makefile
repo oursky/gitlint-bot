@@ -18,8 +18,12 @@ ci:
 	@npm run build
 
 deploy: decrypt-blackbox configure-docker deploy-image
-	@kubectl -n gitlint-bot apply -f ./deploy/k8s-deployment.yaml
-	@kubectl -n gitlint-bot set image deployment/gitlint-bot-production gitlint-bot-production=${APP_IMAGE_SHA}
+	@helm upgrade gitlint-bot deploy/helm \
+		--cleanup-on-fail \
+		-n gitlint-bot \
+		-f deploy/helm/values.yaml \
+		--set appVersion=${SHORT_SHA} \
+		--install 
 
 configure-docker: 
 	@echo "${DOCKER_PASSWORD}" | docker login -u ${DOCKER_USERNAME} --password-stdin
