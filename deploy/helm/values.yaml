@@ -14,7 +14,7 @@ ingress:
     }
 configmap:
   SLACK_DAY_INTERVAL: "7"
-  SLACK_CRON_PATTERN: "0 17 * * *"
+  SLACK_CRON_PATTERN: "0 17 * * 5"
 secrets:
   APP_ID: ""
   DB_URL: ""
