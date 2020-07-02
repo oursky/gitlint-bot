@@ -14,7 +14,7 @@ spec:
       containers:
         - name: gitlint-bot-db-migrations
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          command: ["npm", "run", "migrations"]
+          command: ["npm", "run", "migrate"]
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           env:
