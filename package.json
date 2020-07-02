@@ -34,11 +34,11 @@
     "node-cron": "2.0.3",
     "pg": "8.2.1",
     "probot": "9.11.3",
-    "ts-node": "8.10.2",
-    "typescript": "3.9.3",
     "tslib": "2.0.0"
   },
   "devDependencies": {
+    "ts-node": "8.10.2",
+    "typescript": "3.9.3",
     "@oursky/eslint-plugin": "3.1.0",
     "@slack/types": "1.7.0",
     "@types/jest": "25.2.3",
