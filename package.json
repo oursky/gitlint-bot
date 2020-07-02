@@ -21,7 +21,8 @@
     "lint-fix": "eslint 'src/**/*.ts' --fix",
     "check-format": "prettier 'src/**/*.ts' -l",
     "format": "prettier 'src/**/*.ts' --write",
-    "migrations": "knex migrate:latest --knexfile=src/db/knexfile.ts",
+    "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
+    "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts",
     "test": "jest",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
