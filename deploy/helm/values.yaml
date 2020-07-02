@@ -22,3 +22,10 @@ secrets:
   WEBHOOK_SECRET: ""
   SLACK_WEBHOOK_URL: ""
   SENTRY_DSN: ""
+resources:
+  limits:
+    cpu: 100m
+    memory: 64Mi
+  requests:
+    cpu: 100m
+    memory: 64Mi

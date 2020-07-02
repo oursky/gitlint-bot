@@ -23,6 +23,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           ports:
             - containerPort: 3000
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
           env:
             - name: DB_URL
               valueFrom:
