@@ -1,14 +1,6 @@
-FROM node:12 as builder
+FROM node:12-alpine as app
 WORKDIR /app
 COPY ./package*.json ./
 RUN npm ci
-COPY . ./
-RUN npm run build
-
-FROM node:12 as app
-WORKDIR /app
-COPY . ./
-COPY --from=builder /app/lib ./lib
-RUN npm ci
 EXPOSE 3000
-ENTRYPOINT [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "dev" ]
