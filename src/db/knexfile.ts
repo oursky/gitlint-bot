@@ -37,7 +37,8 @@ const config = {
     migrations: {
       tableName: "knex_migrations",
       directory: "./migrations",
-      extension: "js",
+      extension: "ts",
+      loadExtensions: [".js"],
     },
   },
   production: {
@@ -46,7 +47,8 @@ const config = {
     migrations: {
       tableName: "knex_migrations",
       directory: "./migrations",
-      extension: "js",
+      extension: "ts",
+      loadExtensions: [".js"],
     },
   },
 } as KnexConfigs;
