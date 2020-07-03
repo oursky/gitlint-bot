@@ -14,6 +14,7 @@ function getEnvInteger(varName: string): number {
   return parsedValue;
 }
 
+export const SLACK_SIGNING_SECRET = getEnvString("SLACK_SIGNING_SECRET");
 export const SLACK_CRON_PATTERN = getEnvString("SLACK_CRON_PATTERN");
 export const SLACK_WEBHOOK_URL = getEnvString("SLACK_WEBHOOK_URL");
 export const SLACK_DAY_INTERVAL = getEnvInteger("SLACK_DAY_INTERVAL");
