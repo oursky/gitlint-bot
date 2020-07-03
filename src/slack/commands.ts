@@ -42,7 +42,7 @@ interface SlackReqBody {
 /**
  * Endpoint for summary slash command
  *
- * Usage: `/gitlint-summary [duration (default: {SLACK_DAY_INTERVAL} days)]`
+ * Usage: `/COMMAND-NAME [duration (default: {SLACK_DAY_INTERVAL} days)]`
  */
 router.post("/summary", async (req: Request) => {
   const { text } = req.body as SlackReqBody;
