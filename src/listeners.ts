@@ -1,7 +1,7 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
 import { lintCommitMessage } from "./lint";
-import { Commit as GithubCommit } from "types/github";
+import { Commit as GithubCommit } from "./types/github";
 import { CommitInfo, saveCommit } from "./db";
 import { addInvocationBreadcrumb } from "./sentry";
 

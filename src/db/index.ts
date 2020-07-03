@@ -1,5 +1,5 @@
 import { ViolationInfo } from "../lint";
-import { CommitUser } from "types/github";
+import { CommitUser } from "../types/github";
 import {
   createCommitDiagnosis,
   getCommitDiagnosesByCommitIds,
