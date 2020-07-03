@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import validateSlackRequest from "validate-slack-request";
 import Sentry from "../sentry";
 import { summaryJob } from "./jobs";
-import { SLACK_SIGNING_SECRET } from "../config";
+import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../config";
 
 const router = express.Router();
 
@@ -42,14 +42,15 @@ interface SlackReqBody {
 /**
  * Endpoint for summary slash command
  *
- * Usage: `/gitlint-summary [duration (default: 7 days)]`
+ * Usage: `/gitlint-summary [duration (default: {SLACK_DAY_INTERVAL} days)]`
  */
 router.post("/summary", async (req: Request) => {
   const { text } = req.body as SlackReqBody;
-  const parsedDuration = Number(text.trim());
-  if (!Number.isNaN(parsedDuration)) {
-    await summaryJob(parsedDuration);
+  let duration = Number(text);
+  if (Number.isNaN(duration)) {
+    duration = SLACK_DAY_INTERVAL;
   }
+  await summaryJob(duration);
 });
 
 export default router;

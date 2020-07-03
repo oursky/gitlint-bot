@@ -12,5 +12,6 @@ export async function summaryJob(
   const topCommits = await getTopCommitsWithDiagnoses(afterDate);
   await sendSlackSummary({
     topCommits,
+    durationDays,
   });
 }
