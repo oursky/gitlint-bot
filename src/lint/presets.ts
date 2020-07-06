@@ -3,12 +3,20 @@ import {
   subjectMaxLength,
   subjectMinLength,
   subjectCapitalizeFirst,
-  subjectNoEndPeriod,
+  subjectNoTrailingPunctuation,
+  subjectNoTrailingWhitespace,
+  subjectNoHardTab,
+  bodyMaxLineLength,
+  bodyNoTrailingWhitespace,
 } from "./rules";
 
 export const defaultPreset: RulesPreset = [
   subjectMaxLength,
   subjectMinLength,
   subjectCapitalizeFirst,
-  subjectNoEndPeriod,
+  subjectNoTrailingPunctuation,
+  subjectNoTrailingWhitespace,
+  subjectNoHardTab,
+  bodyMaxLineLength,
+  bodyNoTrailingWhitespace,
 ];

@@ -1,0 +1,1 @@
+this commit subject has no trailing whitespace
