@@ -1,18 +1,18 @@
 import express, { Request, Response, NextFunction } from "express";
-import validateSlackRequest from "validate-slack-request";
+import { validateSlackRequest } from "./utils";
 import Sentry from "../sentry";
 import { summaryJob } from "./jobs";
 import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../config";
 
 const router = express.Router();
 
-const slackValidationMiddleware = (
+const slackValidationMiddleware = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const valid = validateSlackRequest(SLACK_SIGNING_SECRET, req);
+    const valid = await validateSlackRequest(SLACK_SIGNING_SECRET, req);
     if (valid) {
       next();
     } else {

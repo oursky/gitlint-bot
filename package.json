@@ -30,14 +30,15 @@
     "@commitlint/parse": "8.3.4",
     "@sentry/integrations": "5.17.0",
     "@sentry/node": "5.17.0",
+    "@slack/events-api": "2.3.3",
     "@slack/webhook": "5.0.3",
     "express": "4.17.1",
     "knex": "0.21.1",
     "node-cron": "2.0.3",
     "pg": "8.2.1",
     "probot": "9.11.3",
-    "tslib": "2.0.0",
-    "validate-slack-request": "0.1.4"
+    "raw-body": "2.4.1",
+    "tslib": "2.0.0"
   },
   "devDependencies": {
     "@oursky/eslint-plugin": "3.1.0",
