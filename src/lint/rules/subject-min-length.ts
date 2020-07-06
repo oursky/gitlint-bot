@@ -1,5 +1,5 @@
 import { RuleCheckResults } from "./";
-import { Commit } from "lint/parser";
+import { Commit } from "../parser";
 
 const minLength = 10;
 

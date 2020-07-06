@@ -1,4 +1,4 @@
-import { Commit } from "lint/parser";
+import { Commit } from "../parser";
 export { default as subjectCapitalizeFirst } from "./subject-capitalize-first";
 export { default as subjectMaxLength } from "./subject-max-length";
 export { default as subjectMinLength } from "./subject-min-length";

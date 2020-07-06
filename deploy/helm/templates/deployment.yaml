@@ -61,6 +61,11 @@ spec:
                 configMapKeyRef:
                   name: config
                   key: SLACK_DAY_INTERVAL
+            - name: SLACK_SIGNING_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: config
+                  key: SLACK_SIGNING_SECRET
             - name: SENTRY_DSN
               valueFrom:
                 secretKeyRef:

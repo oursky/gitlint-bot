@@ -6,14 +6,16 @@ import { createTopCommitsSection } from "./sections/topCommits";
 
 interface SendSlackSummaryParams {
   topCommits: CommitWithDiagnoses[];
+  durationDays: number;
 }
 const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
 export async function sendSlackSummary({
   topCommits,
+  durationDays,
 }: SendSlackSummaryParams): Promise<void> {
   const summaryHeaderSection = createMarkdownSection(
-    "Weekly commit message lint summary (Published on Friday at 5pm)"
+    `Commit message lint summary for past ${durationDays} days`
   );
   const filteredTopCommits = topCommits.filter((commit) => commit.score > 0);
   const topCommitsSection = await createTopCommitsSection(filteredTopCommits);
