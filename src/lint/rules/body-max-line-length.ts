@@ -15,7 +15,7 @@ export default {
       .split("\n")
       .map((line, idx) => ({
         length: [...line].length,
-        idx,
+        idx: idx + 1,
       }))
       .filter((line) => line.length > maxLength);
 
