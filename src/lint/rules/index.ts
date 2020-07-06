@@ -5,6 +5,7 @@ export { default as subjectMinLength } from "./subject-min-length";
 export { default as subjectNoTrailingPunctuation } from "./subject-no-trailing-punctuation";
 export { default as subjectNoTrailingWhitespace } from "./subject-no-trailing-whitespace";
 export { default as subjectNoHardTab } from "./subject-no-hard-tab";
+export { default as bodyMaxLineLength } from "./body-max-line-length";
 
 export type RulesPreset = Rule[];
 export interface Rule {

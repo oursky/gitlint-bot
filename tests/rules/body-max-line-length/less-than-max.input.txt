@@ -1,0 +1,4 @@
+This is a sample commit subject
+
+This line is less than 80 characters
+so is this

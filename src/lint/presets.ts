@@ -6,6 +6,7 @@ import {
   subjectNoTrailingPunctuation,
   subjectNoTrailingWhitespace,
   subjectNoHardTab,
+  bodyMaxLineLength,
 } from "./rules";
 
 export const defaultPreset: RulesPreset = [
@@ -15,4 +16,5 @@ export const defaultPreset: RulesPreset = [
   subjectNoTrailingPunctuation,
   subjectNoTrailingWhitespace,
   subjectNoHardTab,
+  bodyMaxLineLength,
 ];
