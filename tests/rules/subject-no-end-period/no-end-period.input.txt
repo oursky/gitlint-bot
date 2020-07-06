@@ -1,3 +1,0 @@
-This commit subject has no end period
-
-But the body does.

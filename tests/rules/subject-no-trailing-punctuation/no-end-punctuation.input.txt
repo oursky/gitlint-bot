@@ -1,0 +1,3 @@
+This commit subject has no end punctuation
+
+But the body does!
