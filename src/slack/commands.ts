@@ -1,5 +1,9 @@
 import express, { Request, Response, NextFunction } from "express";
-import { validateSlackRequest } from "./utils";
+import {
+  validateSlackRequest,
+  asyncMiddleware,
+  RequestWithRawBody,
+} from "./utils";
 import Sentry from "../sentry";
 import { summaryJob } from "./jobs";
 import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../config";
@@ -7,7 +11,7 @@ import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../config";
 const router = express.Router();
 
 const slackValidationMiddleware = async (
-  req: Request,
+  req: RequestWithRawBody,
   res: Response,
   next: NextFunction
 ) => {
@@ -25,8 +29,15 @@ const slackValidationMiddleware = async (
 };
 
 // needed to parse 'application/x-www-form-urlencoded' slack payload
-router.use(express.urlencoded({ extended: true }));
-router.use(slackValidationMiddleware);
+router.use(
+  express.urlencoded({
+    extended: true,
+    verify: (req: RequestWithRawBody, _, buf) => {
+      req.rawBody = buf;
+    },
+  })
+);
+router.use(asyncMiddleware(slackValidationMiddleware));
 
 // https://api.slack.com/interactivity/slash-commands#app_command_handling
 interface SlackReqBody {
@@ -44,12 +55,16 @@ interface SlackReqBody {
  *
  * Usage: `/COMMAND-NAME [duration (default: {SLACK_DAY_INTERVAL} days)]`
  */
-router.post("/summary", async (req: Request) => {
+router.post("/summary", async (req: Request, res: Response) => {
   const { text } = req.body as SlackReqBody;
   let duration = Number(text);
   if (Number.isNaN(duration)) {
     duration = SLACK_DAY_INTERVAL;
   }
+  res.json({
+    response_type: "ephemeral",
+    text: "Posting commit summary message...",
+  });
   await summaryJob(duration);
 });
 
