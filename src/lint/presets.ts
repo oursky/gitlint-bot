@@ -5,6 +5,7 @@ import {
   subjectCapitalizeFirst,
   subjectNoEndPeriod,
   subjectNoTrailingWhitespace,
+  subjectNoHardTab,
 } from "./rules";
 
 export const defaultPreset: RulesPreset = [
@@ -13,4 +14,5 @@ export const defaultPreset: RulesPreset = [
   subjectCapitalizeFirst,
   subjectNoEndPeriod,
   subjectNoTrailingWhitespace,
+  subjectNoHardTab,
 ];

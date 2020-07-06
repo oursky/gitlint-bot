@@ -4,6 +4,7 @@ export { default as subjectMaxLength } from "./subject-max-length";
 export { default as subjectMinLength } from "./subject-min-length";
 export { default as subjectNoEndPeriod } from "./subject-no-end-period";
 export { default as subjectNoTrailingWhitespace } from "./subject-no-trailing-whitespace";
+export { default as subjectNoHardTab } from "./subject-no-hard-tab";
 
 export type RulesPreset = Rule[];
 export interface Rule {
