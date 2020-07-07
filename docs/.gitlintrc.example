@@ -1,0 +1,10 @@
+preset: default # optional, defaults to "default" preset
+rules:
+	subject-no-trailing-whitespace: 
+		- never # rule condition, is never used
+	body-max-line-length:
+		- always # rule condition, always used for commits from this repo
+		- 100 # rule option, can be any value
+	subject-max-length:
+		- always
+		- 100
