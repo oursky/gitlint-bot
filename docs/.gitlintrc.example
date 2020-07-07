@@ -1,0 +1,12 @@
+preset: default # optional, defaults to "default" preset
+rules:
+	subject-no-trailing-whitespace: 
+		- off # disables the rule (can be on/off)
+	body-max-line-length:
+		- on 
+		- 10  # violation score
+		- 100 # rule argument, can be any value
+	subject-max-length:
+		- off
+		- null # uses default rule score
+		- 100
