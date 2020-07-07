@@ -5,7 +5,7 @@ import { Application } from "probot";
 import { onPush } from "./listeners";
 import { summaryJob } from "./slack/jobs";
 import slackCommandsRoutes from "./slack/commands";
-import { SLACK_CRON_PATTERN } from "./config";
+import { SLACK_CRON_PATTERN } from "./env";
 import cron from "node-cron";
 
 export = (app: Application) => {
