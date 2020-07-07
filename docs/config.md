@@ -31,9 +31,9 @@ Here is the type definition for `RuleConfig`:
 ```typescript
 type RuleLevel = "on" | "off";
 type RuleScore = number | null;
-type RuleArgs = any;
+type RuleArgs = any[];
 
-type RuleConfig = [RuleLevel?, RuleScore?, RuleArgs?];
+type RuleConfig = [RuleLevel, RuleScore?, ...RuleArgs];
 ```
 
 - `RuleLevel`: Enables the rule when set to "on", otherwise disables it.
