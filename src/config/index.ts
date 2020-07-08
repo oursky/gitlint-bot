@@ -30,8 +30,15 @@ export async function getConfig(
   if (typeof error !== "undefined") return defaultPreset;
   const preset = presets[config.preset ?? "default"];
   const rules = config.rules ?? {};
-  return {
-    ...preset,
-    ...rules,
-  };
+  const mergedRules = { ...preset };
+  for (const [ruleName, ruleConfig] of Object.entries(rules)) {
+    if (typeof mergedRules[ruleName] === "undefined") {
+      mergedRules[ruleName] = ruleConfig;
+      continue;
+    }
+    ruleConfig.forEach((configElement, idx) => {
+      mergedRules[ruleName][idx] = configElement as unknown;
+    });
+  }
+  return mergedRules;
 }
