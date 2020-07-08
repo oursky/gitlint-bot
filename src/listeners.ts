@@ -1,6 +1,6 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
-import { getConfig } from "./config/index";
+import { getConfigFromGithub } from "./config/index";
 import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "./types/github";
 import { CommitInfo, saveCommit } from "./db";
@@ -39,7 +39,7 @@ export async function onPush(
   const { commits, repository, ref } = context.payload;
 
   const repoName = repository.full_name;
-  const config = await getConfig(context.github, repoName, ref);
+  const config = await getConfigFromGithub(context.github, repoName, ref);
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
       context.log.info(

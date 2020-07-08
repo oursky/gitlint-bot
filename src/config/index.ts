@@ -1,12 +1,12 @@
 import { Octokit } from "probot";
-import { loadConfig } from "./loader";
+import { loadConfigFromGithub } from "./loader";
 import ConfigSchema, { Config, RulesConfig } from "./schema";
 import presets, { defaultPreset } from "../lint/presets";
 
 const configFileName = ".gitlintrc";
 const extensions = ["", ".yaml", ".yml"];
 
-export async function getConfig(
+export async function getConfigFromGithub(
   apiClient: Octokit,
   repoFullName: string,
   ref: string
@@ -17,7 +17,7 @@ export async function getConfig(
 
   for (const extension of extensions) {
     const path = configFileName + extension;
-    config = (await loadConfig(apiClient, {
+    config = (await loadConfigFromGithub(apiClient, {
       path,
       owner,
       repo,

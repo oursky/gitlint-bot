@@ -9,7 +9,7 @@ interface RepoInfo {
   path: string;
 }
 
-export async function loadConfig(
+export async function loadConfigFromGithub(
   apiClient: Octokit,
   { owner, repo, ref, path }: RepoInfo
 ): // eslint-disable-next-line @typescript-eslint/ban-types
