@@ -11,19 +11,19 @@ export async function getConfig(
 ): Promise<void> {
   const owner = repoFullName.split("/")[0];
   const repo = repoFullName.split("/")[1];
-  let fileContents = null;
+  let config = null;
 
   for (const extension of extensions) {
     const path = configFileName + extension;
-    fileContents = await loadConfig(apiClient, {
+    config = await loadConfig(apiClient, {
       path,
       owner,
       repo,
       ref,
     });
-    if (fileContents === null) {
+    if (config === null) {
       continue;
     }
   }
-  console.log(fileContents);
+  console.log(config);
 }

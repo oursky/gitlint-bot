@@ -1,5 +1,6 @@
 import { Octokit } from "probot";
 import Sentry from "../sentry";
+import { safeLoad } from "js-yaml";
 
 interface RepoInfo {
   owner: string;
@@ -11,7 +12,7 @@ interface RepoInfo {
 export async function loadConfig(
   apiClient: Octokit,
   { owner, repo, ref, path }: RepoInfo
-): Promise<null | string> {
+): Promise<null | Record<string, unknown>> {
   try {
     const response = await apiClient.repos.getContents({
       path,
@@ -28,7 +29,11 @@ export async function loadConfig(
       return null;
     }
     const buf = Buffer.from(data.content, "base64");
-    return buf.toString("utf8");
+    const fileString = buf.toString("utf8");
+    const parsed = safeLoad(fileString);
+    if (typeof parsed === "object") {
+      return parsed as Record<string, unknown>;
+    }
   } catch (err) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
     if (err.status !== 404) Sentry.captureException(err);
