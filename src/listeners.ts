@@ -5,23 +5,29 @@ import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "./types/github";
 import { CommitInfo, saveCommit } from "./db";
 import { addInvocationBreadcrumb } from "./sentry";
+import { RulesConfig } from "./config/schema";
+
+interface ProcessCommitInfo {
+  commit: GithubCommit;
+  repoName: string;
+}
 
 async function processCommit(
-  githubCommit: GithubCommit,
-  repoName: string
+  { commit, repoName }: ProcessCommitInfo,
+  config: RulesConfig
 ): Promise<CommitInfo> {
-  const message = githubCommit.message;
-  const { score, violations } = await lintCommitMessage(message);
+  const message = commit.message;
+  const { score, violations } = await lintCommitMessage(message, config);
   return {
     commit: {
-      id: githubCommit.id,
-      timestamp: githubCommit.timestamp,
+      id: commit.id,
+      timestamp: commit.timestamp,
       message,
       score,
       violations,
-      url: githubCommit.url,
+      url: commit.url,
     },
-    author: githubCommit.author,
+    author: commit.author,
     repoName,
   };
 }
@@ -33,7 +39,7 @@ export async function onPush(
   const { commits, repository, ref } = context.payload;
 
   const repoName = repository.full_name;
-  await getConfig(context.github, repoName, ref);
+  const config = await getConfig(context.github, repoName, ref);
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
       context.log.info(
@@ -43,7 +49,7 @@ export async function onPush(
         },
         "received a new commit"
       );
-      return processCommit(commit, repoName);
+      return processCommit({ commit, repoName }, config);
     })
   );
   for (const commitInfo of commitInfos) {

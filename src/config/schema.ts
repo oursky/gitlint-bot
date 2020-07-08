@@ -3,12 +3,13 @@ import Joi from "@hapi/joi";
 type RuleLevel = "on" | "off";
 type RuleScore = number | null;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type RuleArgs = any[];
+export type RuleArgs = any[];
 type RuleConfig = [RuleLevel, RuleScore?, ...RuleArgs];
+export type RulesConfig = Record<string, RuleConfig>;
 
 export interface Config {
-  preset: "default";
-  rules: Record<string, RuleConfig>;
+  preset?: "default";
+  rules?: Record<string, RuleConfig>;
 }
 
 const schema = Joi.object<Config>({

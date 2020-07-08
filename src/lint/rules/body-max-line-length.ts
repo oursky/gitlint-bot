@@ -1,12 +1,10 @@
 import { RuleCheckResults } from "./";
 import { Commit } from "../parser";
 
-const maxLength = 80;
-
 export default {
   name: "body-max-line-length",
   score: 5,
-  check: (commit: Commit): RuleCheckResults => {
+  check: (commit: Commit, maxLength: number = 80): RuleCheckResults => {
     const body = commit.body;
     if (body === null) {
       return null;
