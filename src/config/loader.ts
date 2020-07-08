@@ -12,7 +12,8 @@ interface RepoInfo {
 export async function loadConfig(
   apiClient: Octokit,
   { owner, repo, ref, path }: RepoInfo
-): Promise<null | Record<string, unknown>> {
+): // eslint-disable-next-line @typescript-eslint/ban-types
+Promise<null | object> {
   try {
     const response = await apiClient.repos.getContents({
       path,
@@ -32,7 +33,7 @@ export async function loadConfig(
     const fileString = buf.toString("utf8");
     const parsed = safeLoad(fileString);
     if (typeof parsed === "object") {
-      return parsed as Record<string, unknown>;
+      return parsed;
     }
   } catch (err) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

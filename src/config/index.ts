@@ -1,5 +1,6 @@
 import { Octokit } from "probot";
 import { loadConfig } from "./loader";
+import ConfigSchema, { Config } from "./schema";
 
 const configFileName = ".gitlintrc";
 const extensions = ["", ".yaml", ".yml"];
@@ -8,7 +9,7 @@ export async function getConfig(
   apiClient: Octokit,
   repoFullName: string,
   ref: string
-): Promise<void> {
+): Promise<Config | null> {
   const owner = repoFullName.split("/")[0];
   const repo = repoFullName.split("/")[1];
   let config = null;
@@ -21,9 +22,10 @@ export async function getConfig(
       repo,
       ref,
     });
-    if (config === null) {
-      continue;
-    }
+    if (config !== null) break;
   }
-  console.log(config);
+  if (config === null) return null;
+  const { error } = ConfigSchema.validate(config);
+  if (typeof error !== "undefined") return null;
+  return config as Config;
 }
