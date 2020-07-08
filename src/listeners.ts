@@ -1,5 +1,6 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
+import { getConfig } from "./config/index";
 import { lintCommitMessage } from "./lint";
 import { Commit as GithubCommit } from "./types/github";
 import { CommitInfo, saveCommit } from "./db";
@@ -29,17 +30,20 @@ export async function onPush(
   context: Context<Webhooks.WebhookPayloadPush>
 ): Promise<void> {
   addInvocationBreadcrumb("'onPush' Github Webhook push event handler");
-  const { commits, repository } = context.payload;
+  const { commits, repository, ref } = context.payload;
+
+  const repoName = repository.full_name;
+  await getConfig(context.github, repoName, ref);
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
       context.log.info(
         {
-          repoName: repository.full_name,
+          repoName: repoName,
           hash: commit.id,
         },
         "received a new commit"
       );
-      return processCommit(commit, repository.full_name);
+      return processCommit(commit, repoName);
     })
   );
   for (const commitInfo of commitInfos) {
