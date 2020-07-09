@@ -11,8 +11,10 @@ export async function getConfigFromGithub(
   repoFullName: string,
   ref: string
 ): Promise<RulesConfig> {
-  const owner = repoFullName.split("/")[0];
-  const repo = repoFullName.split("/")[1];
+  const splitName = repoFullName.split("/");
+  if (splitName.length === 1) return defaultPreset;
+  const owner = splitName[0];
+  const repo = splitName[1];
   let config = null;
 
   for (const extension of extensions) {
