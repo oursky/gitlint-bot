@@ -15,13 +15,13 @@ export interface LintResult {
 
 export async function lintCommitMessage(
   commitMessage: string,
-  config: RulesPreset = defaultPreset
+  preset: RulesPreset = defaultPreset
 ): Promise<LintResult> {
   const commit = await parseCommit(commitMessage);
   let score = 0;
   const violations = [];
 
-  for (const [ruleName, ruleConfig] of Object.entries(config)) {
+  for (const [ruleName, ruleConfig] of Object.entries(preset)) {
     const rule = rules[ruleName];
     if (typeof rule === "undefined" || ruleConfig[0] === "off") {
       continue;

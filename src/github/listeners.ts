@@ -15,10 +15,10 @@ interface ProcessCommitInfo {
 
 async function processCommit(
   { commit, repoName }: ProcessCommitInfo,
-  config: RulesPreset
+  preset: RulesPreset
 ): Promise<CommitInfo> {
   const message = commit.message;
-  const { score, violations } = await lintCommitMessage(message, config);
+  const { score, violations } = await lintCommitMessage(message, preset);
   return {
     commit: {
       id: commit.id,
