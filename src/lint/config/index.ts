@@ -1,5 +1,6 @@
-import { safeLoad, YAMLException } from "js-yaml";
+import { safeLoad } from "js-yaml";
 import ConfigSchema, { Config, RulesPreset } from "./schema";
+import { ConfigValidationError } from "./errors";
 import presets, { defaultPreset, defaultPresetName } from "../presets";
 
 export const configFileName = ".gitlintrc";
@@ -10,21 +11,17 @@ export type FileLoader = (path: string) => Promise<string | null>;
 export async function discoverConfig(
   fileLoader: FileLoader
 ): Promise<Config | null> {
-  let config = null;
   for (const extension of configFileExtensions) {
     const path = configFileName + extension;
     const configString = await fileLoader(path);
     if (configString === null) continue;
-    try {
-      config = safeLoad(configString);
-    } catch (err) {
-      if (err === YAMLException) continue;
-    }
-    if (typeof config === "object") break;
+    const config = safeLoad(configString);
+    if (typeof config !== "object") continue;
+    const { error } = ConfigSchema.validate(config);
+    if (typeof error !== "undefined") throw new ConfigValidationError(path);
+    return config;
   }
-  const { error } = ConfigSchema.validate(config);
-  if (typeof error !== "undefined") return null;
-  return config as Config | null;
+  return null;
 }
 
 // eslint-disable-next-line

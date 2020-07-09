@@ -1,6 +1,8 @@
 import { applyPresets, discoverConfig } from "./";
 import { RulesPreset } from "./schema";
 import { defaultPreset } from "../presets";
+import { YAMLException } from "js-yaml";
+import { ConfigValidationError } from "./errors";
 
 describe("'applyPresets' function", () => {
   describe("when null config is passed", () => {
@@ -80,22 +82,22 @@ describe("'discoverConfig' function", () => {
   });
 
   describe("when file loader returns invalid YAML", () => {
-    it("should return null", async () => {
+    it("should throw a YAMLException", async () => {
       const fileLoader = jest.fn();
       fileLoader.mockReturnValue(Promise.resolve("- : this is invalid yaml"));
-      const config = await discoverConfig(fileLoader);
-      expect(config).toBeNull();
+      await expect(discoverConfig(fileLoader)).rejects.toThrow(YAMLException);
     });
   });
 
   describe("when file loader returns invalid config string", () => {
-    it("should return null", async () => {
+    it("should throw a ConfigValidationError", async () => {
       const fileLoader = jest.fn();
       fileLoader.mockReturnValue(
         Promise.resolve("preset: this is not a valid preset")
       );
-      const config = await discoverConfig(fileLoader);
-      expect(config).toBeNull();
+      await expect(discoverConfig(fileLoader)).rejects.toThrow(
+        new ConfigValidationError(".gitlintrc")
+      );
     });
   });
 });

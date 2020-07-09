@@ -41,7 +41,12 @@ export async function onPush(
 
   const repoName = repository.full_name;
   const fileLoader = createGithubFileLoader(context.github, ref, repoName);
-  const config = await discoverConfig(fileLoader);
+  let config = null;
+  try {
+    config = await discoverConfig(fileLoader);
+  } catch (err) {
+    context.log.error(err);
+  }
   const rulesPreset = applyPresets(config);
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
