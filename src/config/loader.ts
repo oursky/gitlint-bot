@@ -1,5 +1,4 @@
 import { Octokit } from "probot";
-import Sentry from "../sentry";
 import { safeLoad } from "js-yaml";
 
 interface RepoInfo {
@@ -37,7 +36,7 @@ Promise<null | object> {
     }
   } catch (err) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (err.status !== 404) Sentry.captureException(err);
+    if (err.status !== 404) throw err;
   }
   return null;
 }
