@@ -58,7 +58,7 @@ interface SlackReqBody {
 router.post("/summary", async (req: Request, res: Response) => {
   const { text } = req.body as SlackReqBody;
   let duration = Number(text);
-  if (Number.isNaN(duration)) {
+  if (Number.isNaN(duration) || text.trim().length === 0) {
     duration = SLACK_DAY_INTERVAL;
   }
   res.json({
