@@ -17,7 +17,7 @@ export async function createTopCommitsSection(
           `• <${commit.url}|${commit.repo_name}@${shortId}> | \`${subjectLine}\``,
         ];
         commit.diagnoses.forEach((diagnosis) => {
-          messageComponents.push(`\t•${diagnosis.rule}`);
+          messageComponents.push(`\t• ${diagnosis.rule}`);
         });
         return messageComponents.join("\n");
       })
