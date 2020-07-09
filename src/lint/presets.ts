@@ -1,5 +1,6 @@
 import { RulesConfig } from "../config/schema";
 
+export const DEFAULT_PRESET_NAME = "default";
 export const defaultPreset: RulesConfig = {
   "body-max-line-length": ["on", null, 80],
   "body-no-trailing-whitespace": ["on", null],
@@ -12,7 +13,7 @@ export const defaultPreset: RulesConfig = {
 };
 
 const presets = {
-  default: defaultPreset,
+  [DEFAULT_PRESET_NAME]: defaultPreset,
 };
 
 export default presets;

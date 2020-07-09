@@ -1,7 +1,7 @@
 import { Octokit } from "probot";
 import { loadConfigFromGithub } from "./loader";
 import ConfigSchema, { Config, RulesConfig } from "./schema";
-import presets, { defaultPreset } from "../lint/presets";
+import presets, { defaultPreset, DEFAULT_PRESET_NAME } from "../lint/presets";
 
 const configFileName = ".gitlintrc";
 const extensions = ["", ".yaml", ".yml"];
@@ -30,7 +30,7 @@ export async function getConfigFromGithub(
   if (config === null) return defaultPreset;
   const { error } = ConfigSchema.validate(config);
   if (typeof error !== "undefined") return defaultPreset;
-  const preset = presets[config.preset ?? "default"];
+  const preset = presets[config.preset ?? DEFAULT_PRESET_NAME];
   const rules = config.rules ?? {};
   const mergedRules = { ...preset };
   for (const [ruleName, ruleConfig] of Object.entries(rules)) {
