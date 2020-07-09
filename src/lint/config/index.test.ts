@@ -1,26 +1,11 @@
-import { Octokit } from "probot";
-import { getConfigFromGithub } from "./";
+import { applyPresets } from "./";
+import { Config, RulesPreset } from "./schema";
 import { defaultPreset } from "../presets";
-import * as loader from "../../load-config";
 
-const client = new Octokit();
-const sampleRepoName = "oursky/gitlint-bot";
-const masterRef = "refs/heads/master";
-
-describe("'getConfigFromGithub' function", () => {
-  describe("when repository full name is invalid", () => {
-    it("should return the default preset", async () => {
-      const emptyString = await getConfigFromGithub(client, "", masterRef);
-      const noSlash = await getConfigFromGithub(client, "test", masterRef);
-      expect(emptyString).toEqual(defaultPreset);
-      expect(noSlash).toEqual(noSlash);
-    });
-  });
-
-  describe("when loaded config is invalid", () => {
-    it("should return the default preset", async () => {
-      const mock = jest.spyOn(loader, "loadConfigFromGithub");
-      const invalidReturns = [
+describe("'applyPresets' function", () => {
+  describe("when config is invalid", () => {
+    it("should return the default preset", () => {
+      const invalidConfigs = [
         null,
         {
           a: 1,
@@ -37,54 +22,33 @@ describe("'getConfigFromGithub' function", () => {
           },
         },
       ];
-      for (const invalidReturn of invalidReturns) {
-        mock.mockReturnValue(Promise.resolve(invalidReturn));
-        const config = await getConfigFromGithub(
-          client,
-          sampleRepoName,
-          masterRef
-        );
-        expect(config).toEqual(defaultPreset);
+      for (const invalidConfig of invalidConfigs) {
+        const preset = applyPresets(invalidConfig as Config);
+        expect(preset).toEqual(defaultPreset);
       }
     });
   });
 
-  describe("when loaded config has an empty rule map", () => {
-    it("should return the default preset", async () => {
-      const mock = jest.spyOn(loader, "loadConfigFromGithub");
-      mock.mockReturnValue(
-        Promise.resolve({
-          preset: "default",
-          rules: {},
-        })
-      );
-      const config = await getConfigFromGithub(
-        client,
-        sampleRepoName,
-        masterRef
-      );
-      expect(config).toEqual(defaultPreset);
+  describe("when config rule map is empty", () => {
+    it("should return the default preset", () => {
+      const preset = applyPresets({
+        preset: "default",
+        rules: {},
+      });
+      expect(preset).toEqual(defaultPreset);
     });
   });
 
-  describe("when loaded config modifies existing rules in default preset", () => {
-    it("should merge modifications with default preset", async () => {
-      const mock = jest.spyOn(loader, "loadConfigFromGithub");
-      mock.mockReturnValue(
-        Promise.resolve({
-          preset: "default",
-          rules: {
-            "body-max-line-length": ["off"],
-            "subject-max-length": ["on", 100, 100],
-          },
-        })
-      );
-      const config = await getConfigFromGithub(
-        client,
-        sampleRepoName,
-        masterRef
-      );
-      expect(config).toEqual({
+  describe("when config modifies existing rules in default preset", () => {
+    it("should merge modifications with default preset", () => {
+      const preset = applyPresets({
+        preset: "default",
+        rules: {
+          "body-max-line-length": ["off"],
+          "subject-max-length": ["on", 100, 100],
+        },
+      });
+      expect(preset).toEqual({
         ...defaultPreset,
         "body-max-line-length": ["off", null, 80],
         "subject-max-length": ["on", 100, 100],
@@ -92,24 +56,16 @@ describe("'getConfigFromGithub' function", () => {
     });
   });
 
-  describe("when loaded config adds rules not in default preset", () => {
-    it("should merge default preset rules with new rules", async () => {
+  describe("when config adds rules not in default preset", () => {
+    it("should merge default preset rules with new rules", () => {
       const newRules = {
         "my-new-rule": ["on", 5, 200, 200],
         "my-new-rule-2": ["on", 100, 100],
-      };
-      const mock = jest.spyOn(loader, "loadConfigFromGithub");
-      mock.mockReturnValue(
-        Promise.resolve({
-          preset: "default",
-          rules: newRules,
-        })
-      );
-      const config = await getConfigFromGithub(
-        client,
-        sampleRepoName,
-        masterRef
-      );
+      } as RulesPreset;
+      const config = applyPresets({
+        preset: "default",
+        rules: newRules,
+      });
       expect(config).toEqual({
         ...defaultPreset,
         ...newRules,

@@ -1,7 +1,6 @@
 import { Octokit } from "probot";
 import { safeLoad } from "js-yaml";
 import { Config } from "../lint/config/schema";
-import { defaultPreset } from "../lint/presets";
 import { CONFIG_FILE_NAME, CONFIG_FILE_EXTENSIONS } from "../lint/config";
 
 interface RepoInfo {
@@ -17,7 +16,7 @@ export async function getConfig(
   ref: string
 ): Promise<Config | null> {
   const splitName = repoFullName.split("/");
-  if (splitName.length === 1) return defaultPreset;
+  if (splitName.length === 1) return null;
   const owner = splitName[0];
   const repo = splitName[1];
   let config = null;
