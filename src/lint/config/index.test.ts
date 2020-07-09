@@ -2,7 +2,6 @@ import { applyPresets, discoverConfig } from "./";
 import { RulesPreset } from "./schema";
 import { defaultPreset } from "../presets";
 import { YAMLException } from "js-yaml";
-import { ConfigValidationError } from "./errors";
 
 describe("'applyPresets' function", () => {
   describe("when null config is passed", () => {
@@ -95,9 +94,7 @@ describe("'discoverConfig' function", () => {
       fileLoader.mockReturnValue(
         Promise.resolve("preset: this is not a valid preset")
       );
-      await expect(discoverConfig(fileLoader)).rejects.toThrow(
-        new ConfigValidationError(".gitlintrc")
-      );
+      await expect(discoverConfig(fileLoader)).rejects.toThrow();
     });
   });
 });

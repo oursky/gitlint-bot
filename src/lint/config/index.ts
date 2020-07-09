@@ -18,7 +18,8 @@ export async function discoverConfig(
     const config = safeLoad(configString);
     if (typeof config !== "object") continue;
     const { error } = ConfigSchema.validate(config);
-    if (typeof error !== "undefined") throw new ConfigValidationError(path);
+    if (typeof error !== "undefined")
+      throw new ConfigValidationError(path, error.details);
     return config;
   }
   return null;
