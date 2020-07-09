@@ -1,4 +1,4 @@
-import { applyPresets } from "./";
+import { applyPresets, discoverConfig } from "./";
 import { RulesPreset } from "./schema";
 import { defaultPreset } from "../presets";
 
@@ -65,6 +65,37 @@ describe("'applyPresets' function", () => {
         ...defaultPreset,
         ...newRules,
       });
+    });
+  });
+});
+
+describe("'discoverConfig' function", () => {
+  describe("when file loader returns null", () => {
+    it("should return null", async () => {
+      const fileLoader = jest.fn();
+      fileLoader.mockReturnValue(Promise.resolve(null));
+      const config = await discoverConfig(fileLoader);
+      expect(config).toBeNull();
+    });
+  });
+
+  describe("when file loader returns invalid YAML", () => {
+    it("should return null", async () => {
+      const fileLoader = jest.fn();
+      fileLoader.mockReturnValue(Promise.resolve("- : this is invalid yaml"));
+      const config = await discoverConfig(fileLoader);
+      expect(config).toBeNull();
+    });
+  });
+
+  describe("when file loader returns invalid config string", () => {
+    it("should return null", async () => {
+      const fileLoader = jest.fn();
+      fileLoader.mockReturnValue(
+        Promise.resolve("preset: this is not a valid preset")
+      );
+      const config = await discoverConfig(fileLoader);
+      expect(config).toBeNull();
     });
   });
 });
