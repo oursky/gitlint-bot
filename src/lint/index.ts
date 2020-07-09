@@ -1,6 +1,6 @@
 import rules, { RuleViolation } from "./rules";
 import { parseCommit } from "./parser";
-import { RulesConfig } from "../config/schema";
+import { RulesPreset } from "./config/schema";
 import { defaultPreset } from "./presets";
 
 export interface ViolationInfo {
@@ -15,7 +15,7 @@ export interface LintResult {
 
 export async function lintCommitMessage(
   commitMessage: string,
-  config: RulesConfig = defaultPreset
+  config: RulesPreset = defaultPreset
 ): Promise<LintResult> {
   const commit = await parseCommit(commitMessage);
   let score = 0;

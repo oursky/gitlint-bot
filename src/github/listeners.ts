@@ -1,11 +1,12 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
-import { getConfigFromGithub } from "./config/index";
-import { lintCommitMessage } from "./lint";
-import { Commit as GithubCommit } from "./types/github";
-import { CommitInfo, saveCommit } from "./db";
-import { addInvocationBreadcrumb } from "./sentry";
-import { RulesConfig } from "./config/schema";
+import { getConfig } from "./config";
+import { applyPresets } from "../lint/config";
+import { lintCommitMessage } from "../lint";
+import { Commit as GithubCommit } from "../types/github";
+import { CommitInfo, saveCommit } from "../db";
+import { addInvocationBreadcrumb } from "../sentry";
+import { RulesPreset } from "../lint/config/schema";
 
 interface ProcessCommitInfo {
   commit: GithubCommit;
@@ -14,7 +15,7 @@ interface ProcessCommitInfo {
 
 async function processCommit(
   { commit, repoName }: ProcessCommitInfo,
-  config: RulesConfig
+  config: RulesPreset
 ): Promise<CommitInfo> {
   const message = commit.message;
   const { score, violations } = await lintCommitMessage(message, config);
@@ -39,7 +40,8 @@ export async function onPush(
   const { commits, repository, ref } = context.payload;
 
   const repoName = repository.full_name;
-  const config = await getConfigFromGithub(context.github, repoName, ref);
+  const config = await getConfig(context.github, repoName, ref);
+  const rulesPreset = applyPresets(config);
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {
       context.log.info(
@@ -49,7 +51,7 @@ export async function onPush(
         },
         "received a new commit"
       );
-      return processCommit({ commit, repoName }, config);
+      return processCommit({ commit, repoName }, rulesPreset);
     })
   );
   for (const commitInfo of commitInfos) {

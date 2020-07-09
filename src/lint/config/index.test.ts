@@ -1,7 +1,7 @@
 import { Octokit } from "probot";
 import { getConfigFromGithub } from "./";
-import { defaultPreset } from "../lint/presets";
-import * as loader from "./loader";
+import { defaultPreset } from "../presets";
+import * as loader from "../../load-config";
 
 const client = new Octokit();
 const sampleRepoName = "oursky/gitlint-bot";

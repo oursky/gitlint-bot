@@ -2,7 +2,7 @@ import { setupSentry } from "./sentry";
 setupSentry();
 
 import { Application } from "probot";
-import { onPush } from "./listeners";
+import { onPush } from "./github/listeners";
 import { summaryJob } from "./slack/jobs";
 import slackCommandsRoutes from "./slack/commands";
 import { SLACK_CRON_PATTERN } from "./env";

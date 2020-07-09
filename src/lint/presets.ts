@@ -1,7 +1,7 @@
-import { RulesConfig } from "../config/schema";
+import { RulesPreset } from "./config/schema";
 
 export const DEFAULT_PRESET_NAME = "default";
-export const defaultPreset: RulesConfig = {
+export const defaultPreset: RulesPreset = {
   "body-max-line-length": ["on", null, 80],
   "body-no-trailing-whitespace": ["on", null],
   "subject-capitalize-first": ["on", null],

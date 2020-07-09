@@ -1,5 +1,5 @@
 import { Commit } from "../parser";
-import { RuleArgs } from "../../config/schema";
+import { RuleArgs } from "../config/schema";
 import subjectCapitalizeFirst from "./subject-capitalize-first";
 import subjectMaxLength from "./subject-max-length";
 import subjectMinLength from "./subject-min-length";

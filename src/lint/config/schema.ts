@@ -5,11 +5,11 @@ type RuleScore = number | null;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type RuleArgs = any[];
 type RuleConfig = [RuleLevel, RuleScore?, ...RuleArgs];
-export type RulesConfig = Record<string, RuleConfig>;
+export type RulesPreset = Record<string, RuleConfig>;
 
 export interface Config {
   preset?: "default";
-  rules?: Record<string, RuleConfig>;
+  rules?: RulesPreset;
 }
 
 const schema = Joi.object<Config>({

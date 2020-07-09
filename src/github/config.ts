@@ -1,5 +1,8 @@
 import { Octokit } from "probot";
 import { safeLoad } from "js-yaml";
+import { Config } from "../lint/config/schema";
+import { defaultPreset } from "../lint/presets";
+import { CONFIG_FILE_NAME, CONFIG_FILE_EXTENSIONS } from "../lint/config";
 
 interface RepoInfo {
   owner: string;
@@ -8,7 +11,31 @@ interface RepoInfo {
   path: string;
 }
 
-export async function loadConfigFromGithub(
+export async function getConfig(
+  apiClient: Octokit,
+  repoFullName: string,
+  ref: string
+): Promise<Config | null> {
+  const splitName = repoFullName.split("/");
+  if (splitName.length === 1) return defaultPreset;
+  const owner = splitName[0];
+  const repo = splitName[1];
+  let config = null;
+
+  for (const extension of CONFIG_FILE_EXTENSIONS) {
+    const path = CONFIG_FILE_NAME + extension;
+    config = (await loadConfig(apiClient, {
+      path,
+      owner,
+      repo,
+      ref,
+    })) as Config | null;
+    if (config !== null) break;
+  }
+  return config;
+}
+
+async function loadConfig(
   apiClient: Octokit,
   { owner, repo, ref, path }: RepoInfo
 ): // eslint-disable-next-line @typescript-eslint/ban-types
