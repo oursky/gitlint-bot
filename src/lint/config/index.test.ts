@@ -94,7 +94,9 @@ describe("'discoverConfig' function", () => {
       fileLoader.mockReturnValue(
         Promise.resolve("preset: this is not a valid preset")
       );
-      await expect(discoverConfig(fileLoader)).rejects.toThrow();
+      await expect(discoverConfig(fileLoader)).rejects.toThrow(
+        "error validating config schema in '.gitlintrc':\n\"preset\" must be [default]"
+      );
     });
   });
 });
