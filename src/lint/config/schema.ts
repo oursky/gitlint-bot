@@ -1,5 +1,5 @@
 import Joi from "@hapi/joi";
-import { DEFAULT_PRESET_NAME } from "../presets";
+import { defaultPresetName } from "../presets";
 
 type RuleLevel = "on" | "off";
 type RuleScore = number | null;
@@ -14,7 +14,7 @@ export interface Config {
 }
 
 const schema = Joi.object<Config>({
-  preset: Joi.string().valid(DEFAULT_PRESET_NAME),
+  preset: Joi.string().valid(defaultPresetName),
   rules: Joi.object().pattern(
     /^/,
     Joi.array()

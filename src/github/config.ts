@@ -1,7 +1,7 @@
 import { Octokit } from "probot";
 import { safeLoad } from "js-yaml";
 import { Config } from "../lint/config/schema";
-import { CONFIG_FILE_NAME, CONFIG_FILE_EXTENSIONS } from "../lint/config";
+import { configFileName, configFileExtensions } from "../lint/config";
 
 interface RepoInfo {
   owner: string;
@@ -21,8 +21,8 @@ export async function getConfig(
   const repo = splitName[1];
   let config = null;
 
-  for (const extension of CONFIG_FILE_EXTENSIONS) {
-    const path = CONFIG_FILE_NAME + extension;
+  for (const extension of configFileExtensions) {
+    const path = configFileName + extension;
     config = (await loadConfig(apiClient, {
       path,
       owner,
