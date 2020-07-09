@@ -1,7 +1,7 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
-import { getConfig } from "./config";
-import { applyPresets } from "../lint/config";
+import { createGithubFileLoader } from "./config";
+import { discoverConfig, applyPresets } from "../lint/config";
 import { lintCommitMessage } from "../lint";
 import { Commit as GithubCommit } from "../types/github";
 import { CommitInfo, saveCommit } from "../db";
@@ -40,7 +40,8 @@ export async function onPush(
   const { commits, repository, ref } = context.payload;
 
   const repoName = repository.full_name;
-  const config = await getConfig(context.github, repoName, ref);
+  const fileLoader = createGithubFileLoader(context.github, ref, repoName);
+  const config = await discoverConfig(fileLoader);
   const rulesPreset = applyPresets(config);
   const commitInfos = await Promise.all(
     commits.map(async (commit: GithubCommit) => {

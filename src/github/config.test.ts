@@ -1,16 +1,26 @@
 import { Octokit } from "probot";
-import { getConfig } from "./config";
+import { createGithubFileLoader } from "./config";
 
 const client = new Octokit();
 const masterRef = "refs/heads/master";
 
-describe("'getConfig' function", () => {
+describe("'createGithubFileLoader' function", () => {
   describe("when repository full name is invalid", () => {
-    it("should return null", async () => {
-      const emptyString = await getConfig(client, "", masterRef);
-      const noSlash = await getConfig(client, "test", masterRef);
-      expect(emptyString).toBeNull();
-      expect(noSlash).toBeNull();
+    it("should return a file loader that returns null", async () => {
+      const emptyStringFileLoader = createGithubFileLoader(
+        client,
+        "",
+        masterRef
+      );
+      const noSlashFileLoader = createGithubFileLoader(
+        client,
+        "test",
+        masterRef
+      );
+      const emptyStringResult = await emptyStringFileLoader(".gitlintrc");
+      const noSlashResult = await noSlashFileLoader(".gitlintrc");
+      expect(emptyStringResult).toBeNull();
+      expect(noSlashResult).toBeNull();
     });
   });
 });

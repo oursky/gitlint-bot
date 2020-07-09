@@ -1,31 +1,12 @@
 import { applyPresets } from "./";
-import { Config, RulesPreset } from "./schema";
+import { RulesPreset } from "./schema";
 import { defaultPreset } from "../presets";
 
 describe("'applyPresets' function", () => {
-  describe("when config is invalid", () => {
+  describe("when null config is passed", () => {
     it("should return the default preset", () => {
-      const invalidConfigs = [
-        null,
-        {
-          a: 1,
-          b: 1,
-        },
-        {
-          preset: "default",
-          rules: null,
-        },
-        {
-          preset: "default",
-          rules: {
-            "sample-rule": [],
-          },
-        },
-      ];
-      for (const invalidConfig of invalidConfigs) {
-        const preset = applyPresets(invalidConfig as Config);
-        expect(preset).toEqual(defaultPreset);
-      }
+      const preset = applyPresets(null);
+      expect(preset).toEqual(defaultPreset);
     });
   });
 
