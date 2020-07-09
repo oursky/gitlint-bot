@@ -39,6 +39,20 @@ describe("'applyPresets' function", () => {
     });
   });
 
+  describe("when no preset name is provided", () => {
+    it("should use the default preset", () => {
+      const preset = applyPresets({
+        rules: {
+          "subject-max-length": ["on", 100, 100],
+        },
+      });
+      expect(preset).toEqual({
+        ...defaultPreset,
+        "subject-max-length": ["on", 100, 100],
+      });
+    });
+  });
+
   describe("when config modifies existing rules in default preset", () => {
     it("should merge modifications with default preset", () => {
       const preset = applyPresets({
