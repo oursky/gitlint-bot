@@ -6,7 +6,7 @@ import {
 } from "./utils";
 import Sentry from "../sentry";
 import { summaryJob } from "./jobs";
-import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../config";
+import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../env";
 
 const router = express.Router();
 

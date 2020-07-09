@@ -1,5 +1,5 @@
 import { sendSlackSummary } from "./index";
-import { SLACK_DAY_INTERVAL } from "../config";
+import { SLACK_DAY_INTERVAL } from "../env";
 import { getTopCommitsWithDiagnoses } from "../db";
 
 const msInDay = 86400000; // 24 * 60 * 60 * 1000 milliseconds in 1 day

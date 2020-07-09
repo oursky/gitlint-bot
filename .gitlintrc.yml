@@ -1,0 +1,6 @@
+preset: default
+rules:
+  body-max-line-length:
+    - on
+    - 10
+    - 100

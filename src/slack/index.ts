@@ -1,6 +1,6 @@
 import { IncomingWebhook } from "@slack/webhook";
 import { CommitWithDiagnoses } from "../db";
-import { SLACK_WEBHOOK_URL } from "../config";
+import { SLACK_WEBHOOK_URL } from "../env";
 import { createMarkdownSection, dividerBlock } from "./utils";
 import { createTopCommitsSection } from "./sections/topCommits";
 
