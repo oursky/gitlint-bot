@@ -1,6 +1,6 @@
 # gitlint-bot
 
-gitlint-bot is a Github App that lints commit messages against custom rules and periodically posts a summary of these anlyses in a Slack channel.
+gitlint-bot is a Github App that lints commit messages against custom rules and periodically posts a summary of these analyses in a Slack channel.
 
 The goal of this App is to promote better and more consistent commit message style among developers in an organization.
 
