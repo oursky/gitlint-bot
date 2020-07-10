@@ -12,3 +12,4 @@ tsconfig.tsbuildinfo
 /.blackbox/pubring.kbx~
 /.blackbox/secring.gpg
 /deploy/helm/pandawork.values.yaml
+.DS_Store

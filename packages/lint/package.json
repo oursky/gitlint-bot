@@ -1,0 +1,44 @@
+{
+  "name": "@gitlint-bot/lint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf lib && rimraf tsconfig.build.tsbuildinfo",
+    "compile": "tsc -b tsconfig.build.json",
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oursky/gitlint-bot.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/oursky/gitlint-bot/issues"
+  },
+  "homepage": "https://github.com/oursky/gitlint-bot#readme",
+  "dependencies": {
+    "@commitlint/parse": "9.1.1",
+    "@hapi/joi": "17.1.1",
+    "js-yaml": "3.14.0",
+    "tslib": "2.0.0"
+  },
+  "devDependencies": {
+    "@oursky/eslint-plugin": "3.1.0",
+    "@types/hapi__joi": "17.1.3",
+    "@types/jest": "25.2.3",
+    "@types/js-yaml": "3.12.5",
+    "eslint": "7.1.0",
+    "eslint-config-prettier": "6.11.0",
+    "eslint-plugin-prettier": "3.1.3",
+    "fast-check": "1.24.2",
+    "jest": "26.0.1",
+    "prettier": "2.0.5",
+    "ts-jest": "26.0.0",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.3",
+    "rimraf": "3.0.2"
+  }
+}
