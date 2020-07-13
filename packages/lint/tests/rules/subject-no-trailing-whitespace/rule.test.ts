@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../../src/lint/rules/subject-no-trailing-whitespace";
+import rule from "../../../src/rules/subject-no-trailing-whitespace";
 import { assertRuleCheck } from "../helper";
 
 describe("'subject-no-trailing-whitespace' rule", () => {

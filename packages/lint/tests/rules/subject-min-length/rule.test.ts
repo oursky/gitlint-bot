@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../../src/lint/rules/subject-min-length";
+import rule from "../../../src/rules/subject-min-length";
 import { assertRuleCheck } from "../helper";
 
 describe("'subject-min-length' rule", () => {

@@ -13,7 +13,7 @@
     "probot-app"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "lerna bootstrap",
     "build:watch": "tsc && (tsc -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
     "start": "probot run ./lib/index.js",
@@ -23,7 +23,7 @@
     "format": "prettier 'src/**/*.ts' --write",
     "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
     "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts",
-    "test": "jest",
+    "test": "lerna run test",
     "test:watch": "jest --watch --notify --notifyMode=change --coverage"
   },
   "dependencies": {

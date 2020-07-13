@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../../src/lint/rules/body-max-line-length";
+import rule from "../../../src/rules/body-max-line-length";
 import { assertRuleCheck } from "../helper";
 
 describe("'body-max-line-length' rule", () => {

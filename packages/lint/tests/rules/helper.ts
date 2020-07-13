@@ -1,8 +1,8 @@
 import fs from "fs";
 import path from "path";
 
-import { RuleCheckFunc, RuleViolation } from "../../src/lint/rules";
-import { parseCommit } from "../../src/lint/parser";
+import { RuleCheckFunc, RuleViolation } from "../../src/rules";
+import { parseCommit } from "../../src/parser";
 
 const INPUT_FILE_EXT = ".input.txt";
 const OUTPUT_FILE_EXT = ".output.json";

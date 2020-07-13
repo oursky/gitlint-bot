@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../../src/lint/rules/subject-max-length";
+import rule from "../../../src/rules/subject-max-length";
 import { assertRuleCheck } from "../helper";
 
 describe("'subject-max-length' rule", () => {

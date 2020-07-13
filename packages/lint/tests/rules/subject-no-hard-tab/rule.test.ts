@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../../src/lint/rules/subject-no-hard-tab";
+import rule from "../../../src/rules/subject-no-hard-tab";
 import { assertRuleCheck } from "../helper";
 
 describe("'subject-no-hard-tab' rule", () => {

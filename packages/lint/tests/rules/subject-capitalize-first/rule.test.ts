@@ -1,5 +1,5 @@
 import path from "path";
-import rule from "../../../src/lint/rules/subject-capitalize-first";
+import rule from "../../../src/rules/subject-capitalize-first";
 import { assertRuleCheck } from "../helper";
 
 describe("'subject-capitalize-first' rule", () => {
