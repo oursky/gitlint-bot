@@ -1,7 +1,7 @@
 import { Request, NextFunction, Response, RequestHandler } from "express";
 import { SectionBlock, DividerBlock } from "@slack/types";
 import { verifyRequestSignature } from "@slack/events-api";
-import { parseCommit } from "../lint/parser";
+import { parseCommit } from "@gitlint-bot/lint/lib/parser";
 import { Commit } from "../db/models/Commit";
 
 export interface RequestWithRawBody extends Request {

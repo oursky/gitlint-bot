@@ -1,12 +1,12 @@
 import { Context } from "probot";
 import Webhooks from "@octokit/webhooks";
 import { createGithubFileLoader } from "./config";
-import { discoverConfig, applyPresets } from "../lint/config";
-import { lintCommitMessage } from "../lint";
+import { discoverConfig, applyPresets } from "@gitlint-bot/lint/lib/config";
+import { lintCommitMessage } from "@gitlint-bot/lint";
 import { Commit as GithubCommit } from "../types/github";
 import { CommitInfo, saveCommit } from "../db";
 import { addInvocationBreadcrumb } from "../sentry";
-import { RulesPreset } from "../lint/config/schema";
+import { RulesPreset } from "@gitlint-bot/lint/lib/config/schema";
 
 interface ProcessCommitInfo {
   commit: GithubCommit;

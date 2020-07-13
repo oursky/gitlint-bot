@@ -1,4 +1,4 @@
-import { ViolationInfo } from "../lint";
+import { ViolationInfo } from "@gitlint-bot/lint";
 import { CommitUser } from "../types/github";
 import {
   createCommitDiagnosis,
