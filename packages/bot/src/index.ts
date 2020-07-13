@@ -8,7 +8,7 @@ import slackCommandsRoutes from "./slack/commands";
 import { SLACK_CRON_PATTERN } from "./env";
 import cron from "node-cron";
 
-export = (app: Application) => {
+export = (app: Application): void => {
   const router = app.route("/");
   router.use("/commands", slackCommandsRoutes);
 

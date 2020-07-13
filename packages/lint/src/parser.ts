@@ -19,7 +19,5 @@ const blankCommit = {
 
 export async function parseCommit(commitMessage: string): Promise<Commit> {
   // @commitlint/parse parser throws error if commit message is empty
-  return commitMessage.trim().length !== 0
-    ? await parse(commitMessage)
-    : blankCommit;
+  return commitMessage.trim().length !== 0 ? parse(commitMessage) : blankCommit;
 }
