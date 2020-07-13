@@ -1,5 +1,6 @@
-export { Commit } from "@commitlint/parse";
-import parse, { Commit } from "@commitlint/parse";
+export { Commit } from "@commitlint/types";
+import { Commit } from "@commitlint/types";
+import parse from "@commitlint/parse";
 
 const blankCommit = {
   raw: "",
