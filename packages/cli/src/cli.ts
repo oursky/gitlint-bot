@@ -29,7 +29,8 @@ const cli = yargs
   .command("install-hook", "Installs gitlint-cli as a git commit-msg hook")
   .command("uninstall-hook", "Uninstalls gitlint commit-msg hook")
   .usage(`Git commit message linter`)
-  .help()
+  .help("help")
+  .alias("h", "help")
   .strict();
 
 export default cli;
