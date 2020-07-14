@@ -20,6 +20,7 @@
     "url": "git+https://github.com/oursky/gitlint-bot.git"
   },
   "scripts": {
+    "start": "node lib/index.js",
     "build": "npm run clean && npm run compile",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "compile": "tsc -b tsconfig.json",
@@ -27,5 +28,13 @@
   },
   "bugs": {
     "url": "https://github.com/oursky/gitlint-bot/issues"
+  },
+  "dependencies": {
+    "yargs": "15.4.1"
+  },
+  "devDependencies": {
+    "@types/node": "14.0.23",
+    "@types/yargs": "15.0.5",
+    "rimraf": "3.0.2"
   }
 }

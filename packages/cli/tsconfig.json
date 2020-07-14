@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.build.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "composite": true,
     "outDir": "./lib",
@@ -9,5 +9,6 @@
     {
       "path": "../lint/tsconfig.json"
     }
-  ]
+  ],
+  "include": ["src/**/*.ts"]
 }
