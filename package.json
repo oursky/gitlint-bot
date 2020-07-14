@@ -14,7 +14,7 @@
   ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "bootstrap:prod": "lerna link && lerna bootstrap -- --production",
+    "bootstrap:prod": "lerna bootstrap -- --production",
     "clean": "lerna clean --yes && lerna run clean && rimraf node_modules",
     "build": "lerna run build --concurrency=1 --stream",
     "lint": "eslint 'packages/*/src/**/*.ts'",
