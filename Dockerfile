@@ -24,7 +24,7 @@ FROM node:12-alpine as app
 WORKDIR /app/packages/bot
 ENV NODE_ENV production
 COPY ./packages/bot/package.json ./
-COPY --from=dependencies /app/packages/bot/node_modules ./
-COPY --from=builder /app/packages/bot/lib ./
+COPY --from=dependencies /app/packages/bot/node_modules ./node_modules/
+COPY --from=builder /app/packages/bot/lib ./lib/
 EXPOSE 3000
 CMD [ "npm", "run", "start" ]
