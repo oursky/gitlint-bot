@@ -22,6 +22,7 @@ RUN npm run bootstrap:prod
 
 FROM node:12-alpine as app
 WORKDIR /app/packages/bot
+ENV NODE_ENV production
 COPY ./packages/bot/package.json ./
 COPY --from=dependencies /app/packages/bot/node_modules ./
 COPY --from=builder /app/packages/bot/lib ./
