@@ -8,7 +8,7 @@ RUN npm ci
 RUN npm run bootstrap
 COPY ./packages/bot/ ./packages/bot/
 COPY ./packages/lint/ ./packages/lint
-COPY ./tsconfig.*.json ./
+COPY ./tsconfig.json ./
 RUN npm run build
 EXPOSE 3000
 WORKDIR /app/packages/bot
