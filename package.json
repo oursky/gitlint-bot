@@ -15,6 +15,7 @@
   "scripts": {
     "bootstrap": "lerna link && lerna bootstrap",
     "bootstrap:prod": "lerna link && lerna bootstrap -- --production",
+    "clean": "lerna clean --yes && lerna run clean && rimraf node_modules",
     "build": "lerna run build --concurrency=1 --stream",
     "lint": "eslint 'packages/*/src/**/*.ts'",
     "lint-fix": "eslint 'packages/*/src/**/*.ts' --fix",
@@ -28,12 +29,14 @@
   "devDependencies": {
     "@oursky/eslint-plugin": "3.1.0",
     "@types/jest": "25.2.3",
-    "lerna": "3.22.1",
-    "typescript": "3.9.3",
+    "@typescript-eslint/parser": "3.6.1",
     "eslint": "7.1.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.3",
-    "prettier": "2.0.5"
+    "lerna": "3.22.1",
+    "prettier": "2.0.5",
+    "rimraf": "3.0.2",
+    "typescript": "3.9.3"
   },
   "engines": {
     "node": ">= 8.3.0"

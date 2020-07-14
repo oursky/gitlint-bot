@@ -8,14 +8,14 @@ APP_IMAGE_SHA=${APP_IMAGE_REPO}:${SHORT_SHA}
 ci:
 	@echo "Install dependencies"
 	@npm ci && npm run bootstrap
+	@echo "Build project"
+	@npm run build
 	@echo "Check code formatting"
 	@npm run check-format
 	@echo "Lint TypeScript"
 	@npm run lint
 	@echo "Run tests"
 	@npm run test
-	@echo "Build project"
-	@npm run build
 
 deploy: | decrypt-blackbox configure-docker deploy-image deploy-chart
 

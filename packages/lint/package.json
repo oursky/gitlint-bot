@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
     "compile": "tsc -b tsconfig.json",
     "test": "jest"
   },
