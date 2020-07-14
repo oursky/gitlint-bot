@@ -7,8 +7,10 @@ coverage
 lib
 .vscode/
 .idea/
+tsconfig.build.tsbuildinfo
 tsconfig.tsbuildinfo
 /.blackbox/pubring.gpg~
 /.blackbox/pubring.kbx~
 /.blackbox/secring.gpg
 /deploy/helm/pandawork.values.yaml
+.DS_Store

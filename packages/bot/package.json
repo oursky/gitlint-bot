@@ -1,0 +1,56 @@
+{
+  "name": "@gitlint-bot/bot",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "build:watch": "tsc -b tsconfig.json && (tsc -b tsconfig.json -w --preserveWatchOutput & nodemon)",
+    "dev": "npm run build:watch",
+    "start": "probot run ./lib/index.js",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "compile": "tsc -b tsconfig.json",
+    "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
+    "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oursky/gitlint-bot.git"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/oursky/gitlint-bot/issues"
+  },
+  "homepage": "https://github.com/oursky/gitlint-bot#readme",
+  "dependencies": {
+    "@sentry/integrations": "5.17.0",
+    "@sentry/node": "5.17.0",
+    "@slack/events-api": "2.3.3",
+    "@slack/webhook": "5.0.3",
+    "express": "4.17.1",
+    "knex": "0.21.1",
+    "node-cron": "2.0.0",
+    "pg": "8.2.1",
+    "probot": "9.11.3",
+    "tslib": "2.0.0",
+    "@gitlint-bot/lint": "1.0.0"
+  },
+  "devDependencies": {
+    "@slack/types": "1.7.0",
+    "@types/express": "4.17.6",
+    "@types/jest": "26.0.4",
+    "@types/nock": "11.1.0",
+    "@types/node": "14.0.5",
+    "@types/node-cron": "2.0.3",
+    "dotenv": "8.2.0",
+    "fast-check": "1.24.2",
+    "nock": "12.0.3",
+    "nodemon": "2.0.4",
+    "rimraf": "3.0.2",
+    "smee-client": "1.1.0",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.3"
+  }
+}

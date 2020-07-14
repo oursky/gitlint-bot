@@ -1,8 +1,12 @@
 module.exports = {
-  roots: ['<rootDir>/src/', '<rootDir>/tests/'],
+  roots: [
+    "<rootDir>/packages/bot/src/",
+    "<rootDir>/packages/lint/tests/",
+    "<rootDir>/packages/lint/src/",
+  ],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    "^.+\\.tsx?$": "ts-jest",
   },
-  testRegex: '(/__tests__/.*|\\.(test|spec))\\.[tj]sx?$',
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node']
-}
+  testRegex: "(/__tests__/.*|\\.(test|spec))\\.[tj]sx?$",
+  moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
+};
