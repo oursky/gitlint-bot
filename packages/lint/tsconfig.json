@@ -3,7 +3,9 @@
   "compilerOptions": {
     "composite": true,
     "outDir": "./lib",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "inlineSources": false,
+    "sourceMap": false
   },
   "exclude": ["tests", "node_modules", "lib"],
   "include": ["src/**/*.ts"]
