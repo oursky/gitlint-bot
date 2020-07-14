@@ -4,14 +4,17 @@
   "description": "",
   "homepage": "https://github.com/oursky/gitlint-bot/tree/master/packages/cli#readme",
   "license": "Apache-2.0",
-  "main": "lib/index.js",
   "directories": {
     "lib": "lib",
     "test": "tests"
   },
   "files": [
-    "lib"
+    "lib",
+    "index.js"
   ],
+  "bin": {
+    "gitlint-cli": "./index.js"
+  },
   "publishConfig": {
     "access": "public"
   },
