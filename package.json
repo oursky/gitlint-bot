@@ -13,7 +13,8 @@
     "probot-app"
   ],
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna link && lerna bootstrap",
+    "bootstrap:prod": "lerna link && lerna bootstrap -- --production",
     "build": "lerna run build --concurrency=1 --stream",
     "lint": "eslint 'packages/*/src/**/*.ts'",
     "lint-fix": "eslint 'packages/*/src/**/*.ts' --fix",

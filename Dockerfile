@@ -1,15 +1,29 @@
 FROM node:12 as builder
 WORKDIR /app
 COPY ./package*.json ./
+COPY ./lerna.json ./
+COPY ./packages/bot/package*.json ./packages/bot/
+COPY ./packages/lint/package*.json ./packages/lint/
 RUN npm ci
-COPY . ./
+RUN npm run bootstrap
+COPY ./packages/bot/ ./packages/bot/
+COPY ./packages/lint/ ./packages/lint
+COPY ./tsconfig.*.json ./
 RUN npm run build
 
-FROM node:12-alpine as app
+FROM node:12-alpine as dependencies
 WORKDIR /app
-ENV NODE_ENV production
 COPY ./package*.json ./
+COPY ./lerna.json ./
+COPY ./packages/bot/package*.json ./packages/bot/
+COPY ./packages/lint/package*.json ./packages/lint/
 RUN npm ci
-COPY --from=builder /app/lib ./lib
+RUN npm run bootstrap:prod
+
+FROM node:12-alpine as app
+WORKDIR /app/packages/bot
+COPY ./packages/bot/package.json ./
+COPY --from=dependencies /app/packages/bot/node_modules ./
+COPY --from=builder /app/packages/bot/lib ./
 EXPOSE 3000
 CMD [ "npm", "run", "start" ]

@@ -6,7 +6,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "build:watch": "tsc && (tsc -w --preserveWatchOutput & nodemon)",
+    "build:watch": "tsc -b tsconfig.build.json && (tsc -b tsconfig.build.json -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
     "start": "probot run ./lib/index.js",
     "clean": "rimraf lib && rimraf tsconfig.build.tsbuildinfo",
