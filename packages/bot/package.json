@@ -11,7 +11,6 @@
     "start": "probot run ./lib/index.js",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "compile": "tsc -b tsconfig.json",
-    "test": "jest",
     "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
     "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts"
   },
@@ -41,17 +40,14 @@
   "devDependencies": {
     "@slack/types": "1.7.0",
     "@types/express": "4.17.6",
-    "@types/jest": "25.2.3",
     "@types/nock": "11.1.0",
     "@types/node": "14.0.5",
     "@types/node-cron": "2.0.3",
     "dotenv": "8.2.0",
     "fast-check": "1.24.2",
-    "jest": "26.0.1",
     "nock": "12.0.3",
     "nodemon": "2.0.4",
     "smee-client": "1.1.0",
-    "ts-jest": "26.0.0",
     "ts-node": "8.10.2",
     "typescript": "3.9.3",
     "rimraf": "3.0.2"

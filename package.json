@@ -13,7 +13,7 @@
     "probot-app"
   ],
   "scripts": {
-    "bootstrap": "lerna link && lerna bootstrap",
+    "bootstrap": "lerna bootstrap",
     "bootstrap:prod": "lerna link && lerna bootstrap -- --production",
     "clean": "lerna clean --yes && lerna run clean && rimraf node_modules",
     "build": "lerna run build --concurrency=1 --stream",
@@ -21,7 +21,7 @@
     "lint-fix": "eslint 'packages/*/src/**/*.ts' --fix",
     "check-format": "prettier 'packages/*/src/**/*.ts' -l",
     "format": "prettier 'packages/*/src/**/*.ts' --write",
-    "test": "lerna run test --concurrency=1 --stream"
+    "test": "jest"
   },
   "dependencies": {
     "tslib": "2.0.0"
@@ -33,9 +33,11 @@
     "eslint": "7.1.0",
     "eslint-config-prettier": "6.11.0",
     "eslint-plugin-prettier": "3.1.3",
+    "jest": "26.1.0",
     "lerna": "3.22.1",
     "prettier": "2.0.5",
     "rimraf": "3.0.2",
+    "ts-jest": "26.1.2",
     "typescript": "3.9.3"
   },
   "engines": {
