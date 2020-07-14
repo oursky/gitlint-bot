@@ -6,11 +6,11 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "build:watch": "tsc -b tsconfig.build.json && (tsc -b tsconfig.build.json -w --preserveWatchOutput & nodemon)",
+    "build:watch": "tsc -b tsconfig.json && (tsc -b tsconfig.json -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
     "start": "probot run ./lib/index.js",
-    "clean": "rimraf lib && rimraf tsconfig.build.tsbuildinfo",
-    "compile": "tsc -b tsconfig.build.json",
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "compile": "tsc -b tsconfig.json",
     "test": "jest",
     "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
     "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts"

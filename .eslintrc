@@ -2,8 +2,7 @@
   "plugins": ["@oursky"],
   "parserOptions": {
     "sourceType": "module",
-    "project": "./tsconfig.json",
-    "tsconfigRootDir": "./"
+    "project": ["tsconfig.json", "packages/*/tsconfig.json"]
   },
   "env": {
     "node": true,

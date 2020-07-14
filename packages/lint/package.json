@@ -6,8 +6,8 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "clean": "rimraf lib && rimraf tsconfig.build.tsbuildinfo",
-    "compile": "tsc -b tsconfig.build.json",
+    "clean": "rimraf lib && rimraf tsconfig.tsbuildinfo",
+    "compile": "tsc -b tsconfig.json",
     "test": "jest"
   },
   "repository": {
