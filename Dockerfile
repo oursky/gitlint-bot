@@ -27,5 +27,7 @@ COPY ./packages/bot/package.json ./
 COPY --from=dependencies /app/packages/bot/node_modules ./node_modules/
 COPY --from=builder /app/packages/bot/lib ./lib/
 COPY --from=builder /app/packages/lint/lib ../lint/lib/
+COPY --from=builder /app/packages/lint/node_modules ../lint/node_modules/
+COPY --from=builder /app/packages/lint/package.json ../lint/
 EXPOSE 3000
 CMD [ "npm", "run", "start" ]
