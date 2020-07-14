@@ -1,0 +1,31 @@
+{
+  "name": "@gitlint-bot/cli",
+  "version": "0.0.0",
+  "description": "",
+  "homepage": "https://github.com/oursky/gitlint-bot/tree/master/packages/cli#readme",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "tests"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oursky/gitlint-bot.git"
+  },
+  "scripts": {
+    "build": "npm run clean && npm run compile",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "compile": "tsc -b tsconfig.json",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/oursky/gitlint-bot/issues"
+  }
+}
