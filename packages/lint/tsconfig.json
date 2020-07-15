@@ -5,7 +5,8 @@
     "outDir": "./lib",
     "rootDir": "./src",
     "inlineSources": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "declaration": true
   },
   "exclude": ["tests", "node_modules", "lib"],
   "include": ["src/**/*.ts"]
