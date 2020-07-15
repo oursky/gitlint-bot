@@ -33,6 +33,8 @@
     "url": "https://github.com/oursky/gitlint-bot/issues"
   },
   "dependencies": {
+    "@oursky/gitlint": "1.0.0",
+    "tslib": "2.0.0",
     "yargs": "15.4.1"
   },
   "devDependencies": {

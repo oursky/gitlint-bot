@@ -9,7 +9,6 @@ yargs
     config: {
       alias: "c",
       description: "path to config file",
-      default: ".gitlintrc",
       type: "string",
     },
     from: {
