@@ -1,19 +1,59 @@
-import cli from "./cli";
-import { CliFlags } from "./types";
+import yargs, { Argv } from "yargs";
 import * as Commands from "./commands";
 
-main(cli.argv);
+const blankBuilder = (_: Argv) => {};
 
-function main(flags: CliFlags) {
-  const commands = flags._;
-  const command = commands[0];
-  if (command === "generate-config") {
-    Commands.generateConfig();
-  } else if (command === "install-hook") {
-    Commands.installHook();
-  } else if (command === "uninstall-hook") {
-    Commands.uninstallHook();
-  } else {
-    Commands.lint(flags);
-  }
-}
+// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+yargs
+  .options({
+    config: {
+      alias: "c",
+      description: "path to config file",
+      default: ".gitlintrc",
+      type: "string",
+    },
+    from: {
+      alias: "f",
+      description: "lower end of commit range to lint",
+      type: "string",
+    },
+    to: {
+      alias: "t",
+      description: "upper end of the commit range to lint",
+      type: "string",
+    },
+    "std-in": {
+      alias: "s",
+      description: "reads and lints commit message from stdin",
+      default: false,
+      type: "boolean",
+    },
+  })
+  .command(
+    "generate-config",
+    "Generates a sample config file",
+    blankBuilder,
+    Commands.generateConfig
+  )
+  .command(
+    "install-hook",
+    "Installs gitlint-cli as a git commit-msg hook",
+    blankBuilder,
+    Commands.installHook
+  )
+  .command(
+    "uninstall-hook",
+    "Uninstalls gitlint commit-msg hook",
+    blankBuilder,
+    Commands.uninstallHook
+  )
+  .command(
+    ["lint", "*"],
+    "Lints commits in git repository",
+    blankBuilder,
+    Commands.lint
+  )
+  .usage("Git commit message linter")
+  .help("help")
+  .alias("h", "help")
+  .strict().argv;
