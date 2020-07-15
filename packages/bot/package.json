@@ -1,5 +1,5 @@
 {
-  "name": "@gitlint-bot/bot",
+  "name": "@oursky/gitlint-bot",
   "private": true,
   "version": "1.0.0",
   "description": "",
@@ -35,7 +35,7 @@
     "pg": "8.2.1",
     "probot": "9.11.3",
     "tslib": "2.0.0",
-    "@gitlint-bot/lint": "1.0.0"
+    "@oursky/gitlint": "1.0.0"
   },
   "devDependencies": {
     "@slack/types": "1.7.0",

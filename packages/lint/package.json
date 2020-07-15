@@ -1,5 +1,5 @@
 {
-  "name": "@gitlint-bot/lint",
+  "name": "@oursky/gitlint",
   "version": "1.0.0",
   "description": "gitlint-bot linter module",
   "main": "lib/index.js",
