@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import getStdin from "get-stdin";
+import readCommits from "@commitlint/read";
 import { LintCommandFlags } from "../types";
 import { lintCommitMessage } from "@oursky/gitlint";
 import { discoverConfig, applyPresets } from "@oursky/gitlint/lib/config";
@@ -34,7 +35,8 @@ async function loadCommitMessages(flags: LintCommandFlags): Promise<string[]> {
     if (message.length === 0) return [];
     return [message];
   }
-  return [];
+  // Reads last commit from .git/COMMIT_EDITMSG
+  return readCommits({ edit: true });
 }
 
 async function lintCommand(flags: LintCommandFlags): Promise<void> {
