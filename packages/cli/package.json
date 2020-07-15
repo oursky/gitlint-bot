@@ -1,5 +1,5 @@
 {
-  "name": "@gitlint-bot/cli",
+  "name": "@oursky/gitlint-cli",
   "version": "0.0.0",
   "description": "",
   "homepage": "https://github.com/oursky/gitlint-bot/tree/master/packages/cli#readme",
