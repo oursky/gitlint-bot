@@ -28,8 +28,8 @@
     "skipLibCheck": true,
     "baseUrl": "./packages",
     "paths": {
-      "@gitlint-bot/lint": ["lint/src"],
-      "@gitlint-bot/bot": ["bot/src"]
+      "@oursky/gitlint": ["lint/src"],
+      "@oursky/gitlint-bot": ["bot/src"]
     }
   },
   "exclude": ["node_modules", "lib"],

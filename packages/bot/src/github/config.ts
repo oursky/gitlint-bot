@@ -1,5 +1,5 @@
 import { Octokit } from "probot";
-import { FileLoader } from "@gitlint-bot/lint/lib/config";
+import { FileLoader } from "@oursky/gitlint/lib/config";
 
 export function createGithubFileLoader(
   apiClient: Octokit,
