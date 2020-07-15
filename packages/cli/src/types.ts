@@ -1,8 +1,8 @@
-export interface CliFlags {
+export interface LintCommandFlags {
   config?: string;
   from?: string;
   to?: string;
-  stdin?: boolean;
+  stdIn?: boolean;
   _: string[];
   $0: string;
 }

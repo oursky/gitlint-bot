@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { CliFlags } from "../types";
+import { LintCommandFlags } from "../types";
 import { discoverConfig, applyPresets } from "@oursky/gitlint/lib/config";
 import { RulesPreset } from "@oursky/gitlint/lib/config/schema";
 
@@ -26,7 +26,7 @@ async function loadPreset(
   return applyPresets(config);
 }
 
-async function lintCommand(flags: CliFlags): Promise<void> {
+async function lintCommand(flags: LintCommandFlags): Promise<void> {
   const preset = await loadPreset(flags.config);
   console.log(preset);
 }

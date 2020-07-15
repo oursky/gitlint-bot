@@ -5,29 +5,6 @@ const blankBuilder = (_: Argv) => {};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
 yargs
-  .options({
-    config: {
-      alias: "c",
-      description: "path to config file",
-      type: "string",
-    },
-    from: {
-      alias: "f",
-      description: "lower end of commit range to lint",
-      type: "string",
-    },
-    to: {
-      alias: "t",
-      description: "upper end of the commit range to lint",
-      type: "string",
-    },
-    "std-in": {
-      alias: "s",
-      description: "reads and lints commit message from stdin",
-      default: false,
-      type: "boolean",
-    },
-  })
   .command(
     "generate-config",
     "Generates a sample config file",
@@ -48,8 +25,30 @@ yargs
   )
   .command(
     ["lint", "*"],
-    "Lints commits in git repository",
-    blankBuilder,
+    'Lints commits in git repository. Reads last commit message from ".git/COMMIT_EDITMSG" by default',
+    {
+      config: {
+        alias: "c",
+        description: "path to config file",
+        type: "string",
+      },
+      from: {
+        alias: "f",
+        description: "lower end of commit range to lint",
+        type: "string",
+      },
+      to: {
+        alias: "t",
+        description: "upper end of the commit range to lint",
+        type: "string",
+      },
+      "std-in": {
+        alias: "s",
+        description: "reads and lints commit message from stdin",
+        default: false,
+        type: "boolean",
+      },
+    },
     Commands.lint // eslint-disable-line @typescript-eslint/no-misused-promises
   )
   .usage("Git commit message linter")
