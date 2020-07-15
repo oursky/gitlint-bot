@@ -5,12 +5,7 @@ import * as Commands from "./commands";
 main(cli.argv);
 
 function main(flags: CliFlags) {
-  checkCommands(flags._);
-  // get config file or use default preset
-  // configure commit range
-}
-
-function checkCommands(commands: string[]): void {
+  const commands = flags._;
   const command = commands[0];
   if (command === "generate-config") {
     Commands.generateConfig();
@@ -18,5 +13,7 @@ function checkCommands(commands: string[]): void {
     Commands.installHook();
   } else if (command === "uninstall-hook") {
     Commands.uninstallHook();
+  } else {
+    Commands.lint(flags);
   }
 }
