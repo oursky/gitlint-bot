@@ -21,6 +21,7 @@
     "lint-fix": "eslint 'packages/*/src/**/*.ts' --fix",
     "check-format": "prettier 'packages/*/src/**/*.ts' -l",
     "format": "prettier 'packages/*/src/**/*.ts' --write",
+    "publish": "lerna publish from-package",
     "test": "jest"
   },
   "dependencies": {

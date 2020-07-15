@@ -1,4 +1,4 @@
-FROM node:12-alpine as builder
+FROM node:12 as builder
 WORKDIR /app
 COPY ./package*.json ./
 COPY ./lerna.json ./
@@ -10,6 +10,14 @@ COPY ./packages/bot/ ./packages/bot/
 COPY ./packages/lint/ ./packages/lint
 COPY ./tsconfig.json ./
 RUN npm run build
-EXPOSE 3000
+
+FROM node:12-alpine as app
 WORKDIR /app/packages/bot
+COPY ./packages/bot/package.json ./
+COPY --from=builder /app/packages/bot/node_modules ./node_modules
+COPY --from=builder /app/packages/bot/lib ./lib
+COPY --from=builder /app/packages/lint/lib ../lint/lib
+COPY --from=builder /app/packages/lint/node_modules ../lint/node_modules
+COPY --from=builder /app/packages/lint/package.json ../lint/
+EXPOSE 3000
 CMD [ "npm", "run", "dev" ]

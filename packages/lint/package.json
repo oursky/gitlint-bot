@@ -1,10 +1,13 @@
 {
-  "name": "@gitlint-bot/lint",
-  "private": true,
-  "version": "1.0.0",
-  "description": "",
+  "name": "@oursky/gitlint",
+  "version": "0.1.0",
+  "description": "gitlint-bot linter module",
   "main": "lib/index.js",
+  "files": [
+    "lib/"
+  ],
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "npm run clean && npm run compile",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "compile": "tsc -b tsconfig.json"
@@ -13,7 +16,6 @@
     "type": "git",
     "url": "git+https://github.com/oursky/gitlint-bot.git"
   },
-  "author": "",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/oursky/gitlint-bot/issues"
