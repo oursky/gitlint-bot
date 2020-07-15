@@ -50,7 +50,7 @@ yargs
     ["lint", "*"],
     "Lints commits in git repository",
     blankBuilder,
-    Commands.lint
+    Commands.lint // eslint-disable-line @typescript-eslint/no-misused-promises
   )
   .usage("Git commit message linter")
   .help("help")
