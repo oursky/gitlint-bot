@@ -34,6 +34,14 @@ async function loadCommitMessages(flags: LintCommandFlags): Promise<string[]> {
     const message = await getStdin();
     if (message.length === 0) return [];
     return [message];
+  } else if (
+    typeof flags.from !== "undefined" ||
+    typeof flags.to !== "undefined"
+  ) {
+    return readCommits({
+      from: flags.from,
+      to: flags.to,
+    });
   }
   // Reads last commit from .git/COMMIT_EDITMSG
   return readCommits({ edit: true });
