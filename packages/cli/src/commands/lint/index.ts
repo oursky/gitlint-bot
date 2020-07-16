@@ -2,10 +2,11 @@ import fs from "fs";
 import path from "path";
 import getStdin from "get-stdin";
 import readCommits from "@commitlint/read";
-import { LintCommandFlags } from "../types";
+import { LintCommandFlags } from "../../types";
 import { lintCommitMessage } from "@oursky/gitlint";
 import { discoverConfig, applyPresets } from "@oursky/gitlint/lib/config";
 import { RulesPreset } from "@oursky/gitlint/lib/config/schema";
+import { formatResults } from "./format";
 
 const createConfigLoader = (configFile: string | undefined) => async (
   _: string
@@ -52,11 +53,21 @@ async function lintCommand(flags: LintCommandFlags): Promise<void> {
   const messages = await loadCommitMessages(flags);
   if (messages.length === 0) {
     console.log("No commit messages found!");
+    process.exit(0);
   }
-  for (const message of messages) {
-    console.log(message);
-    const output = await lintCommitMessage(message, preset);
-    console.log(JSON.stringify(output, null, 1));
+  const results = await Promise.all(
+    messages.map(async (message) => {
+      const result = await lintCommitMessage(message, preset);
+      return {
+        ...result,
+        commitMessage: message,
+      };
+    })
+  );
+  const formattedResults = formatResults(results);
+  if (formattedResults !== "") {
+    console.log(formattedResults);
+    process.exit(1);
   }
 }
 
