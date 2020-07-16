@@ -1,0 +1,17 @@
+# !/bin/sh
+### gitlint-cli commit-msg hook ###
+run_gitlint(){
+   echo "gitlint-cli: checking commit message..."
+   npx gitlint-cli
+   gitlint_exit_code=$?
+}
+
+run_gitlint "$1"
+
+if [ $gitlint_exit_code -gt 0 ]; then
+    echo "Commit aborted."
+    exit $gitlint_exit_code
+fi
+
+echo "gitlint-cli: no violations in commit message"
+exit 0
