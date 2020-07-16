@@ -24,8 +24,9 @@
   },
   "scripts": {
     "start": "node lib/index.js",
-    "build": "npm run clean && npm run compile",
+    "build": "npm run clean && npm run compile && npm run copyfiles",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "copyfiles": "copyfiles -u 1 'src/files/*' lib/",
     "compile": "tsc -b tsconfig.json",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
@@ -35,6 +36,7 @@
   "dependencies": {
     "@commitlint/read": "9.1.1",
     "@oursky/gitlint": "1.0.0",
+    "copyfiles": "2.3.0",
     "get-stdin": "8.0.0",
     "tslib": "2.0.0",
     "yargs": "15.4.1"
