@@ -1,4 +1,4 @@
-# !/bin/sh
+#!/bin/sh
 ### gitlint-cli commit-msg hook ###
 run_gitlint(){
    echo "gitlint-cli: checking commit message..."
