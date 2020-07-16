@@ -1,6 +1,6 @@
 {
   "name": "@oursky/gitlint-cli",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "",
   "homepage": "https://github.com/oursky/gitlint-bot/tree/master/packages/cli#readme",
   "license": "Apache-2.0",
@@ -27,16 +27,15 @@
     "build": "npm run clean && npm run compile && npm run copyfiles",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "copyfiles": "copyfiles -u 1 'src/files/*' lib/",
-    "compile": "tsc -b tsconfig.json",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "compile": "tsc -b tsconfig.json"
   },
   "bugs": {
     "url": "https://github.com/oursky/gitlint-bot/issues"
   },
   "dependencies": {
     "@commitlint/read": "9.1.1",
-    "@oursky/gitlint": "1.0.0",
-    "copyfiles": "2.3.0",
+    "@oursky/gitlint": "0.1.0",
+    "chalk": "4.1.0",
     "get-stdin": "8.0.0",
     "tslib": "2.0.0",
     "yargs": "15.4.1"
@@ -44,6 +43,7 @@
   "devDependencies": {
     "@types/node": "14.0.23",
     "@types/yargs": "15.0.5",
+    "copyfiles": "2.3.0",
     "rimraf": "3.0.2"
   }
 }
