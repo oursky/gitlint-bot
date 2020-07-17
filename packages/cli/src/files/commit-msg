@@ -1,0 +1,45 @@
+#!/bin/sh
+### gitlint-cli commit-msg hook ###
+
+# determine whether tty is available
+stdin_available=1
+(exec < /dev/tty) 2> /dev/null || stdin_available=0
+
+if [ $stdin_available -gt 0 ]; then
+  exec < /dev/tty
+fi
+
+run_gitlint(){
+  echo "gitlint-cli: checking commit message..."
+  npx gitlint-cli
+  gitlint_exit_code=$?
+}
+
+prompt_continue() {
+  prompt_result="no"
+  if [ $stdin_available -eq 0 ]; then
+    return;
+  fi
+  while true; do 
+    read -p "Do you want to keep the current commit message? (y/n)" yn
+    case $yn in
+      [Yy]* ) prompt_result="yes"; return;;
+      [Nn]* ) prompt_result="no"; return;;
+    esac
+  done
+}
+
+run_gitlint "$1"
+
+while [ $gitlint_exit_code -gt 0 ]; do
+  prompt_continue
+  if [ $prompt_result = "yes" ]; then
+    exit 0
+  else
+    echo "Commit aborted."
+    exit $gitlint_exit_code
+  fi
+done
+
+echo "gitlint-cli: no violations in commit message"
+exit 0

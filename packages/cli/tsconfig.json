@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": true,
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "references": [
+    {
+      "path": "../lint/tsconfig.json"
+    }
+  ],
+  "include": ["src/**/*.ts"]
+}
