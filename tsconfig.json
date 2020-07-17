@@ -26,11 +26,7 @@
     "resolveJsonModule": true,
     "pretty": false,
     "skipLibCheck": true,
-    "baseUrl": "./packages",
-    "paths": {
-      "@oursky/gitlint": ["lint/src"],
-      "@oursky/gitlint-bot": ["bot/src"]
-    }
+    "baseUrl": "./packages"
   },
   "exclude": ["node_modules", "lib"],
   "compileOnSave": false

@@ -6,11 +6,13 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "npm run clean && npm run compile",
-    "build:watch": "tsc -b tsconfig.json && (tsc -b tsconfig.json -w --preserveWatchOutput & nodemon)",
+    "build:prod": "npm run clean && npm run compile:prod",
+    "build:watch": "npm run compile && (npm run compile -- -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
     "start": "probot run ./lib/index.js",
-    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "clean": "rimraf lib tsconfig*.tsbuildinfo",
     "compile": "tsc -b tsconfig.json",
+    "compile:prod": "tsc -p tsconfig.build.json",
     "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
     "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts"
   },
@@ -35,7 +37,7 @@
     "pg": "8.2.1",
     "probot": "9.11.3",
     "tslib": "2.0.0",
-    "@oursky/gitlint": "0.1.0"
+    "@oursky/gitlint": "0.1.2"
   },
   "devDependencies": {
     "@slack/types": "1.7.0",
