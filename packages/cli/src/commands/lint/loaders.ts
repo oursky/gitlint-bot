@@ -44,6 +44,15 @@ export async function loadCommitMessages(
       from: flags.from,
       to: flags.to,
     });
+  } else if (typeof flags.range !== "undefined") {
+    const splitRange = flags.range.trim().split("..");
+    if (splitRange.length < 2) {
+      throw new Error("Invalid double-dot commit range: " + flags.range);
+    }
+    return readCommits({
+      from: splitRange[0],
+      to: splitRange[1],
+    });
   }
   // Reads last commit from .git/COMMIT_EDITMSG
   return readCommits({ edit: true });

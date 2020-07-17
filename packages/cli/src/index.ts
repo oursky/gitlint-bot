@@ -43,6 +43,11 @@ yargs
         description: "upper end of the commit range to lint",
         type: "string",
       },
+      range: {
+        alias: "r",
+        description: "commit range in double-dot syntax",
+        type: "string",
+      },
       "std-in": {
         alias: "s",
         description: "reads and lints commit message from stdin",
