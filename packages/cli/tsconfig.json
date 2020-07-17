@@ -2,6 +2,7 @@
   "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "composite": true,
+    "declaration": true,
     "paths": {
       "@oursky/gitlint": ["lint/src"]
     }
