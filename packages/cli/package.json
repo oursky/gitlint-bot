@@ -23,6 +23,7 @@
     "url": "git+https://github.com/oursky/gitlint-bot.git"
   },
   "scripts": {
+    "prepublishOnly": "npm run build:prod",
     "start": "node lib/index.js",
     "build": "npm run clean && npm run compile && npm run copyfiles",
     "build:prod": "npm run clean && npm run compile:prod && npm run copyfiles",
