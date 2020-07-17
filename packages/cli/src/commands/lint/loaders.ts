@@ -6,11 +6,11 @@ import { RulesPreset } from "@oursky/gitlint/lib/config/schema";
 import { discoverConfig, applyPresets } from "@oursky/gitlint/lib/config";
 import { LintCommandFlags } from "../../types";
 
-const createConfigLoader = (configFile: string | undefined) => async (
-  _: string
+const createConfigLoader = (targetFileName: string | undefined) => async (
+  defaultFileName: string
 ): Promise<string | null> => {
-  if (typeof configFile === "undefined") return null;
-  const filePath = path.resolve(".", configFile);
+  const configFileName = targetFileName ?? defaultFileName;
+  const filePath = path.resolve(".", configFileName);
   if (!fs.existsSync(filePath)) return null;
   const stats = fs.statSync(filePath);
   if (!stats.isFile()) return null;
@@ -18,12 +18,13 @@ const createConfigLoader = (configFile: string | undefined) => async (
 };
 
 export async function loadPreset(
-  configFile: string | undefined
+  configFileName: string | undefined
 ): Promise<RulesPreset> {
-  const loader = createConfigLoader(configFile);
+  const loader = createConfigLoader(configFileName);
   const config = await discoverConfig(loader);
-  if (config === null && typeof configFile !== "undefined") {
-    throw new Error(`Config file not found: ${configFile}`);
+  // if config option is invalid
+  if (config === null && typeof configFileName !== "undefined") {
+    throw new Error(`Config file not found: ${configFileName}`);
   }
   return applyPresets(config);
 }

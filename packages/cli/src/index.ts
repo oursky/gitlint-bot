@@ -30,6 +30,7 @@ yargs
       config: {
         alias: "c",
         description: "path to config file",
+        defaultDescription: ".gitlintrc",
         type: "string",
       },
       from: {
