@@ -3,7 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "paths": {
-      "@oursky/gitlint": "lint/src"
+      "@oursky/gitlint": ["lint/src"]
     }
   },
   "references": [
