@@ -8,8 +8,12 @@ APP_IMAGE_SHA=${APP_IMAGE_REPO}:${SHORT_SHA}
 ci:
 	@echo "Install dependencies"
 	@npm ci && npm run bootstrap
-	@echo "Build project"
+	@echo "Build development projects"
 	@npm run build
+	@echo "Clean workdir"
+	@npm run clean
+	@echo "Build production projects"
+	@npm run build:prod
 	@echo "Check code formatting"
 	@npm run check-format
 	@echo "Lint TypeScript"
