@@ -1,15 +1,16 @@
 FROM node:12 as builder
-WORKDIR /app
+WORKDIR /app/packages/bot
 COPY ./packages/bot/package*.json ./
 RUN npm ci
 COPY ./packages/bot/ ./
-RUN npm run build
+COPY ./tsconfig.json ../../
+RUN npm run build:prod
 
 FROM node:12-alpine as app
 WORKDIR /app
 ENV NODE_ENV production
 COPY ./packages/bot/package*.json ./
 RUN npm ci
-COPY --from=builder /app/lib ./lib
+COPY --from=builder /app/packages/bot/lib ./lib
 EXPOSE 3000
 CMD [ "npm", "run", "start" ]

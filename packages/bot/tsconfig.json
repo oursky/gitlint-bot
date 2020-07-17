@@ -1,11 +1,11 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "./tsconfig.build.json",
   "compilerOptions": {
     "composite": true,
-    "outDir": "./lib",
-    "rootDir": "./src"
+    "paths": {
+      "@oursky/gitlint": ["lint/src"]
+    }
   },
-  "include": ["src/**/*.ts"],
   "references": [
     {
       "path": "../lint/tsconfig.json"

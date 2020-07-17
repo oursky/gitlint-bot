@@ -25,9 +25,11 @@
   "scripts": {
     "start": "node lib/index.js",
     "build": "npm run clean && npm run compile && npm run copyfiles",
-    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "build:prod": "npm run clean && npm run compile:prod && npm run copyfiles",
+    "clean": "rimraf lib tsconfig*.tsbuildinfo",
     "copyfiles": "copyfiles -u 1 'src/files/*' lib/",
-    "compile": "tsc -b tsconfig.json"
+    "compile": "tsc -b tsconfig.json",
+    "compile:prod": "tsc -p tsconfig.build.json"
   },
   "bugs": {
     "url": "https://github.com/oursky/gitlint-bot/issues"
