@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@commitlint/read": "9.1.1",
-    "@oursky/gitlint": "0.1.0",
+    "@oursky/gitlint": "0.1.2",
     "chalk": "4.1.0",
     "get-stdin": "8.0.0",
     "tslib": "2.0.0",
