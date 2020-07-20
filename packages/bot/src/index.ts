@@ -32,9 +32,10 @@ const server = probot.server;
 server.set("views", path.resolve(__dirname, "views"));
 server.set("view engine", "pug");
 
-const sessionOpts = {
+const sessionOpts: session.SessionOptions = {
   secret: DASHBOARD_SESSION_SECRET,
   resave: false,
+  saveUninitialized: false,
   cookie: process.env.NODE_ENV === "production" ? { secure: true } : {},
 };
 
