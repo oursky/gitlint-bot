@@ -1,7 +1,8 @@
 {
   "signal": "SIGINT",
-  "watch": ["lib", ".env"],
+  "watch": ["src/**/*", ".env"],
+  "ext": "js,ts,pug",
   "delay": "2000",
   "verbose": false,
-  "exec": ["npm run start"]
+  "exec": ["npm run compile && npm run start"]
 }

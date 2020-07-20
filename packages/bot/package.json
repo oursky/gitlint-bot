@@ -7,12 +7,10 @@
   "scripts": {
     "build": "npm run clean && npm run compile",
     "build:prod": "npm run clean && npm run compile:prod",
-    "build:watch": "npm run compile && npm run compile:watch",
-    "dev": "npm run build:watch",
+    "dev": "nodemon",
     "start": "node ./lib/index.js",
     "clean": "rimraf lib tsconfig*.tsbuildinfo",
     "compile": "tsc -b tsconfig.json && npm run copyfiles",
-    "compile:watch": "tsc -b tsconfig.json -w --preserveWatchOutput & (npm run copyfiles && nodemon)",
     "compile:prod": "tsc -p tsconfig.build.json && npm run copyfiles",
     "copyfiles": "copyfiles -u 1 'src/views/*' lib/",
     "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",

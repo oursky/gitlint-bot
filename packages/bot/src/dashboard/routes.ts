@@ -3,7 +3,7 @@ import { Router } from "express";
 const router = Router();
 
 router.get("/", (_, res) => {
-  res.send("Boilerplate Dashboard Route");
+  res.render("dashboard");
 });
 
 export default router;
