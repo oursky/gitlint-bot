@@ -11,8 +11,9 @@
     "dev": "npm run build:watch",
     "start": "node ./lib/index.js",
     "clean": "rimraf lib tsconfig*.tsbuildinfo",
-    "compile": "tsc -b tsconfig.json",
-    "compile:prod": "tsc -p tsconfig.build.json",
+    "compile": "tsc -b tsconfig.json && npm run copyfiles",
+    "compile:prod": "tsc -p tsconfig.build.json && npm run copyfiles",
+    "copyfiles": "copyfiles -u 1 'src/views/*' lib/",
     "migrate": "knex migrate:latest --knexfile=lib/db/knexfile.js",
     "migrate:dev": "knex migrate:latest --knexfile=src/db/knexfile.ts"
   },
@@ -40,6 +41,7 @@
     "passport-google-oauth20": "2.0.0",
     "pg": "8.2.1",
     "probot": "9.11.3",
+    "pug": "3.0.0",
     "tslib": "2.0.0"
   },
   "devDependencies": {
@@ -52,6 +54,7 @@
     "@types/node": "14.0.5",
     "@types/node-cron": "2.0.3",
     "@types/passport-google-oauth20": "2.0.3",
+    "copyfiles": "2.3.0",
     "dotenv": "8.2.0",
     "fast-check": "1.24.2",
     "nock": "12.0.3",

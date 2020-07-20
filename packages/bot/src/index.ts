@@ -1,4 +1,5 @@
 import http from "http";
+import path from "path";
 import { createProbot } from "probot";
 import session from "express-session";
 import passport from "passport";
@@ -25,6 +26,9 @@ const probot = createProbot({
 probot.load(app);
 
 const server = probot.server;
+
+server.set("views", path.resolve(__dirname, "views"));
+server.set("view engine", "pug");
 
 server.use(
   session({
