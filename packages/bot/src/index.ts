@@ -3,6 +3,7 @@ import path from "path";
 import { createProbot } from "probot";
 import session from "express-session";
 import passport from "passport";
+import { ensureLoggedIn } from "connect-ensure-login";
 import {
   APP_ID,
   WEBHOOK_SECRET,
@@ -12,7 +13,8 @@ import {
 import app from "./app";
 import slackCommandsRoutes from "./slack/commands";
 import dashboardRoutes from "./dashboard/routes";
-import "./setupAuth";
+import authRoutes from "./auth/routes";
+import "./auth/setup";
 
 const serverPort = 3000;
 
@@ -30,19 +32,20 @@ const server = probot.server;
 server.set("views", path.resolve(__dirname, "views"));
 server.set("view engine", "pug");
 
-server.use(
-  session({
-    secret: DASHBOARD_SESSION_SECRET,
-    resave: false,
-    cookie: { secure: true },
-  })
-);
+const sessionOpts = {
+  secret: DASHBOARD_SESSION_SECRET,
+  resave: false,
+  cookie: process.env.NODE_ENV === "production" ? { secure: true } : {},
+};
+
+server.use(session(sessionOpts));
 server.use(passport.initialize());
 server.use(passport.session());
 
 // Routes
+server.use("/auth", authRoutes);
 server.use("/commands", slackCommandsRoutes);
-server.use("/dashboard", dashboardRoutes);
+server.use("/dashboard", ensureLoggedIn("/auth/login"), dashboardRoutes);
 server.get("/", (_, res) => res.redirect("/dashboard"));
 
 const httpServer = http.createServer(server);
