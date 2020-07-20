@@ -9,7 +9,7 @@
     "build:prod": "npm run clean && npm run compile:prod",
     "build:watch": "npm run compile && (npm run compile -- -w --preserveWatchOutput & nodemon)",
     "dev": "npm run build:watch",
-    "start": "probot run ./lib/index.js",
+    "start": "node ./lib/index.js",
     "clean": "rimraf lib tsconfig*.tsbuildinfo",
     "compile": "tsc -b tsconfig.json",
     "compile:prod": "tsc -p tsconfig.build.json",
@@ -44,6 +44,7 @@
   },
   "devDependencies": {
     "@slack/types": "1.7.0",
+    "@types/bunyan": "1.8.6",
     "@types/express": "4.17.6",
     "@types/express-session": "1.17.0",
     "@types/jest": "26.0.4",

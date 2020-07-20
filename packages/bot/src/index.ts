@@ -1,29 +1,22 @@
-import { setupSentry } from "./sentry";
-setupSentry();
+import http from "http";
+import { createProbot } from "probot";
+import { APP_ID, WEBHOOK_SECRET, PRIVATE_KEY } from "./env";
+import app from "./app";
 
-import { Application } from "probot";
-import { Router } from "express";
-import { onPush } from "./github/listeners";
-import { summaryJob } from "./slack/jobs";
-import slackCommandsRoutes from "./slack/commands";
-import dashboardRoutes from "./dashboard/routes";
-import { SLACK_CRON_PATTERN } from "./env";
-import cron from "node-cron";
+const serverPort = 3000;
 
-function setupRoutes(router: Router): void {
-  router.use("/commands", slackCommandsRoutes);
-  router.use("/dashboard", dashboardRoutes);
-  router.get("/", (_, res) => res.redirect("/dashboard"));
-}
+const probot = createProbot({
+  id: APP_ID,
+  port: serverPort,
+  secret: WEBHOOK_SECRET,
+  cert: PRIVATE_KEY,
+});
 
-export = (app: Application): void => {
-  setupRoutes(app.route("/"));
+probot.load(app);
 
-  app.on("push", onPush);
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  cron.schedule(SLACK_CRON_PATTERN, summaryJob, {
-    // node-cron v2+ allows tasks to return Promises: https://github.com/node-cron/node-cron/releases/tag/v2.0.0
-    scheduled: true,
-    timezone: "Asia/Hong_Kong",
-  });
-};
+const expressServer = probot.server;
+
+const server = http.createServer(expressServer);
+server.listen(serverPort, () => {
+  probot.logger.info(`Server listening on port: ${serverPort}`);
+});
