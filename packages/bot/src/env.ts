@@ -20,3 +20,7 @@ export const SLACK_WEBHOOK_URL = getEnvString("SLACK_WEBHOOK_URL");
 export const SLACK_DAY_INTERVAL = getEnvInteger("SLACK_DAY_INTERVAL");
 export const GOOGLE_CLIENT_ID = getEnvString("GOOGLE_CLIENT_ID");
 export const GOOGLE_CLIENT_SECRET = getEnvString("GOOGLE_CLIENT_SECRET");
+export const GOOGLE_CALLBACK_URL = getEnvString("GOOGLE_CALLBACK_URL");
+export const DASHBOARD_SESSION_SECRET = getEnvString(
+  "DASHBOARD_SESSION_SECRET"
+);
