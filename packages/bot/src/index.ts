@@ -3,6 +3,7 @@ import path from "path";
 import { createProbot } from "probot";
 import session from "express-session";
 import passport from "passport";
+import createMemoryStore from "memorystore";
 import { ensureLoggedIn } from "connect-ensure-login";
 import {
   APP_ID,
@@ -32,10 +33,14 @@ const server = probot.server;
 server.set("views", path.resolve(__dirname, "views"));
 server.set("view engine", "pug");
 
+const MemoryStore = createMemoryStore(session);
 const sessionOpts: session.SessionOptions = {
   secret: DASHBOARD_SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  store: new MemoryStore({
+    checkPeriod: 86400000, // prune expired entries every 24h
+  }),
   cookie: process.env.NODE_ENV === "production" ? { secure: true } : {},
 };
 
