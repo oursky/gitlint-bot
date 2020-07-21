@@ -69,3 +69,27 @@ export async function getRepoViolationPercentages(): Promise<
     )
     .groupBy("repo_name");
 }
+
+export async function getViolatedCommitsPerRepo(
+  count: number
+): Promise<Commit[]> {
+  return db
+    .select([
+      "id",
+      "user_id",
+      "score",
+      "message",
+      "committed_at",
+      "repo_name",
+      "url",
+    ])
+    .from(
+      db.raw(`(SELECT 
+        *, 
+        ROW_NUMBER() OVER (PARTITION BY repo_name ORDER BY committed_at DESC) as rk
+        FROM commit
+        WHERE score > 0
+      ) t`)
+    )
+    .where("rk", "<=", count);
+}
