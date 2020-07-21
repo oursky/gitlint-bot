@@ -23,6 +23,10 @@ secrets:
   SLACK_WEBHOOK_URL: ""
   SLACK_SIGNING_SECRET: ""
   SENTRY_DSN: ""
+  GOOGLE_CLIENT_ID: ""
+  GOOGLE_CLIENT_SECRET: ""
+  GOOGLE_CALLBACK_URL: ""
+  DASHBOARD_SESSION_SECRET: ""
 resources:
   limits:
     cpu: 100m
