@@ -44,6 +44,7 @@ const sessionOpts: session.SessionOptions = {
   cookie: process.env.NODE_ENV === "production" ? { secure: true } : {},
 };
 
+server.set("trust proxy", 1);
 server.use(session(sessionOpts));
 server.use(passport.initialize());
 server.use(passport.session());
