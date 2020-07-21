@@ -48,3 +48,24 @@ export async function getTopCommitsAfterDate(
     .orderBy("commit.committed_at", "desc")
     .limit(limitCount);
 }
+
+interface RepoViolationPercentage {
+  repoName: string;
+  percentage: number;
+}
+
+export async function getRepoViolationPercentages(): Promise<
+  RepoViolationPercentage[]
+> {
+  return db
+    .from<Commit>("commit as t1")
+    .select("repo_name as repoName")
+    .select(
+      db.raw(`ROUND((0.0 + (
+      SELECT COUNT(ID) 
+      FROM commit
+      WHERE score > 0 AND repo_name = t1.repo_name
+    )) / COUNT(ID), 2) * 100 as percentage`)
+    )
+    .groupBy("repo_name");
+}
