@@ -1,9 +1,18 @@
 extends layout.pug
-
 block content
-  div.container
-    div.col-md-6.col-12
+  .container
+    .col-md-6.col-12
       h3 Repository Summary
       #repository-accordion
-        .card
-          
+        each repository, idx in repositories
+          .card
+            .card-header.d-flex.align-items-center
+              h5.mb-0.mr-auto
+                button.btn.btn-link(data-toggle='collapse' data-target=`#repo-collapse-${idx}` aria-expanded='true')
+                  | #{repository.name}
+              p.mb-0 Invalid commits: 
+                span.font-weight-bold #{repository.violationPercentage}
+            .collapse(id=`repo-collapse-${idx}` data-parent='#repository-accordion')
+              ul.list-group
+                each commit in repository.commits
+                  li.list-group-item.rounded-0 #{commit.message.split("\n")[0]}
