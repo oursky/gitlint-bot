@@ -12,7 +12,7 @@ block main
                 button.btn.btn-link(data-toggle='collapse' data-target=`#repo-collapse-${idx}` aria-expanded='true')
                   | #{repository.name}
               p.mb-0 Invalid commits: 
-                span.font-weight-bold #{repository.violationPercentage}
+                span.font-weight-bold #{repository.violationPercentage}%
             .collapse(id=`repo-collapse-${idx}` data-parent='#repository-accordion')
               ul.list-group
                 each commit in repository.commits
