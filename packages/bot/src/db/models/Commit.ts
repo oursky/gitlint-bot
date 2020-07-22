@@ -51,7 +51,7 @@ export async function getTopCommitsAfterDate(
 
 interface RepoViolationPercentage {
   repoName: string;
-  percentage: number;
+  percentage: string;
 }
 
 export async function getRepoViolationPercentages(): Promise<
