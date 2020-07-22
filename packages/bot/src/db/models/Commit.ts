@@ -48,3 +48,48 @@ export async function getTopCommitsAfterDate(
     .orderBy("commit.committed_at", "desc")
     .limit(limitCount);
 }
+
+interface RepoViolationCounts {
+  repo_name: string;
+  total_count: string;
+  violated_count: string;
+}
+
+export async function getRepoViolationCounts(): Promise<RepoViolationCounts[]> {
+  return db
+    .from<Commit>("commit as t1")
+    .select("repo_name")
+    .count("id as total_count")
+    .select(
+      db.raw(`(
+        SELECT COUNT(ID) 
+        FROM commit
+        WHERE score > 0 AND repo_name = t1.repo_name
+      ) as violated_count`)
+    )
+    .groupBy("repo_name");
+}
+
+export async function getViolatedCommitsPerRepo(
+  count: number
+): Promise<Commit[]> {
+  return db
+    .select([
+      "id",
+      "user_id",
+      "score",
+      "message",
+      "committed_at",
+      "repo_name",
+      "url",
+    ])
+    .from(
+      db.raw(`(SELECT 
+        *, 
+        ROW_NUMBER() OVER (PARTITION BY repo_name ORDER BY committed_at DESC) as rk
+        FROM commit
+        WHERE score > 0
+      ) t`)
+    )
+    .where("rk", "<=", count);
+}
