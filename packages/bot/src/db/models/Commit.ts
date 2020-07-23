@@ -93,3 +93,17 @@ export async function getViolatedCommitsPerRepo(
     )
     .where("rk", "<=", count);
 }
+
+export async function getCommitPage(
+  offset: number = 0,
+  pageSize = 10
+): Promise<Commit[]> {
+  return db
+    .from<Commit>(tableName)
+    .select("*")
+    .where("score", ">", "0")
+    .orderBy("committed_at", "desc")
+    .orderBy("id")
+    .offset(offset)
+    .limit(pageSize);
+}
