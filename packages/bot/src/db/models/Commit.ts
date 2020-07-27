@@ -95,8 +95,8 @@ export async function getViolatedCommitsPerRepo(
 }
 
 export async function getCommitPage(
-  offset: number = 0,
-  pageSize = 10
+  offset: number,
+  pageSize: number
 ): Promise<Commit[]> {
   return db
     .from<Commit>(tableName)

@@ -1,10 +1,12 @@
 import {
   getRepoViolationCounts,
   getViolatedCommitsPerRepo,
+  getCommitPage,
   Commit,
 } from "../db/models/Commit";
 
 const recentCommitsCount = 10;
+const pageSize = 20;
 
 interface RepositoryViolationSummary {
   violationPercentage: string;
@@ -33,4 +35,11 @@ export async function getRepositorySummary(): Promise<RepositorySummary> {
     repoMap[commit.repo_name].commits.push(commit);
   }
   return Object.values(repoMap);
+}
+
+export async function getViolatedCommits(
+  pageNumber: number = 0
+): Promise<Commit[]> {
+  const commits = await getCommitPage(pageNumber * pageSize, pageSize);
+  return commits;
 }
