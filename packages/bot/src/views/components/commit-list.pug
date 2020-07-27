@@ -1,0 +1,10 @@
+h3 Violated Commits
+ul.list-group
+  each commit in commits
+    li.list-group-item.rounded-0.flex-column.align-items-start
+      .d-flex.w-100.justify-content-between
+        a.mb-1(href=`${commit.url}`) #{commit.repo_name}@#{commit.id.slice(0, 8)}
+        small #{commit.score} score
+      p.mb-1.font-italic.text-truncate "#{commit.message.split("\n")[0]}"
+      small #{commit.committed_at}
+
