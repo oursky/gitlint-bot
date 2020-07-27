@@ -1,6 +1,8 @@
+/* global BigInt */
 import {
   getRepoViolationCounts,
   getViolatedCommitsPerRepo,
+  getViolatedCommitCount,
   getCommitPage,
   Commit,
 } from "../db/models/Commit";
@@ -42,4 +44,17 @@ export async function getViolatedCommits(
 ): Promise<Commit[]> {
   const commits = await getCommitPage(pageNumber * pageSize, pageSize);
   return commits;
+}
+
+export async function getPageCount(): Promise<number> {
+  const results = await getViolatedCommitCount();
+  const count = BigInt(results[0].count);
+  let pageCount: number;
+  const pageLength = BigInt(pageSize);
+  pageCount = Number(count / pageLength);
+  pageCount =
+    count % pageLength !== BigInt(0) && count > pageLength
+      ? pageCount + 1
+      : pageCount;
+  return pageCount;
 }

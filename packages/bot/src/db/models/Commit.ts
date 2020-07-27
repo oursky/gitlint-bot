@@ -107,3 +107,7 @@ export async function getCommitPage(
     .offset(offset)
     .limit(pageSize);
 }
+
+export async function getViolatedCommitCount(): Promise<{ count: string }[]> {
+  return db.from<Commit>(tableName).where("score", ">", "0").count("id");
+}
