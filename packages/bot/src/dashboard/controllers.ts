@@ -40,9 +40,12 @@ export async function getRepositorySummary(): Promise<RepositorySummary> {
 }
 
 export async function getViolatedCommits(
-  pageNumber: number = 0
+  pageNumber: number = 1
 ): Promise<Commit[]> {
-  const commits = await getCommitPage(pageNumber * pageSize, pageSize);
+  if (pageNumber < 1) {
+    pageNumber = 1;
+  }
+  const commits = await getCommitPage((pageNumber - 1) * pageSize, pageSize);
   return commits;
 }
 
@@ -52,9 +55,6 @@ export async function getPageCount(): Promise<number> {
   let pageCount: number;
   const pageLength = BigInt(pageSize);
   pageCount = Number(count / pageLength);
-  pageCount =
-    count % pageLength !== BigInt(0) && count > pageLength
-      ? pageCount + 1
-      : pageCount;
+  pageCount = count % pageLength !== BigInt(0) ? pageCount + 1 : pageCount;
   return pageCount;
 }
