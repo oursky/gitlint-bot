@@ -49,12 +49,20 @@ export async function getViolatedCommits(
   return commits;
 }
 
-export async function getPageCount(): Promise<number> {
+interface CommitCounts {
+  totalCount: bigint;
+  pageCount: number;
+}
+
+export async function getCommitCounts(): Promise<CommitCounts> {
   const results = await getViolatedCommitCount();
   const count = BigInt(results[0].count);
   let pageCount: number;
   const pageLength = BigInt(pageSize);
   pageCount = Number(count / pageLength);
   pageCount = count % pageLength !== BigInt(0) ? pageCount + 1 : pageCount;
-  return pageCount;
+  return {
+    pageCount,
+    totalCount: count,
+  };
 }
