@@ -8,7 +8,7 @@ import {
 } from "../db/models/Commit";
 
 const recentCommitsCount = 10;
-const pageSize = 20;
+const pageSize = 10;
 
 interface RepositoryViolationSummary {
   violationPercentage: string;

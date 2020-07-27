@@ -10,7 +10,7 @@ const router = Router();
 router.get("/", async (req: Request, res) => {
   const repoSummary = await getRepositorySummary();
   const pageNumber =
-    typeof req.query.offset !== "undefined" ? Number(req.query.page) : 0;
+    typeof req.query.page !== "undefined" ? Number(req.query.page) : 0;
   const commits = await getViolatedCommits(pageNumber);
   const pageCount = await getPageCount();
   res.render("dashboard", {
@@ -18,6 +18,7 @@ router.get("/", async (req: Request, res) => {
     repositories: repoSummary,
     commits,
     pageCount,
+    currPage: pageNumber,
   });
 });
 
