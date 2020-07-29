@@ -29,7 +29,9 @@ router.get("/commit/:commitId", async (req: Request, res, next) => {
   if (commit === null) {
     next(new Error(`Commit with ID not found: ${req.params.commitId}`));
   }
-  res.json(commit);
+  res.render("commit", {
+    commit,
+  });
 });
 
 export default router;

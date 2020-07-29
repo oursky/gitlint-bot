@@ -1,3 +1,5 @@
 extends layout.pug
 block main
-  
+  .jumbotron
+    .h3 
+      a #{commit.repo_name}@#{commit.id.slice(0, 8)}
