@@ -7,6 +7,8 @@ import {
   findCommit,
   Commit,
 } from "../db/models/Commit";
+import { CommitWithDiagnoses } from "../db";
+import { getCommitDiagnosesByCommitIds } from "../db/models/CommitDiagnosis";
 
 const recentCommitsCount = 10;
 const pageSize = 10;
@@ -68,6 +70,16 @@ export async function getCommitCounts(): Promise<CommitCounts> {
   };
 }
 
-export async function getCommit(commitId: string): Promise<Commit | undefined> {
-  return findCommit(commitId);
+export async function getDetailedCommit(
+  commitId: string
+): Promise<CommitWithDiagnoses | null> {
+  const commit = await findCommit(commitId);
+  if (typeof commit === "undefined") {
+    return null;
+  }
+  const diagnoses = await getCommitDiagnosesByCommitIds([commit.id]);
+  return {
+    ...commit,
+    diagnoses,
+  };
 }
