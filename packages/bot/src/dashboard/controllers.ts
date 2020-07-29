@@ -4,6 +4,7 @@ import {
   getViolatedCommitsPerRepo,
   getViolatedCommitCount,
   getCommitPage,
+  findCommit,
   Commit,
 } from "../db/models/Commit";
 
@@ -65,4 +66,8 @@ export async function getCommitCounts(): Promise<CommitCounts> {
     pageCount,
     totalCount: count,
   };
+}
+
+export async function getCommit(commitId: string): Promise<Commit | undefined> {
+  return findCommit(commitId);
 }

@@ -3,6 +3,7 @@ import {
   getRepositorySummary,
   getViolatedCommits,
   getCommitCounts,
+  getCommit,
 } from "./controllers";
 
 const router = Router();
@@ -21,6 +22,14 @@ router.get("/", async (req: Request, res) => {
     totalCount,
     currPage: pageNumber,
   });
+});
+
+router.get("/commit/:commitId", async (req: Request, res, next) => {
+  const commit = await getCommit(req.params.commitId);
+  if (typeof commit === "undefined") {
+    next(new Error(`Commit with ID not found: ${req.params.commitId}`));
+  }
+  res.json(commit);
 });
 
 export default router;
