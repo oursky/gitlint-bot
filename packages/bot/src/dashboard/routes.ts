@@ -5,6 +5,7 @@ import {
   getCommitCounts,
   getDetailedCommit,
 } from "./controllers";
+import { ErrorWithStatus } from "../types/errors";
 
 const router = Router();
 
@@ -27,12 +28,17 @@ router.get("/", async (req: Request, res) => {
 router.get("/commit/:commitId", async (req: Request, res, next) => {
   const commit = await getDetailedCommit(req.params.commitId);
   if (commit === null) {
-    next(new Error(`Commit with ID not found: ${req.params.commitId}`));
+    const error: ErrorWithStatus = new Error(
+      `Commit with ID not found: ${req.params.commitId}`
+    );
+    error.status = 404;
+    next(error);
+  } else {
+    res.render("commit", {
+      commit,
+      title: "Detailed Commit",
+    });
   }
-  res.render("commit", {
-    commit,
-    title: "Detailed Commit",
-  });
 });
 
 export default router;

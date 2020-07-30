@@ -24,7 +24,7 @@ const slackValidationMiddleware = async (
     }
   } catch (err) {
     Sentry.captureException(err);
-    next(err);
+    res.sendStatus(500);
   }
 };
 

@@ -1,6 +1,7 @@
 import http from "http";
 import path from "path";
 import { createProbot } from "probot";
+import { Request, Response, NextFunction } from "express";
 import session from "express-session";
 import passport from "passport";
 import createMemoryStore from "memorystore";
@@ -16,6 +17,8 @@ import slackCommandsRoutes from "./slack/commands";
 import dashboardRoutes from "./dashboard/routes";
 import authRoutes from "./auth/routes";
 import "./auth/setup";
+import { ErrorWithStatus } from "./types/errors";
+import Sentry from "./sentry";
 
 const serverPort = 3000;
 
@@ -54,6 +57,27 @@ server.use("/auth", authRoutes);
 server.use("/commands", slackCommandsRoutes);
 server.use("/dashboard", ensureLoggedIn("/auth/login"), dashboardRoutes);
 server.get("/", (_, res) => res.redirect("/dashboard"));
+
+// Error handlers
+server.use(
+  (err: ErrorWithStatus, _: Request, res: Response, next: NextFunction) => {
+    if (err.status === 404) {
+      next();
+    } else {
+      Sentry.captureException(err);
+      res.status(500).render("error", {
+        title: "Error",
+        message: "Something went wrong, please restart the page",
+      });
+    }
+  }
+);
+server.use((_, res, __) => {
+  res.status(404).render("error", {
+    title: "Not Found",
+    message: "404: Page not Found",
+  });
+});
 
 const httpServer = http.createServer(server);
 httpServer.listen(serverPort, () => {
