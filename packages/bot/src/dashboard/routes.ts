@@ -31,6 +31,7 @@ router.get("/commit/:commitId", async (req: Request, res, next) => {
   }
   res.render("commit", {
     commit,
+    title: "Detailed Commit",
   });
 });
 
