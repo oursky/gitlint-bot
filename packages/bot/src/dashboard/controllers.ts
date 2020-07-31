@@ -1,4 +1,3 @@
-/* global BigInt */
 import {
   getRepoViolationCounts,
   getViolatedCommitsPerRepo,
@@ -53,17 +52,14 @@ export async function getViolatedCommits(
 }
 
 interface CommitCounts {
-  totalCount: bigint;
+  totalCount: number;
   pageCount: number;
 }
 
 export async function getCommitCounts(): Promise<CommitCounts> {
   const results = await getViolatedCommitCount();
-  const count = BigInt(results[0].count);
-  let pageCount: number;
-  const pageLength = BigInt(pageSize);
-  pageCount = Number(count / pageLength);
-  pageCount = count % pageLength !== BigInt(0) ? pageCount + 1 : pageCount;
+  const count = Number(results[0].count);
+  const pageCount = Math.ceil(count / pageSize);
   return {
     pageCount,
     totalCount: count,
