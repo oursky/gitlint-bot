@@ -1,4 +1,4 @@
-- let page = 0
+- page = 1
 h3 Violated Commits
 p
   b Total Count:
@@ -15,9 +15,10 @@ ul.pagination.mt-2.d-flex.flex-wrap
   li.page-item(class=currPage === 1 ? "disabled" : "")
     a.page-link(href=`?page=${currPage - 1}` aria-label='Previous')
       span(aria-hidden='true') &laquo;
-  while page < pageCount
-    li.page-item(class=currPage === ++page ? "active" : "")
+  while page <= pageCount
+    li.page-item(class=currPage === page ? "active" : "")
       a.page-link(href=`?page=${page}`)=page
+    - page++
   li.page-item(class=currPage === pageCount ? "disabled" : "")
     a.page-link(href=`?page=${currPage + 1}` aria-label='Next')
       span(aria-hidden='true') &raquo;
