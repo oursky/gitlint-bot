@@ -27,6 +27,7 @@ secrets:
   GOOGLE_CLIENT_SECRET: ""
   GOOGLE_CALLBACK_URL: ""
   DASHBOARD_SESSION_SECRET: ""
+  APP_URL: ""
 resources:
   limits:
     cpu: 100m

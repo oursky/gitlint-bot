@@ -27,3 +27,4 @@ export const GOOGLE_CALLBACK_URL = getEnvString("GOOGLE_CALLBACK_URL");
 export const DASHBOARD_SESSION_SECRET = getEnvString(
   "DASHBOARD_SESSION_SECRET"
 );
+export const APP_URL = getEnvString("APP_URL");

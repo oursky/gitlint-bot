@@ -1,6 +1,7 @@
 import { createMarkdownSection, getCommitSubjectLine } from "../utils";
 import { Block } from "@slack/types";
 import { CommitWithDiagnoses } from "../../db";
+import { APP_URL } from "../../env";
 
 export async function createTopCommitsSection(
   topCommits: CommitWithDiagnoses[]
@@ -14,7 +15,7 @@ export async function createTopCommitsSection(
         const shortId = commit.id.slice(0, 8);
 
         const messageComponents: string[] = [
-          `• <${commit.url}|${commit.repo_name}@${shortId}> | \`${subjectLine}\``,
+          `• <${APP_URL}/dashboard/commit/${commit.url}|${commit.repo_name}@${shortId}> | \`${subjectLine}\``,
         ];
         commit.diagnoses.forEach((diagnosis) => {
           messageComponents.push(`\t• ${diagnosis.rule}`);
