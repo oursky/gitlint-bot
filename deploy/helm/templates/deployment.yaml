@@ -91,5 +91,10 @@ spec:
                 secretKeyRef:
                   name: config
                   key: DASHBOARD_SESSION_SECRET
+            - name: APP_URL
+            valueFrom: 
+              secretKeyRef:
+                name: config
+                key: APP_URL
 
                   

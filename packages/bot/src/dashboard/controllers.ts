@@ -1,10 +1,16 @@
 import {
   getRepoViolationCounts,
   getViolatedCommitsPerRepo,
+  getViolatedCommitCount,
+  getCommitPage,
+  findCommit,
   Commit,
 } from "../db/models/Commit";
+import { CommitWithDiagnoses } from "../db";
+import { getCommitDiagnosesByCommitIds } from "../db/models/CommitDiagnosis";
 
 const recentCommitsCount = 10;
+const pageSize = 10;
 
 interface RepositoryViolationSummary {
   violationPercentage: string;
@@ -33,4 +39,43 @@ export async function getRepositorySummary(): Promise<RepositorySummary> {
     repoMap[commit.repo_name].commits.push(commit);
   }
   return Object.values(repoMap);
+}
+
+export async function getViolatedCommits(
+  pageNumber: number = 1
+): Promise<Commit[]> {
+  if (pageNumber < 1) {
+    pageNumber = 1;
+  }
+  const commits = await getCommitPage((pageNumber - 1) * pageSize, pageSize);
+  return commits;
+}
+
+interface CommitCounts {
+  totalCount: number;
+  pageCount: number;
+}
+
+export async function getCommitCounts(): Promise<CommitCounts> {
+  const results = await getViolatedCommitCount();
+  const count = Number(results[0].count);
+  const pageCount = Math.ceil(count / pageSize);
+  return {
+    pageCount,
+    totalCount: count,
+  };
+}
+
+export async function getDetailedCommit(
+  commitId: string
+): Promise<CommitWithDiagnoses | null> {
+  const commit = await findCommit(commitId);
+  if (typeof commit === "undefined") {
+    return null;
+  }
+  const diagnoses = await getCommitDiagnosesByCommitIds([commit.id]);
+  return {
+    ...commit,
+    diagnoses,
+  };
 }

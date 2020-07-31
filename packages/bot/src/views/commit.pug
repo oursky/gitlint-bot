@@ -1,0 +1,42 @@
+extends layout.pug
+block main
+  .container.mt-2
+    .row
+      .col-12
+        h3 #{commit.repo_name}@#{commit.id.slice(0, 8)}
+        pre #{commit.message}
+        p 
+          label Committed at:&nbsp
+          | #{commit.committed_at}
+        p
+          label URL:&nbsp
+          a(href=commit.url target="_blank" rel="noopener") #{commit.url}
+        p
+          label Total score:&nbsp 
+          | #{commit.score}
+        hr
+        h4.mb-2 Commit Diagnoses
+        #diagnoses-accordion
+          each diagnosis, idx in commit.diagnoses
+            .card
+              .card-header.d-flex.align-items-center
+                h5.mb-0.mr-auto
+                  button.btn.btn-link(data-toggle='collapse' data-target=`#diagnosis-collapse-${idx}` aria-expanded='true')
+                    | #{diagnosis.rule}
+                p.mb-0 
+                  strong Score: 
+                  | #{diagnosis.score}
+              .collapse(id=`diagnosis-collapse-${idx}` data-parent='#diagnoses-accordion')
+                if Object.keys(diagnosis.data).length === 0
+                  p.ml-3.mt-3 No data
+                else
+                  table.table
+                    thead
+                      th Key
+                      th Value
+                    tbody
+                      each val, key in diagnosis.data
+                        tr
+                          td #{key}
+                          td
+                            pre #{JSON.stringify(val)}
