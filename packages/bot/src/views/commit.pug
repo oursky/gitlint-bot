@@ -4,15 +4,15 @@ block main
     .row
       .col-12
         h3 #{commit.repo_name}@#{commit.id.slice(0, 8)}
-        p.lead "#{commit.message}"
+        pre #{commit.message}
         p 
-          strong Committed at: 
+          label Committed at:&nbsp
           | #{commit.committed_at}
         p
-          strong URL: 
+          label URL:&nbsp
           a(href=commit.url target="_blank" rel="noopener") #{commit.url}
         p
-          strong Total score: 
+          label Total score:&nbsp 
           | #{commit.score}
         hr
         h4.mb-2 Commit Diagnoses
