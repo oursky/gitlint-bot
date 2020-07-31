@@ -15,7 +15,7 @@ export async function createTopCommitsSection(
         const shortId = commit.id.slice(0, 8);
 
         const messageComponents: string[] = [
-          `• <${APP_URL}/dashboard/commit/${commit.url}|${commit.repo_name}@${shortId}> | \`${subjectLine}\``,
+          `• <${APP_URL}/dashboard/commit/${commit.id}|${commit.repo_name}@${shortId}> | \`${subjectLine}\``,
         ];
         commit.diagnoses.forEach((diagnosis) => {
           messageComponents.push(`\t• ${diagnosis.rule}`);
