@@ -27,7 +27,7 @@
   },
   "homepage": "https://github.com/oursky/gitlint-bot#readme",
   "dependencies": {
-    "@oursky/gitlint": "0.1.2",
+    "@oursky/gitlint": "0.1.3",
     "@sentry/integrations": "5.17.0",
     "@sentry/node": "5.17.0",
     "@slack/events-api": "2.3.3",

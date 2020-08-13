@@ -1,6 +1,6 @@
 {
   "name": "@oursky/gitlint",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "gitlint-bot linter module",
   "main": "lib/index.js",
   "files": [

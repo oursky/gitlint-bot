@@ -1,6 +1,6 @@
 {
   "name": "@oursky/gitlint-cli",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "",
   "homepage": "https://github.com/oursky/gitlint-bot/tree/master/packages/cli#readme",
   "license": "Apache-2.0",
@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@commitlint/read": "9.1.1",
-    "@oursky/gitlint": "0.1.2",
+    "@oursky/gitlint": "0.1.3",
     "chalk": "4.1.0",
     "get-stdin": "8.0.0",
     "tslib": "2.0.0",
