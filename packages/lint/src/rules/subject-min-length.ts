@@ -5,7 +5,7 @@ export default {
   name: "subject-min-length",
   score: 5,
   check: (commit: Commit, minLength: number = 10): RuleCheckResults => {
-    const actualLength = [...commit.header].length;
+    const actualLength = [...(commit.subject ?? commit.header)].length;
     return actualLength >= minLength
       ? null
       : {

@@ -15,9 +15,9 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "update-deps": "lerna exec 'npm install'",
-    "clean": "lerna run clean && lerna clean --yes",
+    "clean": "lerna run clean",
     "build": "lerna run build --concurrency=1 --stream",
-    "build:prod": "npm run update-deps && lerna run build:prod --concurrency=1 --stream",
+    "build:prod": "lerna run build:prod --concurrency=1 --stream",
     "lint": "eslint 'packages/*/src/**/*.ts'",
     "lint-fix": "eslint 'packages/*/src/**/*.ts' --fix",
     "check-format": "prettier 'packages/*/src/**/*.ts' -l",

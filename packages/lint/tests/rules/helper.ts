@@ -3,6 +3,7 @@ import path from "path";
 
 import { RuleCheckFunc, RuleViolation } from "../../src/rules";
 import { parseCommit } from "../../src/parser";
+import { instantiateConfig } from "../../src/config";
 
 const INPUT_FILE_EXT = ".input.txt";
 const OUTPUT_FILE_EXT = ".output.json";
@@ -24,7 +25,7 @@ export async function assertRuleCheck(
   const expectedOutput = JSON.parse(
     fs.readFileSync(outputPath, "utf8")
   ) as RuleViolation;
-  const commit = await parseCommit(commitMessage);
+  const commit = await parseCommit(commitMessage, instantiateConfig());
   const output = checkFunc(commit);
   expect(output).toEqual(expectedOutput);
 }

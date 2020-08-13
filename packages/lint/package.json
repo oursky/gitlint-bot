@@ -12,6 +12,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "npm run clean && npm run compile",
+    "build:prod": "npm run clean && npm run compile",
     "clean": "rimraf lib tsconfig.tsbuildinfo",
     "compile": "tsc -b tsconfig.json"
   },

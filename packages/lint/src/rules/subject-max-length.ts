@@ -5,7 +5,7 @@ export default {
   name: "subject-max-length",
   score: 5,
   check: (commit: Commit, maxLength: number = 80): RuleCheckResults => {
-    const actualLength = [...commit.header].length;
+    const actualLength = [...(commit.subject ?? commit.header)].length;
     return actualLength <= maxLength
       ? null
       : {

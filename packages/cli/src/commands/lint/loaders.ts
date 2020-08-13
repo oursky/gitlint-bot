@@ -2,8 +2,12 @@ import fs from "fs";
 import path from "path";
 import getStdin from "get-stdin";
 import readCommits from "@commitlint/read";
-import { RulesPreset } from "@oursky/gitlint/lib/config/schema";
-import { discoverConfig, applyPresets } from "@oursky/gitlint/lib/config";
+import {
+  discoverConfig,
+  instantiateConfig,
+  EffectiveConfig,
+} from "@oursky/gitlint/lib/config";
+import { Config } from "@oursky/gitlint/lib/config/schema";
 import { LintCommandFlags } from "../../types";
 
 const createConfigLoader = (targetFileName: string | undefined) => async (
@@ -17,16 +21,21 @@ const createConfigLoader = (targetFileName: string | undefined) => async (
   return fs.readFileSync(filePath, "utf-8");
 };
 
-export async function loadPreset(
+export async function loadConfig(
   configFileName: string | undefined
-): Promise<RulesPreset> {
+): Promise<EffectiveConfig> {
   const loader = createConfigLoader(configFileName);
   const config = await discoverConfig(loader);
   // if config option is invalid
   if (config === null && typeof configFileName !== "undefined") {
     throw new Error(`Config file not found: ${configFileName}`);
   }
-  return applyPresets(config);
+
+  const configs: Config[] = [];
+  if (config != null) {
+    configs.push(config);
+  }
+  return instantiateConfig(...configs);
 }
 
 export async function loadCommitMessages(
