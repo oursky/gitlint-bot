@@ -9,12 +9,19 @@ type RuleConfig = [RuleLevel, RuleScore?, ...RuleArgs];
 export type RulesPreset = Record<string, RuleConfig>;
 
 export interface Config {
-  preset?: "default";
+  "header-regex"?: string;
+  preset?: string;
   rules?: RulesPreset;
 }
 
 const schema = Joi.object<Config>({
   preset: Joi.string().valid(defaultPresetName),
+  "header-regex": Joi.string().custom((value: string) => {
+    // Check the regex validity by trying to construct a real RegExp object:
+    // eslint-disable-next-line no-new
+    new RegExp(value);
+    return value;
+  }),
   rules: Joi.object().pattern(
     /^/,
     Joi.array()

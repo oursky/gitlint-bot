@@ -1,7 +1,12 @@
 import { safeLoad } from "js-yaml";
 import ConfigSchema, { Config, RulesPreset } from "./schema";
 import { ConfigValidationError } from "./errors";
-import presets, { defaultPreset, defaultPresetName } from "../presets";
+import presets, { defaultPresetName } from "../presets";
+
+export interface EffectiveConfig {
+  headerPattern: RegExp | undefined;
+  rules: RulesPreset;
+}
 
 export const configFileName = ".gitlintrc";
 export const configFileExtensions = ["", ".yaml", ".yml"];
@@ -25,20 +30,33 @@ export async function discoverConfig(
   return null;
 }
 
-// eslint-disable-next-line
-export function applyPresets(config: Config | null): RulesPreset {
-  if (config === null) return defaultPreset;
-  const preset = presets[config.preset ?? defaultPresetName];
-  const rules = config.rules ?? {};
-  const mergedRules = { ...preset };
-  for (const [ruleName, ruleConfig] of Object.entries(rules)) {
-    if (typeof mergedRules[ruleName] === "undefined") {
-      mergedRules[ruleName] = ruleConfig;
-      continue;
+export function instantiateConfig(...configs: Config[]): EffectiveConfig {
+  const effectiveConfig: EffectiveConfig = {
+    headerPattern: undefined,
+    rules: {},
+  };
+  const applyRules = (rules: RulesPreset) => {
+    for (const [ruleName, ruleConfig] of Object.entries(rules)) {
+      if (typeof effectiveConfig.rules[ruleName] === "undefined") {
+        effectiveConfig.rules[ruleName] = ruleConfig;
+        continue;
+      }
+      ruleConfig.forEach((configElement, idx) => {
+        effectiveConfig.rules[ruleName][idx] = configElement as unknown;
+      });
     }
-    ruleConfig.forEach((configElement, idx) => {
-      mergedRules[ruleName][idx] = configElement as unknown;
-    });
+  };
+
+  for (const config of configs) {
+    if (config["header-regex"] != null) {
+      effectiveConfig.headerPattern = new RegExp(config["header-regex"]);
+    }
+
+    applyRules(presets[config.preset ?? defaultPresetName]);
+    if (config.rules != null) {
+      applyRules(config.rules);
+    }
   }
-  return mergedRules;
+
+  return effectiveConfig;
 }

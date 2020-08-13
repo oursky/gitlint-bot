@@ -8,6 +8,14 @@ gitlint-bot expects configuration files to be written in YAML with a filename of
 
 Look at [.gitlintrc.example](./.gitlintrc.example) for an example config file.
 
+### header-regex
+
+Specifies the regex used to extract Conventional Commit header components from commit subject.
+
+**Type:** `string`
+
+**Default:** [The default header pattern of conventional commit](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-commits-parser#headerpattern)
+
 ### preset
 
 Specifies the rule preset to use.

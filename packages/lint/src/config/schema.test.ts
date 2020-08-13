@@ -12,6 +12,21 @@ describe("Linter config schema", () => {
     });
   });
 
+  describe("when a header regex is provided", () => {
+    it("should accept a a valid regex", () => {
+      const { error } = ConfigSchema.validate({
+        "header-regex": ".*",
+      });
+      expect(error).toBeUndefined();
+    });
+    it("should return a ValidationError if invalid", () => {
+      const { error } = ConfigSchema.validate({
+        "header-regex": "(",
+      });
+      expect(error).toBeInstanceOf(ValidationError);
+    });
+  });
+
   describe("when an invalid preset name is provided", () => {
     it("should return a ValidationError", () => {
       const invalidPresetName = "RANDOM_PRESET_NAME";

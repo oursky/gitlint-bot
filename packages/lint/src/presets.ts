@@ -12,7 +12,7 @@ export const defaultPreset: RulesPreset = {
   "subject-no-trailing-whitespace": ["on", null],
 };
 
-const presets = {
+const presets: Record<string, RulesPreset> = {
   [defaultPresetName]: defaultPreset,
 };
 

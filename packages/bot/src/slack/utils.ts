@@ -1,7 +1,6 @@
 import { Request, NextFunction, Response, RequestHandler } from "express";
 import { SectionBlock, DividerBlock } from "@slack/types";
 import { verifyRequestSignature } from "@slack/events-api";
-import { parseCommit } from "@oursky/gitlint/lib/parser";
 import { Commit } from "../db/models/Commit";
 
 export interface RequestWithRawBody extends Request {
@@ -23,8 +22,8 @@ export function createMarkdownSection(text: string): SectionBlock {
 }
 
 export async function getCommitSubjectLine(commit: Commit): Promise<string> {
-  const parsedCommit = await parseCommit(commit.message);
-  return parsedCommit.header;
+  // Use first line for displaying in Slack message.
+  return commit.message.trim().split("\n")[0];
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types

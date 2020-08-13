@@ -1,7 +1,6 @@
 import rules, { RuleViolation } from "./rules";
 import { parseCommit } from "./parser";
-import { RulesPreset } from "./config/schema";
-import { defaultPreset } from "./presets";
+import { EffectiveConfig } from "./config";
 
 export interface ViolationInfo {
   ruleName: string;
@@ -15,13 +14,13 @@ export interface LintResult {
 
 export async function lintCommitMessage(
   commitMessage: string,
-  preset: RulesPreset = defaultPreset
+  config: EffectiveConfig
 ): Promise<LintResult> {
-  const commit = await parseCommit(commitMessage);
+  const commit = await parseCommit(commitMessage, config);
   let score = 0;
   const violations = [];
 
-  for (const [ruleName, ruleConfig] of Object.entries(preset)) {
+  for (const [ruleName, ruleConfig] of Object.entries(config.rules)) {
     const rule = rules[ruleName];
     if (typeof rule === "undefined" || ruleConfig[0] === "off") {
       continue;

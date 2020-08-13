@@ -1,6 +1,7 @@
 export { Commit } from "@commitlint/types";
 import { Commit } from "@commitlint/types";
 import parse from "@commitlint/parse";
+import { EffectiveConfig } from "./config";
 
 const blankCommit = {
   raw: "",
@@ -17,7 +18,12 @@ const blankCommit = {
   merge: null,
 };
 
-export async function parseCommit(commitMessage: string): Promise<Commit> {
+export async function parseCommit(
+  commitMessage: string,
+  config: EffectiveConfig
+): Promise<Commit> {
   // @commitlint/parse parser throws error if commit message is empty
-  return commitMessage.trim().length !== 0 ? parse(commitMessage) : blankCommit;
+  return commitMessage.trim().length !== 0
+    ? parse(commitMessage, undefined, { headerPattern: config.headerPattern })
+    : blankCommit;
 }
