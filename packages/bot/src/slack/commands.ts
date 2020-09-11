@@ -5,7 +5,6 @@ import {
   RequestWithRawBody,
 } from "./utils";
 import Sentry from "../sentry";
-import { summaryJob } from "./jobs";
 import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../env";
 import { createSlackSummaryMessage } from "./summary";
 
