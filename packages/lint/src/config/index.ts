@@ -47,12 +47,12 @@ export function instantiateConfig(...configs: Config[]): EffectiveConfig {
     }
   };
 
+  applyRules(presets[configs[0]?.preset ?? defaultPresetName]);
   for (const config of configs) {
     if (config["header-regex"] != null) {
       effectiveConfig.headerPattern = new RegExp(config["header-regex"]);
     }
 
-    applyRules(presets[config.preset ?? defaultPresetName]);
     if (config.rules != null) {
       applyRules(config.rules);
     }

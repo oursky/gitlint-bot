@@ -4,11 +4,13 @@ import { YAMLException } from "js-yaml";
 
 describe("'instantiateConfig' function", () => {
   describe("when no config is passed", () => {
-    it("should return empty config", () => {
+    it("should return default config", () => {
       const config = instantiateConfig();
       expect(config).toEqual({
         headerPattern: undefined,
-        rules: {},
+        rules: {
+          ...defaultPreset,
+        },
       });
     });
   });
