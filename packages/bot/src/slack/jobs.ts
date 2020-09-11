@@ -1,17 +1,14 @@
-import { sendSlackSummary } from "./index";
-import { SLACK_DAY_INTERVAL } from "../env";
-import { getTopCommitsWithDiagnoses } from "../db";
+import { IncomingWebhook } from "@slack/webhook";
+import { SLACK_DAY_INTERVAL, SLACK_WEBHOOK_URL } from "../env";
+import { createSlackSummaryMessage } from "./summary";
 
-const msInDay = 86400000; // 24 * 60 * 60 * 1000 milliseconds in 1 day
+const webhook = new IncomingWebhook(SLACK_WEBHOOK_URL);
 
 export async function summaryJob(
   durationDays: number = SLACK_DAY_INTERVAL
 ): Promise<void> {
-  const summaryDuration = msInDay * durationDays;
-  const afterDate = new Date(Date.now() - summaryDuration);
-  const topCommits = await getTopCommitsWithDiagnoses(afterDate);
-  await sendSlackSummary({
-    topCommits,
-    durationDays,
+  const message = await createSlackSummaryMessage(durationDays);
+  await webhook.send({
+    blocks: message,
   });
 }

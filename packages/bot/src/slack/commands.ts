@@ -7,6 +7,7 @@ import {
 import Sentry from "../sentry";
 import { summaryJob } from "./jobs";
 import { SLACK_SIGNING_SECRET, SLACK_DAY_INTERVAL } from "../env";
+import { createSlackSummaryMessage } from "./summary";
 
 const router = express.Router();
 
@@ -61,9 +62,10 @@ router.post("/summary", async (req: Request, res: Response) => {
   if (Number.isNaN(duration) || text.trim().length === 0) {
     duration = SLACK_DAY_INTERVAL;
   }
+  const message = await createSlackSummaryMessage(duration);
   res.json({
     response_type: "ephemeral",
-    text: "Posting commit summary message...",
+    blocks: message,
   });
   await summaryJob(duration);
 });
