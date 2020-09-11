@@ -67,7 +67,6 @@ router.post("/summary", async (req: Request, res: Response) => {
     response_type: "ephemeral",
     blocks: message,
   });
-  await summaryJob(duration);
 });
 
 export default router;
