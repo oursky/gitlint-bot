@@ -7,6 +7,10 @@ export async function createTopCommitsSection(
   topCommits: CommitWithDiagnoses[]
 ): Promise<Block> {
   const commitCount = topCommits.length;
+  if (commitCount === 0) {
+    return createMarkdownSection(`*No bad commits. Yay!*`);
+  }
+
   const header = `*Top ${commitCount} commit messages with highest lint violation scores:*\n`;
   const messageBody = (
     await Promise.all(
