@@ -24,6 +24,10 @@ export async function parseCommit(
 ): Promise<Commit> {
   // @commitlint/parse parser throws error if commit message is empty
   return commitMessage.trim().length !== 0
-    ? parse(commitMessage, undefined, { headerPattern: config.headerPattern })
+    ? parse(
+        commitMessage,
+        undefined,
+        config.headerPattern && { headerPattern: config.headerPattern }
+      )
     : blankCommit;
 }
