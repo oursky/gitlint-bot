@@ -16,7 +16,9 @@ COPY packages/bot/package*.json ./packages/bot/
 COPY packages/lint/package*.json ./packages/lint/
 ENV NODE_ENV production
 RUN npx lerna bootstrap
+COPY /app/packages/bot ./packages/bot
 COPY --from=builder /app/packages/bot/lib ./packages/bot/lib
 COPY --from=builder /app/packages/lint/lib ./packages/lint/lib
 EXPOSE 3000
-CMD [ "npm", "--prefix", "packages/bot", "run", "start" ]
+WORKDIR /app/packages/bot
+CMD [ "npm", "run", "start" ]
